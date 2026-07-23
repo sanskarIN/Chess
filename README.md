@@ -10,12 +10,12 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 6 friend multiplayer is implemented. Players can
-> create or join temporary relay rooms using four- or six-digit codes, confirm
-> readiness, play synchronized legal moves, and reconnect within the configured
-> grace period. The self-hostable relay keeps active rooms only in memory and
-> has no account, profile, analytics, advertising, or permanent game-history
-> storage. No unverified native executable is bundled. See
+> Development status: Phase 7 daily challenges, earned coins, hint tokens,
+> atomic reward ledger, and local chess hints are implemented. Three stable
+> challenges are generated from each device-local date, game events use
+> deduplicated receipts, and completed rewards can be claimed only once. Hint
+> generation succeeds before a confirmed earned-asset charge is committed. No
+> real-money purchase or unverified native executable is bundled. See
 > [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
@@ -28,6 +28,9 @@ accessible multilingual interfaces.
   necessarily processes active room messages but does not permanently store
   games, names, profiles, or session tokens.
 - Offline features must not wait for the multiplayer service during startup.
+- Challenge progress, balances, and reward history stay in local SQLite. The app
+  explicitly does not claim that a device-clock-based open-source economy is
+  tamper-proof.
 
 ## Current application
 
@@ -64,6 +67,14 @@ accessible multilingual interfaces.
 - A self-hostable Node.js/TypeScript WebSocket relay with authoritative legal
   move validation, memory-only rooms, expiring reconnect sessions, rate limits,
   input limits, origin controls, health checks, and graceful shutdown.
+- Deterministic local-date daily challenges with midnight rollover, progress,
+  completed/claim/claimed states, history, streak, debug date simulation, and
+  explicit offline integrity limits.
+- Non-negative local coin/hint wallet and atomic, idempotent SQLite ledger with
+  before/after balances, stable sequence, challenge links, app version, chained
+  integrity fields, validation, and JSON clipboard export.
+- Confirmed computer-game hints that show and semantically highlight a suggested
+  source/target move; failed generation never charges the wallet.
 
 ## Technology baseline
 
@@ -152,6 +163,9 @@ Flutter title when preparing a renamed distribution.
 - [Chess engine](docs/chess_engine.md)
 - [Local multiplayer](docs/local_multiplayer.md)
 - [Friend multiplayer and relay](docs/friend_multiplayer.md)
+- [Daily challenges](docs/daily_challenges.md)
+- [Local reward economy](docs/reward_economy.md)
+- [Chess hints](docs/hints.md)
 - [Roadmap phases](docs/upcoming/phases.md)
 - [Exact next work](docs/upcoming/next.md)
 - [Technology notes](docs/technologies/README.md)

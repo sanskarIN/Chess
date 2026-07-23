@@ -381,7 +381,6 @@
   "gamePaused": "Game paused",
   "gamePausedDescription": "The board is hidden from interaction until play resumes.",
   "resume": "Resume",
-  "hintsArriveInEconomyPhase": "The hint service and no-charge failure handling are enabled in the challenges and economy phase.",
   "settingsShortcutMessage": "In-match settings are enabled in the settings phase.",
   "soundShortcutMessage": "Sound controls are enabled with the original audio asset pack.",
   "computerIsThinking": "Computer is thinking",
@@ -441,5 +440,143 @@
   "resultDrawAgreement": "Draw by agreement",
   "resultResignation": "Win by resignation",
   "resultTimeout": "Result by timeout",
-  "resultAdjudication": "Result by adjudication"
+  "resultAdjudication": "Result by adjudication",
+  "dailyChallengesTitle": "Daily challenges",
+  "dailyChallengesSubtitle": "Three stable challenges generated from your local date.",
+  "refresh": "Refresh",
+  "close": "Close",
+  "challengeRefreshCountdown": "Refreshes at local midnight in {time}",
+  "@challengeRefreshCountdown": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeSimulatedDate": "Developer date: {date}",
+  "@challengeSimulatedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coins": "Coins",
+  "hints": "Hints",
+  "dailyStreak": "{count}-day streak",
+  "@dailyStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rewards": "Rewards",
+  "hintShop": "Hint shop",
+  "hintShopDescription": "During an eligible computer match, one hint costs 1 hint token or 25 earned coins. There are no payments, ads, random rewards, or real-money purchases.",
+  "challengeOfflineNotice": "Challenges and rewards are local and work offline. Device-clock changes or modifications to open-source local data cannot be securely prevented; this economy is not tamper-proof.",
+  "challengeCompleted": "Completed",
+  "challengeClaim": "Claim",
+  "challengeClaimed": "Claimed",
+  "challengeRewardCoins": "{count} coins",
+  "@challengeRewardCoins": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeRewardHints": "{count} hints",
+  "@challengeRewardHints": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeRewardBoth": "{coins} coins + {hints} hints",
+  "@challengeRewardBoth": {
+    "placeholders": {
+      "coins": {
+        "type": "int"
+      },
+      "hints": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeRewardClaimedMessage": "Reward added once to your local wallet.",
+  "challengeHistory": "Challenge history",
+  "challengeHistoryEmpty": "Complete another local day to build challenge history.",
+  "rewardLedger": "Reward ledger",
+  "copyRewardLedger": "Copy ledger",
+  "rewardLedgerCopied": "Reward ledger copied as JSON.",
+  "rewardLedgerEmpty": "No reward transactions yet.",
+  "rewardLedgerIntegrityValid": "Integrity chain valid for {count} entries.",
+  "@rewardLedgerIntegrityValid": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rewardLedgerIntegrityInvalid": "The local reward ledger integrity chain does not match.",
+  "developerChallengeDate": "Simulate challenge date",
+  "developerUseActualDate": "Use actual device date",
+  "developerResetChallenges": "Reset unclaimed progress for this date",
+  "developerDateExplanation": "This debug tool changes only the challenge date. It does not change the device clock.",
+  "challengeLoadFailed": "Daily challenges could not be loaded.",
+  "challengeProgressFailed": "Challenge progress could not be saved.",
+  "challengeClaimFailed": "That reward could not be claimed.",
+  "challengeIncompleteError": "Complete the challenge before claiming its reward.",
+  "challengeNotFoundError": "That challenge is no longer available.",
+  "challengePlayMovesTitle": "Opening rhythm",
+  "challengePlayMovesDescription": "Play 10 legal moves in eligible local games.",
+  "challengeFinishMatchTitle": "Finish the board",
+  "challengeFinishMatchDescription": "Complete one eligible match.",
+  "challengeNoHintTitle": "Independent thinker",
+  "challengeNoHintDescription": "Complete a match without using a hint.",
+  "challengeWinWhiteTitle": "White-side victory",
+  "challengeWinWhiteDescription": "Win one eligible match as White.",
+  "challengeWinBlackTitle": "Black-side victory",
+  "challengeWinBlackDescription": "Win one eligible match as Black.",
+  "challengeBeginnerWinTitle": "Beginner win",
+  "challengeBeginnerWinDescription": "Win one game against the Beginner computer.",
+  "challengeIntermediateWinTitle": "Intermediate win",
+  "challengeIntermediateWinDescription": "Win one game against the Intermediate computer.",
+  "challengeCaptureQueenTitle": "Queen hunter",
+  "challengeCaptureQueenDescription": "Capture an opponent queen in an eligible match.",
+  "challengeCastleTitle": "King to safety",
+  "challengeCastleDescription": "Castle successfully in an eligible match.",
+  "challengePromotionTitle": "Promotion",
+  "challengePromotionDescription": "Promote a pawn in an eligible match.",
+  "challengeEnPassantTitle": "En passant",
+  "challengeEnPassantDescription": "Make a successful en passant capture.",
+  "challengeLocalMatchTitle": "Across the board",
+  "challengeLocalMatchDescription": "Complete one local two-player match.",
+  "hintPaymentTitle": "Use a hint?",
+  "hintPaymentDescription": "The move is generated locally first. You are charged only after a usable hint is ready.",
+  "hintUseToken": "Use 1 hint",
+  "hintUseCoins": "Use 25 coins",
+  "hintGenerating": "Generating a local hint…",
+  "hintSuggestedMove": "Suggested move: {from} to {to}",
+  "@hintSuggestedMove": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "hintSourceSquare": "hint source",
+  "hintTargetSquare": "hint target",
+  "hintExplanationCandidate": "This is a strong candidate from the local chess search. Check your opponent’s reply before playing it.",
+  "hintExplanationCapture": "This candidate wins or exchanges material. Verify that the destination is tactically safe.",
+  "hintGenerationFailed": "No usable hint was produced. Your balance was not charged.",
+  "insufficientCoins": "You do not have enough earned coins for this hint.",
+  "insufficientHints": "You do not have a hint token available.",
+  "hintInProgress": "A hint is already being generated.",
+  "cancel": "Cancel"
 }

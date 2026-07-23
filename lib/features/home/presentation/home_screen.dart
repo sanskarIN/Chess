@@ -119,7 +119,8 @@ final class HomeScreen extends ConsumerWidget {
                           _PlannedShortcut(
                             icon: Icons.calendar_today_outlined,
                             label: strings.dailyChallenges,
-                            onPressed: () => _showPlannedMessage(context),
+                            onPressed: () =>
+                                context.push(AppRoutes.dailyChallenges),
                           ),
                           _PlannedShortcut(
                             icon: Icons.school_outlined,

@@ -8,6 +8,19 @@ semantic versioning while the project remains pre-1.0.
 
 ### Added
 
+- Phase 7 deterministic device-local daily challenges with stable versioned
+  definitions, midnight refresh, event-receipt deduplication, progress,
+  completion, idempotent claiming, history, streak, and debug date simulation.
+- SQLite schema v2 migration with non-negative coin/hint wallets, preserved v1
+  reward data, explicit before/after balances, related challenge and app-version
+  fields, stable ledger sequence, and chained integrity hashes.
+- Local non-monetary reward UI with balance chips, accessible progress bars,
+  completed/claimed states, claim animation, ledger validation, and JSON copy.
+- Successful-result-first computer hints with 1-token or 25-earned-coin
+  confirmation, source/target board highlights, localized explanations, and
+  guaranteed no charge when generation fails.
+- Real SQLite migration/concurrency tests plus generator, rollover, duplicate
+  claim/spend, hint failure, challenge widget, and game-event integration tests.
 - Phase 6 friend multiplayer create/join/waiting/ready flow using validated
   four- or six-digit team codes, assigned colors, privacy disclosure, clipboard
   and Android share actions, and explicit room/service error states.
@@ -76,5 +89,5 @@ semantic versioning while the project remains pre-1.0.
   so the debug APK build has not completed.
 - No distribution-verified Stockfish executable is bundled; the tested UCI
   adapter currently falls back to the built-in local search opponent.
-- Challenges/economy, training, settings, complete locale set, legal package,
-  and release QA remain in their prescribed later phases.
+- Training, settings, complete locale set, legal package, and release QA remain
+  in their prescribed later phases.

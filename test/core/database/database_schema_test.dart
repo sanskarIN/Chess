@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DatabaseSchema', () {
-    test('starts at version one with every required foundation table', () {
+    test('creates version two with foundation and economy tables', () {
       const Set<String> requiredTables = <String>{
         'app_settings',
         'player_profiles',
@@ -20,10 +20,12 @@ void main() {
         'recent_opponents',
         'developer_preferences',
         'data_migrations',
+        'wallet_balances',
+        'challenge_events',
       };
-      final String schema = DatabaseSchema.version1Statements.join('\n');
+      final String schema = DatabaseSchema.creationStatements.join('\n');
 
-      expect(DatabaseSchema.currentVersion, 1);
+      expect(DatabaseSchema.currentVersion, 2);
       for (final String table in requiredTables) {
         expect(
           schema,
@@ -33,9 +35,17 @@ void main() {
       }
     });
 
-    test('rejects migrations beyond the application schema', () {
+    test('provides the v1 to v2 migration and rejects future versions', () {
+      final String migration = DatabaseSchema.statementsForUpgrade(
+        1,
+        2,
+      ).join('\n');
+      expect(migration, contains('CREATE TABLE wallet_balances'));
+      expect(migration, contains('balance_before'));
+      expect(migration, contains('integrity_hash'));
+
       expect(
-        () => DatabaseSchema.statementsForUpgrade(1, 2),
+        () => DatabaseSchema.statementsForUpgrade(2, 3),
         throwsUnsupportedError,
       );
     });

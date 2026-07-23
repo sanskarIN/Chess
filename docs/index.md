@@ -17,6 +17,9 @@
 - [Chess engine](chess_engine.md)
 - [Local multiplayer](local_multiplayer.md)
 - [Friend multiplayer](friend_multiplayer.md)
+- [Daily challenges](daily_challenges.md)
+- [Local reward economy](reward_economy.md)
+- [Chess hints](hints.md)
 - [Localization](localization.md)
 - [Logging](logging.md)
 

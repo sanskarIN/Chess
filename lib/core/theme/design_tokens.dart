@@ -34,6 +34,7 @@ final class ChessBoardPalette {
     required this.legalMove,
     required this.capture,
     required this.check,
+    required this.hint,
   });
 
   factory ChessBoardPalette.from(ColorScheme colors) {
@@ -49,6 +50,7 @@ final class ChessBoardPalette {
       legalMove: const Color(0xFF244F3B),
       capture: const Color(0xFF9D2438),
       check: const Color(0xFFD63A4A),
+      hint: const Color(0xFF55C2FF),
     );
   }
 
@@ -59,4 +61,5 @@ final class ChessBoardPalette {
   final Color legalMove;
   final Color capture;
   final Color check;
+  final Color hint;
 }

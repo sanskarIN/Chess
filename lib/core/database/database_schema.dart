@@ -1,5 +1,5 @@
 abstract final class DatabaseSchema {
-  static const int currentVersion = 1;
+  static const int currentVersion = 2;
   static const String fileName = 'chess_master.sqlite3';
 
   static const List<String> version1Statements = <String>[
@@ -209,6 +209,131 @@ ON recent_opponents(last_played_at DESC)
 ''',
   ];
 
+  static const List<String> version2Statements = <String>[
+    '''
+ALTER TABLE daily_challenges
+ADD COLUMN coin_reward INTEGER NOT NULL DEFAULT 0 CHECK (coin_reward >= 0)
+''',
+    '''
+ALTER TABLE daily_challenges
+ADD COLUMN hint_reward INTEGER NOT NULL DEFAULT 0 CHECK (hint_reward >= 0)
+''',
+    '''
+CREATE TABLE wallet_balances (
+  asset_type TEXT NOT NULL PRIMARY KEY CHECK (asset_type IN ('coin', 'hint')),
+  balance INTEGER NOT NULL DEFAULT 0 CHECK (balance >= 0),
+  updated_at INTEGER NOT NULL CHECK (updated_at >= 0)
+) WITHOUT ROWID
+''',
+    '''
+CREATE TABLE reward_transactions_v2 (
+  transaction_id TEXT NOT NULL PRIMARY KEY,
+  ledger_sequence INTEGER NOT NULL UNIQUE CHECK (ledger_sequence >= 1),
+  transaction_type TEXT NOT NULL,
+  asset_type TEXT NOT NULL CHECK (asset_type IN ('coin', 'hint')),
+  amount INTEGER NOT NULL CHECK (amount != 0),
+  balance_before INTEGER NOT NULL CHECK (balance_before >= 0),
+  balance_after INTEGER NOT NULL CHECK (balance_after >= 0),
+  source TEXT NOT NULL,
+  timestamp INTEGER NOT NULL CHECK (timestamp >= 0),
+  related_challenge_id TEXT,
+  app_version TEXT NOT NULL,
+  previous_integrity_hash TEXT NOT NULL,
+  integrity_hash TEXT NOT NULL,
+  UNIQUE (transaction_type, asset_type, source),
+  FOREIGN KEY (related_challenge_id)
+    REFERENCES daily_challenges(challenge_id) ON DELETE SET NULL
+) WITHOUT ROWID
+''',
+    '''
+INSERT INTO reward_transactions_v2 (
+  transaction_id,
+  ledger_sequence,
+  transaction_type,
+  asset_type,
+  amount,
+  balance_before,
+  balance_after,
+  source,
+  timestamp,
+  related_challenge_id,
+  app_version,
+  previous_integrity_hash,
+  integrity_hash
+)
+SELECT
+  transaction_id,
+  (
+    SELECT COUNT(*)
+    FROM reward_transactions earlier
+    WHERE earlier.created_at < reward_transactions.created_at
+       OR (
+         earlier.created_at = reward_transactions.created_at
+         AND earlier.transaction_id <= reward_transactions.transaction_id
+       )
+  ),
+  transaction_type,
+  asset_type,
+  amount,
+  CASE
+    WHEN balance_after - amount < 0 THEN 0
+    ELSE balance_after - amount
+  END,
+  balance_after,
+  reason_code || ':' || source_id,
+  created_at,
+  CASE
+    WHEN reason_code IN ('daily_reward', 'challenge_reward') THEN source_id
+    ELSE NULL
+  END,
+  '0.5.0',
+  '',
+  'migrated-v2-' || transaction_id
+FROM reward_transactions
+''',
+    'DROP TABLE reward_transactions',
+    'ALTER TABLE reward_transactions_v2 RENAME TO reward_transactions',
+    '''
+INSERT INTO wallet_balances (asset_type, balance, updated_at)
+SELECT current.asset_type, current.balance_after, current.timestamp
+FROM reward_transactions current
+WHERE current.ledger_sequence = (
+  SELECT MAX(latest.ledger_sequence)
+  FROM reward_transactions latest
+  WHERE latest.asset_type = current.asset_type
+)
+ON CONFLICT(asset_type) DO UPDATE SET
+  balance = excluded.balance,
+  updated_at = excluded.updated_at
+''',
+    '''
+CREATE INDEX idx_reward_transactions_timestamp
+ON reward_transactions(timestamp DESC)
+''',
+    '''
+CREATE INDEX idx_reward_transactions_challenge
+ON reward_transactions(related_challenge_id)
+''',
+    '''
+CREATE TABLE challenge_events (
+  event_id TEXT NOT NULL PRIMARY KEY,
+  challenge_type TEXT NOT NULL,
+  amount INTEGER NOT NULL CHECK (amount > 0),
+  local_date TEXT NOT NULL,
+  recorded_at INTEGER NOT NULL CHECK (recorded_at >= 0)
+) WITHOUT ROWID
+''',
+    '''
+CREATE INDEX idx_challenge_events_local_date
+ON challenge_events(local_date)
+''',
+  ];
+
+  static List<String> get creationStatements => <String>[
+    ...version1Statements,
+    ...version2Statements,
+  ];
+
   static List<String> statementsForUpgrade(int oldVersion, int newVersion) {
     if (oldVersion < 1 || newVersion > currentVersion) {
       throw UnsupportedError(
@@ -219,6 +344,10 @@ ON recent_opponents(last_played_at DESC)
       return const <String>[];
     }
 
-    return const <String>[];
+    final List<String> statements = <String>[];
+    if (oldVersion < 2 && newVersion >= 2) {
+      statements.addAll(version2Statements);
+    }
+    return List<String>.unmodifiable(statements);
   }
 }

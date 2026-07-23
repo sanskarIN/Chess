@@ -27,8 +27,7 @@ Database failure is represented as a `StorageError`; the UI starts in a limited
 state and displays recovery guidance instead of silently crashing.
 
 `ChessMasterApp` owns the router for its lifecycle. Routes build feature
-presentation widgets. The temporary root route is a factual Phase 1 status
-screen, not a mock chess feature.
+presentation widgets, including the local daily-challenge dashboard.
 
 ## Boundaries
 
@@ -51,7 +50,7 @@ Technical details may enter diagnostics but never become raw user-facing text.
 
 ## Privacy and networking
 
-No startup path depends on the future multiplayer relay. Durable data belongs in
-the local database. The future WebSocket adapter will exchange temporary room
-messages only after explicit user action and will validate every remote move
-against the same local chess domain used by offline games.
+No startup path depends on the optional multiplayer relay. Durable data belongs
+in the local database. The WebSocket adapter exchanges temporary room messages
+only after explicit user action and validates every remote move against the same
+local chess domain used by offline games. Daily rewards never contact the relay.

@@ -16,6 +16,7 @@ dependency resolution and reviewed again before every release.
 | sqflite | 2.4.3 | BSD-3-Clause | Asynchronous local SQLite |
 | crypto | 3.0.7 | BSD-3-Clause | Client state hashing and engine checksum verification |
 | flutter_lints | 6.0.0 | BSD-3-Clause | Static analysis rules |
+| sqflite_common_ffi | 2.4.2 | BSD-2-Clause | Development-time real SQLite migration and transaction tests |
 | Node.js | 24.14.0 verification runtime | MIT and third-party notices | Friend relay runtime |
 | chess.js | 1.4.0 | BSD-2-Clause | Authoritative relay-side chess validation |
 | ws | 8.21.1 | MIT | Relay WebSocket server |

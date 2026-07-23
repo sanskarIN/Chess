@@ -2,9 +2,9 @@
 
 ## Project identity
 
-- Version: `0.6.0+6`
-- Completed phase: 6 — Friend Multiplayer
-- Next phase: 7 — Daily Challenges, Coins, and Hints
+- Version: `0.7.0+7`
+- Completed phase: 7 — Daily Challenges, Coins, and Hints
+- Next phase: 8 — Practice and Guide
 - Updated: 2026-07-23
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
@@ -23,9 +23,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 3 core UI | `1be99bd9ed4618285faaa34fffb8cd378746f0fe` | Published on `origin/main` |
 | Phase 4 computer opponent | `31717765384f61a8b1aa0b531992962af6670a95` | Published on `origin/main` |
 | Phase 5 local multiplayer | `df5f9d37b18d6939b20d05a8aa51c4ac83466dc4` | Published on `origin/main` |
+| Phase 6 friend multiplayer | `7b4cf5b330ab316128cc65dbd290ea288f6c4e1d` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 6 is ready for its boundary commit
+directly without overwriting history. Phase 7 is ready for its boundary commit
 after this manifest update.
 
 ## Phase 1 completed source
@@ -130,6 +131,28 @@ after this manifest update.
 - Flutter client/controller/lobby/game tests and Node protocol/room/server tests
 - Relay CI, protocol, deployment, privacy, security, and troubleshooting docs
 
+## Phase 7 completed source
+
+- Strict local-date value object and deterministic versioned three-challenge
+  generation with a stable all-player legal-move challenge
+- Stored title/description localization keys, type, target, progress, coin/hint
+  reward, date, completion/claim timestamps, version, difficulty, and eligibility
+- Stable game-event receipts for move, queen capture, castle, promotion, en
+  passant, completed/no-hint/local matches, side wins, and computer difficulty
+- SQLite v2 creation and safe v1 upgrade preserving challenges and reward rows
+- Explicit non-negative coin/hint wallet and atomic transaction ledger with
+  sequence, before/after balances, source, challenge, app version, and hash chain
+- One-time 50-coin/1-hint onboarding grant, concurrent-safe idempotent claims,
+  duplicate hint purchase protection, and negative-balance rejection
+- Daily screen with countdown, balances, streak, progress, completed/claim/
+  claimed states, reward animation, history, integrity notice, ledger validation,
+  JSON copy, pull refresh, and debug date simulation/reset
+- Successful-result-first local hint search with token/coin confirmation,
+  no-charge failure handling, source/target highlight, semantics, and explanation
+- Real SQLite clean-creation, v1 migration, foreign-key, concurrent-claim, and
+  spending tests plus domain/controller/game/widget coverage
+- Daily challenge, reward economy, hint, migration, flow, and UI documentation
+
 ## Toolchain evidence
 
 ```text
@@ -148,7 +171,7 @@ devices, and network resources. It reported:
 - Android license status unknown;
 - Flutter and Dart temporary SDK paths not added permanently to `PATH`.
 
-## Commands executed through Phase 6
+## Commands executed through Phase 7
 
 ```text
 flutter --version
@@ -170,7 +193,7 @@ npm audit --omit=dev
 ## Verification results
 
 ```text
-92 Flutter tests passed.
+108 Flutter tests passed.
 7 Node relay tests passed.
 Flutter analysis: No issues found.
 TypeScript type check passed.
@@ -179,7 +202,7 @@ Chess domain verification passed.
 Engine manifest valid; no native binary is declared or bundled.
 ```
 
-Executed coverage through Phase 6 includes:
+Executed coverage through Phase 7 includes:
 
 - splash, onboarding persistence, skip, and home transition;
 - malformed and invalid onboarding preference recovery;
@@ -213,6 +236,19 @@ Executed coverage through Phase 6 includes:
 - friend lobby create/join/privacy/waiting behavior and synchronized game moves;
 - relay rate limiting, room lifecycle, legal move validation, HTTP health,
   WebSocket ping/pong, and graceful shutdown.
+- local-date parsing, impossible-date rejection, deterministic selection, and
+  stable three-challenge generation;
+- duplicate event receipts, target clamping, completion, repeated claim, and
+  wallet credit exactly once;
+- SQLite v2 clean creation and v1 upgrade with retained challenge/reward data;
+- concurrent claim serialization, idempotent hint spending, insufficient funds,
+  and non-negative balance enforcement;
+- reward ledger hash-chain validation and JSON-ready complete fields;
+- simulated date rollover without changing the device clock;
+- failed hint generation with no purchase entry and successful-result-first
+  token/coin charging;
+- challenge cards, balance display, progress, offline notice, claim animation,
+  source/target hint presentation, and actual game-event hooks.
 
 Phase 2 perft remains:
 
@@ -228,7 +264,7 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 92 passed.
+- Flutter unit/widget tests: 108 passed.
 - TypeScript type checking: passed.
 - Node relay tests: 7 passed.
 - npm production dependency audit: passed with 0 vulnerabilities.
@@ -246,7 +282,6 @@ Phase 2 perft remains:
 
 - The Stockfish adapter is implemented and tested, but no distribution-verified
   native binary is bundled. Computer play uses the built-in local search.
-- Daily challenges, coins, and purchasable hints remain Phase 7.
 - Practice, tutorial, saves, and review mode remain Phase 8.
 - Settings/developer options remain Phase 9.
 - Only English is generated; all 33 locale packs remain Phase 10.
@@ -259,5 +294,5 @@ Phase 2 perft remains:
 ## Exact next file
 
 ```text
-lib/features/challenges/domain/daily_challenge.dart
+lib/features/practice/domain/practice_exercise.dart
 ```

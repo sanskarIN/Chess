@@ -41,8 +41,20 @@ moves, bounded retry, rate limiting, expiration, health checks, and graceful
 shutdown are implemented and tested. The app clearly states that the relay
 temporarily processes session data and does not claim zero network data.
 
-## Daily challenges, practice, and saved games
+## Daily challenges
+
+Daily challenges are a working offline home action. Three versioned challenges
+are generated deterministically from the device-local date, progress through
+eligible computer/local game events, retain history, and grant atomic one-time
+coin/hint rewards. A local hint can then be requested in an eligible computer
+game using a hint token or earned coins.
+
+The app explicitly explains that device-clock and open-source database
+modification cannot be securely prevented. There is no account, payment,
+advertising reward, or mandatory network request.
+
+## Practice and saved games
 
 These home actions remain discoverable and return an explicit planned-feature
-message. They are implemented in Phases 7 and 8. They are not presented as
-available in the current build.
+message. They are implemented in Phase 8 and are not presented as available in
+the current build.

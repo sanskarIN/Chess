@@ -1,6 +1,6 @@
 # Database migrations
 
-The local SQLite database is `chess_master.sqlite3`. Schema version 1 is defined
+The local SQLite database is `chess_master.sqlite3`. Schema version 2 is defined
 as reviewed SQL in `lib/core/database/database_schema.dart`.
 
 ## Version 1 invariants
@@ -41,4 +41,24 @@ explicit confirmation are required before replacement. Unknown fields may be
 ignored only when the format version says they are forward-compatible; unknown
 executable content is never accepted.
 
-No import/export UI exists in Phase 1.
+## Version 2
+
+Version 2 adds:
+
+- explicit non-negative `coin` and `hint` wallet rows;
+- a rebuilt reward ledger with before/after balances, application version,
+  related challenge, stable sequence, and chained integrity fields;
+- separate coin and hint amounts on daily challenge definitions;
+- deduplicated challenge-event receipts.
+
+The upgrade copies v1 ledger rows, reconstructs their prior balance, retains
+challenge foreign keys, seeds each wallet from its latest retained entry, and
+marks legacy integrity values as migration anchors. New entries chain from that
+anchor. Fresh installs execute v1 and v2 SQL in the same creation transaction.
+
+Unit tests execute both clean creation and v1-to-v2 upgrade against real SQLite
+through `sqflite_common_ffi`, validate foreign keys and columns, retain legacy
+challenge/reward rows, and exercise concurrent claims.
+
+No general application-data import UI exists yet. Reward-ledger JSON copy is a
+read-only export and cannot be imported or executed.

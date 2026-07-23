@@ -2,12 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/app_router.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/creator_watermark.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../challenges/application/challenge_providers.dart';
+import '../../challenges/application/daily_challenges_controller.dart';
+import '../../challenges/domain/challenge_event.dart';
+import '../../challenges/domain/daily_challenge.dart';
+import '../../challenges/domain/hint_suggestion.dart';
+import '../../challenges/domain/reward_wallet.dart';
+import '../../challenges/presentation/widgets/reward_balance_bar.dart';
 import '../../computer_player/application/computer_opponent_controller.dart';
 import '../../computer_player/application/engine_service.dart';
 import '../../computer_player/data/local_search_engine.dart';
@@ -27,6 +35,7 @@ import '../application/game_setup.dart';
 import '../domain/board/square.dart';
 import '../domain/model/game_result.dart';
 import '../domain/model/move.dart';
+import '../domain/model/move_record.dart';
 import '../domain/model/piece.dart';
 import '../domain/model/piece_color.dart';
 import '../domain/model/piece_type.dart';
@@ -39,13 +48,14 @@ import 'widgets/match_result_dialog.dart';
 import 'widgets/move_history_panel.dart';
 import 'widgets/player_banner.dart';
 
-final class GameScreen extends StatefulWidget {
+final class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({
     required this.setup,
     this.engineService,
     this.friendController,
     this.clockTimeSource,
     this.clockAutoTick = true,
+    this.challengesController,
     super.key,
   });
 
@@ -54,14 +64,16 @@ final class GameScreen extends StatefulWidget {
   final FriendMatchController? friendController;
   final MonotonicTimeSource? clockTimeSource;
   final bool clockAutoTick;
+  final DailyChallengesController? challengesController;
 
   @override
-  State<GameScreen> createState() => _GameScreenState();
+  ConsumerState<GameScreen> createState() => _GameScreenState();
 }
 
-final class _GameScreenState extends State<GameScreen>
+final class _GameScreenState extends ConsumerState<GameScreen>
     with WidgetsBindingObserver {
   late final ChessGameController _controller;
+  late final DailyChallengesController _challengesController;
   ComputerOpponentController? _computerOpponent;
   MatchClockController? _clockController;
   LocalMatchController? _localMatchController;
@@ -69,11 +81,26 @@ final class _GameScreenState extends State<GameScreen>
   bool _synchronizingFriend = false;
   bool _resultDialogOpen = false;
   bool _paused = false;
+  bool _hintLoading = false;
+  HintSuggestion? _activeHint;
+  int _hintPositionPly = 0;
+  int _hintCount = 0;
+  final Set<String> _recordedMoveIds = <String>{};
+  final Set<String> _recordedResultGameIds = <String>{};
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _challengesController =
+        widget.challengesController ??
+        ref.read(dailyChallengesControllerProvider);
+    _challengesController.addListener(_handleChallengesChanged);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        unawaited(_challengesController.initialize());
+      }
+    });
     _controller = ChessGameController(setup: widget.setup)
       ..addListener(_handleControllerChanged);
     if (widget.setup.timeControl.hasClock) {
@@ -121,7 +148,12 @@ final class _GameScreenState extends State<GameScreen>
     if (!mounted) {
       return;
     }
+    if (_activeHint != null &&
+        _controller.game.moveRecords.length > _hintPositionPly) {
+      _activeHint = null;
+    }
     setState(() {});
+    _recordChallengeProgress();
     unawaited(_computerOpponent?.synchronize());
     if (_controller.result != null &&
         !_controller.resultAcknowledged &&
@@ -147,6 +179,135 @@ final class _GameScreenState extends State<GameScreen>
   void _handleLocalMatchChanged() {
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  void _handleChallengesChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _recordChallengeProgress() {
+    if (widget.setup.mode == GameMode.friend) {
+      return;
+    }
+    final List<ChallengeEvent> events = <ChallengeEvent>[];
+    for (final MoveRecord record in _controller.game.moveRecords) {
+      if (!_recordedMoveIds.add(record.id)) {
+        continue;
+      }
+      final String base = '${_controller.game.gameId}:${record.id}';
+      events.add(
+        ChallengeEvent(
+          id: '$base:${ChallengeType.playLegalMoves.name}',
+          type: ChallengeType.playLegalMoves,
+        ),
+      );
+      if (record.capturedPiece?.type == PieceType.queen) {
+        events.add(
+          ChallengeEvent(
+            id: '$base:${ChallengeType.captureQueen.name}',
+            type: ChallengeType.captureQueen,
+          ),
+        );
+      }
+      final Piece? movingPiece = record.positionBefore.pieceAt(
+        record.move.from,
+      );
+      if (movingPiece?.type == PieceType.king &&
+          (record.move.from.file - record.move.to.file).abs() == 2) {
+        events.add(
+          ChallengeEvent(
+            id: '$base:${ChallengeType.castle.name}',
+            type: ChallengeType.castle,
+          ),
+        );
+      }
+      if (record.move.promotion != null) {
+        events.add(
+          ChallengeEvent(
+            id: '$base:${ChallengeType.promotePawn.name}',
+            type: ChallengeType.promotePawn,
+          ),
+        );
+      }
+      if (movingPiece?.type == PieceType.pawn &&
+          record.capturedPiece?.type == PieceType.pawn &&
+          record.positionBefore.pieceAt(record.move.to) == null &&
+          record.move.from.file != record.move.to.file) {
+        events.add(
+          ChallengeEvent(
+            id: '$base:${ChallengeType.enPassantCapture.name}',
+            type: ChallengeType.enPassantCapture,
+          ),
+        );
+      }
+    }
+
+    final GameResult? result = _controller.result;
+    final String gameId = _controller.game.gameId;
+    if (result != null && _recordedResultGameIds.add(gameId)) {
+      events.add(
+        ChallengeEvent(
+          id: '$gameId:${ChallengeType.finishMatch.name}',
+          type: ChallengeType.finishMatch,
+        ),
+      );
+      if (_hintCount == 0) {
+        events.add(
+          ChallengeEvent(
+            id: '$gameId:${ChallengeType.noHintMatch.name}',
+            type: ChallengeType.noHintMatch,
+          ),
+        );
+      }
+      if (widget.setup.mode == GameMode.local) {
+        events.add(
+          ChallengeEvent(
+            id: '$gameId:${ChallengeType.localMatch.name}',
+            type: ChallengeType.localMatch,
+          ),
+        );
+      }
+      final PieceColor? winner = result.winner;
+      if (winner != null) {
+        events.add(
+          ChallengeEvent(
+            id: '$gameId:${winner == PieceColor.white ? ChallengeType.winAsWhite.name : ChallengeType.winAsBlack.name}',
+            type: winner == PieceColor.white
+                ? ChallengeType.winAsWhite
+                : ChallengeType.winAsBlack,
+          ),
+        );
+        if (widget.setup.mode == GameMode.computer &&
+            winner == widget.setup.humanColor) {
+          final ChallengeType? difficultyEvent = switch (widget
+              .setup
+              .difficulty) {
+            ComputerDifficulty.beginner => ChallengeType.beginnerWin,
+            ComputerDifficulty.intermediate => ChallengeType.intermediateWin,
+            ComputerDifficulty.expert || ComputerDifficulty.grandmaster => null,
+          };
+          if (difficultyEvent != null) {
+            events.add(
+              ChallengeEvent(
+                id: '$gameId:${difficultyEvent.name}',
+                type: difficultyEvent,
+              ),
+            );
+          }
+        }
+      }
+    }
+    if (events.isNotEmpty) {
+      unawaited(_recordEvents(events));
+    }
+  }
+
+  Future<void> _recordEvents(List<ChallengeEvent> events) async {
+    for (final ChallengeEvent event in events) {
+      await _challengesController.recordEvent(event);
     }
   }
 
@@ -235,7 +396,7 @@ final class _GameScreenState extends State<GameScreen>
           duration: DateTime.now().difference(_controller.startedAt),
           moveCount: _controller.game.moveRecords.length,
           captureCount: _controller.game.capturedPieces.length,
-          hintCount: 0,
+          hintCount: _hintCount,
         );
       },
     );
@@ -261,6 +422,11 @@ final class _GameScreenState extends State<GameScreen>
       } else {
         _controller.restart();
       }
+      _activeHint = null;
+      _hintCount = 0;
+      _hintPositionPly = 0;
+      _recordedMoveIds.clear();
+      _recordedResultGameIds.clear();
       unawaited(_computerOpponent?.newGame());
       return;
     }
@@ -286,6 +452,101 @@ final class _GameScreenState extends State<GameScreen>
     if (mounted) {
       _showMessage(strings.pgnCopied);
     }
+  }
+
+  Future<void> _requestHint() async {
+    final AppLocalizations strings = AppLocalizations.of(context);
+    await _challengesController.initialize();
+    if (!mounted) {
+      return;
+    }
+    final RewardWallet wallet =
+        _challengesController.dashboard?.wallet ?? RewardWallet.empty;
+    final HintPaymentMethod?
+    paymentMethod = await showDialog<HintPaymentMethod>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          icon: const Icon(Icons.lightbulb_outline),
+          title: Text(strings.hintPaymentTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(strings.hintPaymentDescription),
+              const SizedBox(height: DesignTokens.space12),
+              Text('${strings.hints}: ${wallet.hints}'),
+              Text('${strings.coins}: ${wallet.coins}'),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(strings.cancel),
+            ),
+            TextButton(
+              onPressed: wallet.hints >= 1
+                  ? () =>
+                        Navigator.of(dialogContext).pop(HintPaymentMethod.hint)
+                  : null,
+              child: Text(strings.hintUseToken),
+            ),
+            FilledButton(
+              onPressed: wallet.coins >= 25
+                  ? () =>
+                        Navigator.of(dialogContext).pop(HintPaymentMethod.coins)
+                  : null,
+              child: Text(strings.hintUseCoins),
+            ),
+          ],
+        );
+      },
+    );
+    if (paymentMethod == null || !mounted) {
+      return;
+    }
+    setState(() => _hintLoading = true);
+    try {
+      final HintRequestResult result = await _challengesController.requestHint(
+        position: _controller.position,
+        paymentMethod: paymentMethod,
+      );
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _activeHint = result.suggestion;
+        _hintCount++;
+        _hintPositionPly = _controller.game.moveRecords.length;
+      });
+      _showMessage(
+        strings.hintSuggestedMove(
+          result.suggestion.move.from.algebraic.toUpperCase(),
+          result.suggestion.move.to.algebraic.toUpperCase(),
+        ),
+      );
+    } on EconomyFailure catch (failure) {
+      if (mounted) {
+        _showMessage(_hintErrorMessage(strings, failure.code));
+      }
+    } on Object {
+      if (mounted) {
+        _showMessage(strings.hintGenerationFailed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _hintLoading = false);
+      }
+    }
+  }
+
+  String _hintErrorMessage(AppLocalizations strings, String code) {
+    return switch (code) {
+      'insufficient_coins' => strings.insufficientCoins,
+      'insufficient_hints' => strings.insufficientHints,
+      'hint_in_progress' => strings.hintInProgress,
+      _ => strings.hintGenerationFailed,
+    };
   }
 
   Future<void> _handleSquareTap(BuildContext context, Square square) async {
@@ -532,6 +793,7 @@ final class _GameScreenState extends State<GameScreen>
     final bool interactionEnabled =
         !_paused &&
         !(_computerOpponent?.isThinking ?? false) &&
+        !_hintLoading &&
         _friendInteractionReady &&
         (widget.setup.mode != GameMode.computer ||
             _controller.position.sideToMove == widget.setup.humanColor);
@@ -628,6 +890,7 @@ final class _GameScreenState extends State<GameScreen>
           legalMoves: _controller.legalMovesForSelection,
           lastMove: _controller.lastMove,
           checkedKingSquare: _controller.checkedKingSquare,
+          hintMove: _activeHint?.move,
           flipped: flipped,
           enabled: interactionEnabled && _controller.result == null,
           onSquareTap: (square) {
@@ -664,6 +927,21 @@ final class _GameScreenState extends State<GameScreen>
             onRetry: _computerOpponent!.retry,
           ),
         ],
+        if (widget.setup.hintsEnabled &&
+            _challengesController.dashboard != null) ...<Widget>[
+          const SizedBox(height: DesignTokens.space12),
+          RewardBalanceBar(wallet: _challengesController.dashboard!.wallet),
+        ],
+        if (_hintLoading) ...<Widget>[
+          const SizedBox(height: DesignTokens.space12),
+          const LinearProgressIndicator(),
+          const SizedBox(height: DesignTokens.space4),
+          Text(strings.hintGenerating),
+        ],
+        if (_activeHint != null) ...<Widget>[
+          const SizedBox(height: DesignTokens.space12),
+          _HintPanel(suggestion: _activeHint!),
+        ],
         const SizedBox(height: DesignTokens.space12),
         CapturedPiecesPanel(
           capturedByWhite: _controller.capturedBy(PieceColor.white),
@@ -680,8 +958,9 @@ final class _GameScreenState extends State<GameScreen>
           interactionEnabled:
               widget.setup.mode != GameMode.friend &&
               !(_computerOpponent?.isThinking ?? false) &&
+              !_hintLoading &&
               _controller.result == null,
-          onHint: () => _showMessage(strings.hintsArriveInEconomyPhase),
+          onHint: _requestHint,
           onUndo: _requestUndo,
           onRedo: _requestRedo,
           onDraw: _confirmDraw,
@@ -761,6 +1040,7 @@ final class _GameScreenState extends State<GameScreen>
     _controller
       ..removeListener(_handleControllerChanged)
       ..dispose();
+    _challengesController.removeListener(_handleChallengesChanged);
     super.dispose();
   }
 
@@ -782,6 +1062,53 @@ final class _GameScreenState extends State<GameScreen>
         (friendController.session?.bothPlayersConnected ?? false) &&
         _pendingFriendMove == null &&
         _controller.position.sideToMove == widget.setup.humanColor;
+  }
+}
+
+final class _HintPanel extends StatelessWidget {
+  const _HintPanel({required this.suggestion});
+
+  final HintSuggestion suggestion;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations strings = AppLocalizations.of(context);
+    final String explanation =
+        suggestion.explanationKey == 'hintExplanationCapture'
+        ? strings.hintExplanationCapture
+        : strings.hintExplanationCandidate;
+    final String moveLabel = strings.hintSuggestedMove(
+      suggestion.move.from.algebraic.toUpperCase(),
+      suggestion.move.to.algebraic.toUpperCase(),
+    );
+    return Card(
+      color: Theme.of(context).colorScheme.tertiaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(DesignTokens.space16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Icon(Icons.lightbulb),
+            const SizedBox(width: DesignTokens.space12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    moveLabel,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: DesignTokens.space4),
+                  Text(explanation),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

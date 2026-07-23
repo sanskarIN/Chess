@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/errors/app_error.dart';
+import '../features/challenges/presentation/daily_challenges_screen.dart';
 import '../features/chess/application/game_setup.dart';
 import '../features/chess/presentation/game_screen.dart';
 import '../features/chess/presentation/player_setup_screen.dart';
@@ -21,6 +22,7 @@ abstract final class AppRoutes {
   static const String setup = '/play/:mode';
   static const String game = '/game';
   static const String friendGame = '/friend-game';
+  static const String dailyChallenges = '/challenges';
 
   static String setupPath(GameMode mode) => '/play/${mode.name}';
 }
@@ -87,6 +89,12 @@ GoRouter createAppRouter({required AppError? startupError}) {
             setup: extra.setup,
             friendController: extra.controller,
           );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.dailyChallenges,
+        builder: (BuildContext context, GoRouterState state) {
+          return const DailyChallengesScreen();
         },
       ),
     ],

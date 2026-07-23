@@ -17,6 +17,7 @@ final class ChessBoard extends StatelessWidget {
     required this.checkedKingSquare,
     required this.flipped,
     required this.onSquareTap,
+    this.hintMove,
     this.enabled = true,
     super.key,
   });
@@ -26,6 +27,7 @@ final class ChessBoard extends StatelessWidget {
   final List<Move> legalMoves;
   final Move? lastMove;
   final Square? checkedKingSquare;
+  final Move? hintMove;
   final bool flipped;
   final ValueChanged<Square> onSquareTap;
   final bool enabled;
@@ -68,6 +70,8 @@ final class ChessBoard extends StatelessWidget {
                               lastMove?.from == square ||
                               lastMove?.to == square,
                           isCheckedKing: checkedKingSquare == square,
+                          isHintSource: hintMove?.from == square,
+                          isHintTarget: hintMove?.to == square,
                           palette: palette,
                           enabled: enabled,
                           showFileLabel: visualRank == 7,
@@ -110,6 +114,8 @@ final class _BoardSquare extends StatelessWidget {
     required this.isCapture,
     required this.isLastMove,
     required this.isCheckedKing,
+    required this.isHintSource,
+    required this.isHintTarget,
     required this.palette,
     required this.enabled,
     required this.showFileLabel,
@@ -124,6 +130,8 @@ final class _BoardSquare extends StatelessWidget {
   final bool isCapture;
   final bool isLastMove;
   final bool isCheckedKing;
+  final bool isHintSource;
+  final bool isHintTarget;
   final ChessBoardPalette palette;
   final bool enabled;
   final bool showFileLabel;
@@ -140,6 +148,8 @@ final class _BoardSquare extends StatelessWidget {
         ? Color.alphaBlend(palette.check.withValues(alpha: 0.78), base)
         : isSelected
         ? Color.alphaBlend(palette.selected.withValues(alpha: 0.82), base)
+        : isHintSource || isHintTarget
+        ? Color.alphaBlend(palette.hint.withValues(alpha: 0.72), base)
         : isLastMove
         ? Color.alphaBlend(palette.lastMove.withValues(alpha: 0.68), base)
         : base;
@@ -269,6 +279,8 @@ final class _BoardSquare extends StatelessWidget {
         isCapture ? strings.legalCapture : strings.legalMove,
       if (isLastMove) strings.lastMove,
       if (isCheckedKing) strings.inCheck,
+      if (isHintSource) strings.hintSourceSquare,
+      if (isHintTarget) strings.hintTargetSquare,
     ];
     return states.isEmpty
         ? occupant

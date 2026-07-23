@@ -25,10 +25,14 @@ animations.
 
 Unavailable later-phase features remain discoverable but clearly report that
 they are planned. Friend play is marked online and relay-required, with an
-up-front explanation of temporary network processing. Screens always provide a
-back, close, home, or continuation action.
+up-front explanation of temporary network processing. Daily challenges use
+progress bars, explicit completed/claim/claimed states, balance chips, a short
+claim animation, history, ledger inspection, and a non-manipulative midnight
+refresh countdown. Screens always provide a back, close, home, or continuation
+action.
 
 The board palette does not carry meaning by color alone. A normal legal move is
 shown as a center dot; a legal capture uses a ring; selection, last move, and
-check also have distinct semantic labels. Settings later allow additional board,
-piece, high-contrast, and color-vision-friendly themes.
+check also have distinct semantic labels. Hint source and target squares use
+separate semantic labels in addition to their tertiary highlight. Settings later
+allow additional board, piece, high-contrast, and color-vision-friendly themes.

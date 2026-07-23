@@ -1,29 +1,29 @@
 # Exact next work
 
-Phase 6 is complete with 92 passing Flutter tests, 7 passing relay-server tests,
-zero Flutter analyzer issues, a passing TypeScript type check, zero reported
-production npm vulnerabilities, a passing independent chess-domain verifier,
-and a passing native-engine manifest verification.
+Phase 7 is complete with 108 passing Flutter tests, including real SQLite
+creation/migration/concurrency coverage, zero Flutter analyzer issues, 7 passing
+relay-server tests, a passing TypeScript type check, zero reported production
+npm vulnerabilities, a passing independent chess-domain verifier, and a passing
+native-engine manifest verification.
 
-Phase 7 starts with:
+Phase 8 starts with:
 
 ```text
-lib/features/challenges/domain/daily_challenge.dart
+lib/features/practice/domain/practice_exercise.dart
 ```
 
-Phase 7 implementation order:
+Phase 8 implementation order:
 
-1. deterministic local-date challenge generation and date simulation boundary;
-2. persisted challenge progress, history, completion, and idempotent claiming;
-3. atomic local coin/hint wallet and integrity-bearing transaction ledger;
-4. successful-result-first hint purchase and generation coordination;
-5. daily countdown, progress, claim, claimed, history, and limitation UI;
-6. localized first-version source/target hint explanation and confirmation UI;
-7. progress hooks for implemented game events without inventing unavailable
-   practice, tutorial, save, or review outcomes;
-8. database migration, transaction, date rollover, tamper-limit, UI, and
-   duplicate-request tests;
-9. economy, daily challenge, hint, privacy, and developer-tool documentation.
+1. versioned tutorial lessons and durable local completion/reward state;
+2. free board and legal piece-movement exercises;
+3. bundled, attributable mate-in-one, mate-in-two, and tactical puzzle library;
+4. opening-position and endgame practice plus validated custom FEN loading;
+5. in-app guide and factual features catalog;
+6. atomic save, resume, rename, delete, PGN export, FEN copy, and validated
+   FEN/PGN import;
+7. completed-game review with move stepping and optional local engine analysis;
+8. tutorial, practice, puzzle, saved-game, import, and review widget/domain tests;
+9. substantive guide, practice, puzzle-source, save-format, and review docs.
 
 Before the Android debug build can complete, install Android SDK command-line
 tools and repair the incomplete NDK `28.2.13676358` installation. Accept any

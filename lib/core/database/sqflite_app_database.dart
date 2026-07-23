@@ -4,8 +4,9 @@ import 'package:sqflite/sqflite.dart';
 import '../logging/app_logger.dart';
 import 'app_database.dart';
 import 'database_schema.dart';
+import 'transactional_database.dart';
 
-final class SqfliteAppDatabase implements AppDatabase {
+final class SqfliteAppDatabase implements AppDatabase, TransactionalDatabase {
   SqfliteAppDatabase({required AppLogger appLogger}) : _logger = appLogger;
 
   final AppLogger _logger;
@@ -38,16 +39,25 @@ final class SqfliteAppDatabase implements AppDatabase {
       },
       onCreate: (Database database, int version) async {
         await database.transaction((Transaction transaction) async {
-          for (final String statement in DatabaseSchema.version1Statements) {
+          for (final String statement in DatabaseSchema.creationStatements) {
             await transaction.execute(statement);
           }
+          final int now = DateTime.now().toUtc().millisecondsSinceEpoch;
           await transaction.insert('data_migrations', <String, Object?>{
             'migration_id': 'schema_v1',
             'schema_version': 1,
             'status': 'completed',
-            'started_at': DateTime.now().toUtc().millisecondsSinceEpoch,
-            'completed_at': DateTime.now().toUtc().millisecondsSinceEpoch,
+            'started_at': now,
+            'completed_at': now,
             'details': 'Initial local database schema.',
+          });
+          await transaction.insert('data_migrations', <String, Object?>{
+            'migration_id': 'schema_v2',
+            'schema_version': 2,
+            'status': 'completed',
+            'started_at': now,
+            'completed_at': now,
+            'details': 'Atomic challenge wallet and reward ledger.',
           });
         });
       },
@@ -58,6 +68,17 @@ final class SqfliteAppDatabase implements AppDatabase {
             newVersion,
           )) {
             await transaction.execute(statement);
+          }
+          final int now = DateTime.now().toUtc().millisecondsSinceEpoch;
+          if (oldVersion < 2 && newVersion >= 2) {
+            await transaction.insert('data_migrations', <String, Object?>{
+              'migration_id': 'schema_v2',
+              'schema_version': 2,
+              'status': 'completed',
+              'started_at': now,
+              'completed_at': now,
+              'details': 'Atomic challenge wallet and reward ledger.',
+            });
           }
         });
       },
@@ -127,6 +148,13 @@ final class SqfliteAppDatabase implements AppDatabase {
       'value_type': valueType,
       'updated_at': DateTime.now().toUtc().millisecondsSinceEpoch,
     }, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  @override
+  Future<T> runTransaction<T>(
+    Future<T> Function(Transaction transaction) action,
+  ) {
+    return _requireOpenDatabase().transaction<T>(action);
   }
 
   Database _requireOpenDatabase() {
