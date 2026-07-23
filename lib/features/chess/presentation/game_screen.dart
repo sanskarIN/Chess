@@ -15,6 +15,8 @@ import '../../computer_player/domain/engine_analysis.dart';
 import '../../computer_player/domain/engine_configuration.dart';
 import '../../computer_player/domain/engine_difficulty.dart';
 import '../../computer_player/domain/engine_failure.dart';
+import '../../friend_multiplayer/application/friend_match_controller.dart';
+import '../../friend_multiplayer/domain/friend_session.dart';
 import '../../local_multiplayer/application/local_match_controller.dart';
 import '../../local_multiplayer/application/match_clock_controller.dart';
 import '../../local_multiplayer/domain/local_action_request.dart';
@@ -41,6 +43,7 @@ final class GameScreen extends StatefulWidget {
   const GameScreen({
     required this.setup,
     this.engineService,
+    this.friendController,
     this.clockTimeSource,
     this.clockAutoTick = true,
     super.key,
@@ -48,6 +51,7 @@ final class GameScreen extends StatefulWidget {
 
   final GameSetup setup;
   final EngineService? engineService;
+  final FriendMatchController? friendController;
   final MonotonicTimeSource? clockTimeSource;
   final bool clockAutoTick;
 
@@ -61,6 +65,8 @@ final class _GameScreenState extends State<GameScreen>
   ComputerOpponentController? _computerOpponent;
   MatchClockController? _clockController;
   LocalMatchController? _localMatchController;
+  String? _pendingFriendMove;
+  bool _synchronizingFriend = false;
   bool _resultDialogOpen = false;
   bool _paused = false;
 
@@ -83,6 +89,12 @@ final class _GameScreenState extends State<GameScreen>
         matchController: _controller,
         undoPolicy: widget.setup.undoPolicy,
       )..addListener(_handleLocalMatchChanged);
+    }
+    widget.friendController?.addListener(_handleFriendChanged);
+    if (widget.friendController != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _synchronizeFriendState();
+      });
     }
     if (widget.setup.mode == GameMode.computer) {
       final EngineConfiguration configuration =
@@ -138,6 +150,58 @@ final class _GameScreenState extends State<GameScreen>
     }
   }
 
+  void _handleFriendChanged() {
+    if (!mounted) {
+      return;
+    }
+    _synchronizeFriendState();
+    setState(() {});
+  }
+
+  void _synchronizeFriendState() {
+    final FriendSessionSnapshot? session = widget.friendController?.session;
+    if (_synchronizingFriend || session == null) {
+      return;
+    }
+    _synchronizingFriend = true;
+    try {
+      final List<String> remote = session.moves;
+      final List<String> local = _controller.game.moveRecords
+          .map((record) => record.move.uci)
+          .toList(growable: false);
+      int common = 0;
+      while (common < remote.length &&
+          common < local.length &&
+          remote[common] == local[common]) {
+        common++;
+      }
+
+      if (common == remote.length && common == local.length) {
+        _pendingFriendMove = null;
+        return;
+      }
+      if (common == remote.length &&
+          local.length == remote.length + 1 &&
+          local.last == _pendingFriendMove) {
+        return;
+      }
+      if (common == local.length && remote.length > local.length) {
+        for (final String uci in remote.skip(local.length)) {
+          _controller.playMove(Move.fromUci(uci));
+        }
+        _pendingFriendMove = null;
+        return;
+      }
+      _controller.restoreMoves(remote.map(Move.fromUci));
+      _pendingFriendMove = null;
+    } on Object catch (error) {
+      _pendingFriendMove = null;
+      widget.friendController?.reportClientSynchronizationFailure(error);
+    } finally {
+      _synchronizingFriend = false;
+    }
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     final MatchClockController? clockController = _clockController;
@@ -187,6 +251,11 @@ final class _GameScreenState extends State<GameScreen>
 
   Future<void> _handleResultAction(MatchResultAction? action) async {
     if (action == MatchResultAction.rematch) {
+      if (widget.friendController != null) {
+        _showMessage(AppLocalizations.of(context).friendRematchNewCode);
+        context.go(AppRoutes.setupPath(GameMode.friend));
+        return;
+      }
       if (_localMatchController != null) {
         _localMatchController!.restart();
       } else {
@@ -227,6 +296,9 @@ final class _GameScreenState extends State<GameScreen>
       return;
     }
     final SquareSelectionResult result = _controller.selectSquare(square);
+    if (result.playedMove != null) {
+      _submitFriendMove(result.playedMove!);
+    }
     if (!result.needsPromotionChoice || !mounted) {
       return;
     }
@@ -239,6 +311,23 @@ final class _GameScreenState extends State<GameScreen>
     );
     if (selectedMove != null && mounted) {
       _controller.playMove(selectedMove);
+      _submitFriendMove(selectedMove);
+    }
+  }
+
+  void _submitFriendMove(Move move) {
+    final FriendMatchController? friendController = widget.friendController;
+    if (friendController == null) {
+      return;
+    }
+    _pendingFriendMove = move.uci;
+    if (mounted) {
+      setState(() {});
+    }
+    try {
+      friendController.submitMove(move);
+    } on Object {
+      _synchronizeFriendState();
     }
   }
 
@@ -443,6 +532,7 @@ final class _GameScreenState extends State<GameScreen>
     final bool interactionEnabled =
         !_paused &&
         !(_computerOpponent?.isThinking ?? false) &&
+        _friendInteractionReady &&
         (widget.setup.mode != GameMode.computer ||
             _controller.position.sideToMove == widget.setup.humanColor);
 
@@ -584,10 +674,11 @@ final class _GameScreenState extends State<GameScreen>
         const SizedBox(height: DesignTokens.space12),
         GameControls(
           hintsEnabled: widget.setup.hintsEnabled,
-          canUndo: _controller.canUndo,
-          canRedo: _controller.canRedo,
+          canUndo: widget.setup.mode != GameMode.friend && _controller.canUndo,
+          canRedo: widget.setup.mode != GameMode.friend && _controller.canRedo,
           hasClock: widget.setup.timeControl.hasClock,
           interactionEnabled:
+              widget.setup.mode != GameMode.friend &&
               !(_computerOpponent?.isThinking ?? false) &&
               _controller.result == null,
           onHint: () => _showMessage(strings.hintsArriveInEconomyPhase),
@@ -624,6 +715,21 @@ final class _GameScreenState extends State<GameScreen>
     if (_computerOpponent?.isThinking ?? false) {
       return strings.computerIsThinking;
     }
+    final FriendMatchController? friendController = widget.friendController;
+    if (friendController != null) {
+      if (friendController.phase == FriendConnectionPhase.reconnecting) {
+        return strings.reconnectingToMatch;
+      }
+      if (friendController.failure != null) {
+        return strings.friendConnectionLost;
+      }
+      if (!(friendController.session?.bothPlayersConnected ?? false)) {
+        return strings.friendWaitingForConnection;
+      }
+      if (_pendingFriendMove != null) {
+        return strings.friendMovePending;
+      }
+    }
     final String color = _controller.position.sideToMove == PieceColor.white
         ? strings.white
         : strings.black;
@@ -640,6 +746,11 @@ final class _GameScreenState extends State<GameScreen>
     computerOpponent?.removeListener(_handleComputerChanged);
     if (computerOpponent != null) {
       unawaited(computerOpponent.close());
+    }
+    final FriendMatchController? friendController = widget.friendController;
+    friendController?.removeListener(_handleFriendChanged);
+    if (friendController != null) {
+      unawaited(friendController.close());
     }
     _localMatchController
       ?..removeListener(_handleLocalMatchChanged)
@@ -660,6 +771,17 @@ final class _GameScreenState extends State<GameScreen>
       ComputerDifficulty.expert => EngineDifficulty.expert,
       ComputerDifficulty.grandmaster => EngineDifficulty.grandmaster,
     };
+  }
+
+  bool get _friendInteractionReady {
+    final FriendMatchController? friendController = widget.friendController;
+    if (friendController == null) {
+      return true;
+    }
+    return friendController.phase == FriendConnectionPhase.playing &&
+        (friendController.session?.bothPlayersConnected ?? false) &&
+        _pendingFriendMove == null &&
+        _controller.position.sideToMove == widget.setup.humanColor;
   }
 }
 

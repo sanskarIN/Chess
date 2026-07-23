@@ -16,6 +16,7 @@
 - [Game modes](game_modes.md)
 - [Chess engine](chess_engine.md)
 - [Local multiplayer](local_multiplayer.md)
+- [Friend multiplayer](friend_multiplayer.md)
 - [Localization](localization.md)
 - [Logging](logging.md)
 
@@ -27,6 +28,9 @@
 - [Riverpod](technologies/riverpod.md)
 - [SQLite choice](technologies/drift_sqlite.md)
 - [Stockfish](technologies/stockfish.md)
+- [Node.js](technologies/nodejs.md)
+- [TypeScript](technologies/typescript.md)
+- [WebSocket](technologies/websocket.md)
 
 ## Planning and evidence
 

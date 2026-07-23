@@ -193,6 +193,17 @@ final class ChessGameController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void restoreMoves(Iterable<Move> moves) {
+    _game = ChessGame.restore(
+      gameId: _game.gameId,
+      initialPosition: _game.initialPosition,
+      moves: moves,
+    );
+    _selectedSquare = null;
+    _resultAcknowledged = false;
+    notifyListeners();
+  }
+
   static String _createGameId() {
     return 'game-${DateTime.now().toUtc().microsecondsSinceEpoch}';
   }

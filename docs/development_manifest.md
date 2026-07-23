@@ -2,9 +2,9 @@
 
 ## Project identity
 
-- Version: `0.5.0+5`
-- Completed phase: 5 — Local Multiplayer
-- Next phase: 6 — Friend Multiplayer
+- Version: `0.6.0+6`
+- Completed phase: 6 — Friend Multiplayer
+- Next phase: 7 — Daily Challenges, Coins, and Hints
 - Updated: 2026-07-23
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
@@ -22,9 +22,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 2 chess domain | `498d41333ca6c9b227a86e7df506df815c2fff75` | Published on `origin/main` |
 | Phase 3 core UI | `1be99bd9ed4618285faaa34fffb8cd378746f0fe` | Published on `origin/main` |
 | Phase 4 computer opponent | `31717765384f61a8b1aa0b531992962af6670a95` | Published on `origin/main` |
+| Phase 5 local multiplayer | `df5f9d37b18d6939b20d05a8aa51c4ac83466dc4` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 5 is ready for its boundary commit
+directly without overwriting history. Phase 6 is ready for its boundary commit
 after this manifest update.
 
 ## Phase 1 completed source
@@ -111,6 +112,24 @@ after this manifest update.
 - Live, accessible tabular clock display in both player banners
 - Clock, controller, setup, timeout, approval, orientation, and widget tests
 
+## Phase 6 completed source
+
+- Validated four- and six-digit team-code value object with leading-zero support
+- Versioned JSON WebSocket envelope and shared cross-language state-hash fixtures
+- Create, join, waiting-room, copy/share, ready, assigned-color, expiry, privacy,
+  service-failure, and synchronization-failure UI
+- Reconnecting Flutter WebSocket transport with bounded backoff and session tokens
+- Optimistic local move locking until authoritative relay acknowledgement
+- Legal remote-history replay and state-hash verification before UI application
+- Self-hostable Node.js/TypeScript relay under `server/`
+- Memory-only rooms with no accounts, profiles, database, analytics, advertising,
+  or permanent game/name/session history
+- Authoritative `chess.js` turn, ply, legal-move, FEN, and state-hash validation
+- Room expiry, reconnect grace, tombstones, rate and message-size limits, optional
+  origin allowlist, safe logging, health endpoint, and graceful shutdown
+- Flutter client/controller/lobby/game tests and Node protocol/room/server tests
+- Relay CI, protocol, deployment, privacy, security, and troubleshooting docs
+
 ## Toolchain evidence
 
 ```text
@@ -129,7 +148,7 @@ devices, and network resources. It reported:
 - Android license status unknown;
 - Flutter and Dart temporary SDK paths not added permanently to `PATH`.
 
-## Commands executed through Phase 5
+## Commands executed through Phase 6
 
 ```text
 flutter --version
@@ -141,18 +160,26 @@ flutter analyze --no-pub
 flutter test --no-pub
 dart run tool/chess_domain_verifier/bin/verify.dart
 dart run tool/verify_engine_manifest.dart
+cd server
+npm install
+npm run check
+npm test
+npm audit --omit=dev
 ```
 
 ## Verification results
 
 ```text
-79 Flutter tests passed.
+92 Flutter tests passed.
+7 Node relay tests passed.
 Flutter analysis: No issues found.
+TypeScript type check passed.
+npm production dependency audit: 0 vulnerabilities.
 Chess domain verification passed.
 Engine manifest valid; no native binary is declared or bundled.
 ```
 
-Executed coverage through Phase 5 includes:
+Executed coverage through Phase 6 includes:
 
 - splash, onboarding persistence, skip, and home transition;
 - malformed and invalid onboarding preference recovery;
@@ -176,6 +203,16 @@ Executed coverage through Phase 5 includes:
 - always-allow local undo policy;
 - fixed Black and automatic after-move board rotation;
 - local setup controls, live clock rendering, rematch, and resignation.
+- four- and six-digit room-code parsing, leading zeros, invalid input, and
+  redacted representation;
+- protocol envelope parsing and deterministic shared Dart/Node state hashes;
+- create, join, ready, move acknowledgement, duplicate action protection, and
+  verified state synchronization;
+- reconnect session resumption, exhausted reconnect attempts, and typed relay
+  failures;
+- friend lobby create/join/privacy/waiting behavior and synchronized game moves;
+- relay rate limiting, room lifecycle, legal move validation, HTTP health,
+  WebSocket ping/pong, and graceful shutdown.
 
 Phase 2 perft remains:
 
@@ -191,7 +228,11 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 79 passed.
+- Flutter unit/widget tests: 92 passed.
+- TypeScript type checking: passed.
+- Node relay tests: 7 passed.
+- npm production dependency audit: passed with 0 vulnerabilities.
+- Relay Docker image: not built because Docker is unavailable on this machine.
 - Independent chess verifier: passed.
 - Native engine manifest verifier: passed with zero binaries declared.
 - Android resource compilation/linking: previously passed against API 36.
@@ -205,7 +246,6 @@ Phase 2 perft remains:
 
 - The Stockfish adapter is implemented and tested, but no distribution-verified
   native binary is bundled. Computer play uses the built-in local search.
-- Friend rooms, WebSocket protocol, and relay remain Phase 6.
 - Daily challenges, coins, and purchasable hints remain Phase 7.
 - Practice, tutorial, saves, and review mode remain Phase 8.
 - Settings/developer options remain Phase 9.
@@ -219,5 +259,5 @@ Phase 2 perft remains:
 ## Exact next file
 
 ```text
-lib/features/friend_multiplayer/domain/team_code.dart
+lib/features/challenges/domain/daily_challenge.dart
 ```

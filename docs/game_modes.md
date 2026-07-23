@@ -29,11 +29,17 @@ approved undo or redo restores both board and clock state consistently.
 
 ## Friend Match
 
-The mode is visible and marked `Online · Experimental`, but cannot start a room
-yet. Its screen explains that active session messages require a temporary relay
-and that no permanent server-side match history is planned. Four- and six-digit
-rooms, reconnection, synchronization, and the self-hostable Node.js relay are
-Phase 6.
+The mode is marked `Online · Relay required`. Hosts create four- or six-digit
+temporary codes, choose a side and optional name, copy/share the code, see room
+expiration, wait for both players, and confirm readiness. Joiners validate the
+code, see their assigned color, and receive distinct invalid, expired, full, and
+unavailable errors.
+
+The self-hostable Node.js relay stores only in-memory active-room state.
+Versioned messages, opaque reconnect tokens, state hashes, authoritative legal
+moves, bounded retry, rate limiting, expiration, health checks, and graceful
+shutdown are implemented and tested. The app clearly states that the relay
+temporarily processes session data and does not claim zero network data.
 
 ## Daily challenges, practice, and saved games
 

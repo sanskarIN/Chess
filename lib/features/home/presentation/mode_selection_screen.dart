@@ -54,7 +54,7 @@ final class ModeSelectionScreen extends StatelessWidget {
                     icon: Icons.hub_outlined,
                     title: strings.friendMatch,
                     description: strings.friendMatchPrivacyDescription,
-                    trailingLabel: strings.experimental,
+                    trailingLabel: strings.optionalRelay,
                     onTap: () =>
                         context.push(AppRoutes.setupPath(GameMode.friend)),
                   ),

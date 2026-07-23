@@ -71,6 +71,19 @@ void main() {
 
       expect(PieceColor.values, contains(color));
     });
+
+    test('orients a friend match toward the assigned local color', () {
+      final GameSetup setup = GameSetup.friend(
+        whitePlayerName: 'Ada',
+        blackPlayerName: 'Grace',
+        localColor: PieceColor.black,
+      );
+
+      expect(setup.mode, GameMode.friend);
+      expect(setup.humanColor, PieceColor.black);
+      expect(setup.boardOrientation, LocalBoardOrientation.blackAtBottom);
+      expect(setup.timeControl, TimeControl.none);
+    });
   });
 
   group('PlayerNameValidator', () {

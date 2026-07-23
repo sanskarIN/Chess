@@ -82,7 +82,7 @@
   "friendMatchDescription": "Use a temporary four- or six-digit team-code room.",
   "friendMatchPrivacyDescription": "Online-only. A temporary relay processes session messages while the room is active and stores no permanent match history.",
   "offline": "Offline",
-  "onlineExperimental": "Online · Experimental",
+  "onlineRelayRequired": "Online · Relay required",
   "viewAllPlayModes": "View all play modes",
   "explore": "Explore",
   "dailyChallenges": "Daily challenges",
@@ -93,7 +93,7 @@
   "playModeTitle": "Play",
   "playModeHeading": "Select a game mode",
   "playModeDescription": "Offline modes never require a network connection. Friend matches are clearly marked as online.",
-  "experimental": "Experimental",
+  "optionalRelay": "Optional relay",
   "computerSetupTitle": "Computer match setup",
   "computerSetupHeading": "Configure your computer match",
   "localSetupTitle": "Local match setup",
@@ -137,9 +137,77 @@
   "rotateBoardAfterMoveDescription": "Keeps the side to move nearest to the current player.",
   "skipNames": "Skip names",
   "startGame": "Start game",
-  "friendMatchExperimentalTitle": "Friend-match networking is not enabled yet",
-  "friendMatchExperimentalBody": "This screen is present for honest feature discovery. Team-code creation, joining, synchronization, and the self-hostable relay are implemented in the friend-multiplayer phase before this mode is marked available.",
-  "backToModes": "Back to modes",
+  "friendLobbyHeading": "Play with a friend",
+  "friendLobbyDescription": "Create a temporary team code or join one from a friend. No account is required.",
+  "friendPlayer": "Friend",
+  "friendRelayPrivacy": "Online play sends the active room messages through the configured temporary relay. Durable game data stays on your device; the relay does not permanently save matches or profiles, and you may self-host it.",
+  "friendRelayNotConfigured": "No relay URL is configured. Online play cannot connect until CHESS_MASTER_RELAY_URL or the developer relay setting points to a trusted self-hosted service.",
+  "createTeamCode": "Create Team Code",
+  "joinWithTeamCode": "Join with Team Code",
+  "teamCodeLength": "Team-code length",
+  "digitTeamCode": "{digits}-digit code",
+  "@digitTeamCode": {
+    "placeholders": {
+      "digits": {
+        "type": "int"
+      }
+    }
+  },
+  "teamCode": "Team code",
+  "teamCodeValidation": "Enter exactly four or six digits.",
+  "createRoom": "Create room",
+  "joinRoom": "Join room",
+  "teamCodeCopied": "Team code copied.",
+  "copy": "Copy",
+  "share": "Share",
+  "shareTeamCodeText": "Join my Chess-Master friend match with team code {code}.",
+  "@shareTeamCodeText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "shareUnavailable": "System sharing is unavailable on this device.",
+  "waitingRoom": "Waiting room",
+  "waitingRoomDescription": "The game starts after both named players are connected and ready.",
+  "roomExpiresAt": "This temporary room expires at {time}.",
+  "@roomExpiresAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "whitePlayer": "White player",
+  "blackPlayer": "Black player",
+  "ready": "Ready",
+  "connected": "Connected",
+  "disconnected": "Disconnected",
+  "reconnectingToMatch": "Reconnecting to the temporary match…",
+  "waitingForFriend": "Waiting for friend",
+  "imReady": "I’m ready",
+  "youAreColor": "You are playing {color}.",
+  "@youAreColor": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTeamCode": "That team code is incorrect. Check all four or six digits.",
+  "expiredTeamCode": "That temporary team code has expired.",
+  "friendRoomFull": "That room already has two players.",
+  "friendServerUnavailable": "The friend-match relay is unavailable or not configured.",
+  "friendProtocolMismatch": "The app and relay protocol versions are incompatible.",
+  "friendStateMismatch": "The synchronized game state could not be verified. Reconnect before continuing.",
+  "friendIllegalMove": "The relay rejected an illegal or out-of-turn move.",
+  "friendRateLimited": "Too many requests were sent. Wait briefly and retry.",
+  "friendConnectionLost": "The temporary relay connection was lost.",
+  "friendUnknownError": "The friend match could not continue safely.",
+  "friendWaitingForConnection": "Waiting for the other player to reconnect",
+  "friendMovePending": "Waiting for the relay to verify the move",
+  "friendRematchNewCode": "Create a new temporary team code for a rematch.",
   "gameTitle": "Match",
   "matchResult": "Match result",
   "colorToMove": "{color} to move",

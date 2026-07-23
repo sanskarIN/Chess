@@ -5,7 +5,10 @@
 - [Riverpod](riverpod.md)
 - [SQLite selection](drift_sqlite.md)
 - [Stockfish](stockfish.md)
+- [Node.js](nodejs.md)
+- [TypeScript](typescript.md)
+- [WebSocket](websocket.md)
 
-Android, Node.js, TypeScript, WebSocket, testing, CI, localization,
-security, and license technology documents are added with their implementation
-phases so they contain verified details rather than boilerplate.
+Android, testing, CI, localization, security, and license technology documents
+are added with their implementation phases so they contain verified details
+rather than boilerplate.

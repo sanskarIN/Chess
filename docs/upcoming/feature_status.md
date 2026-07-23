@@ -24,7 +24,7 @@ The `Status` column uses only the master prompt's permitted classifications.
 | Stockfish UCI adapter | Tested | Passed | Fake-process handshake, configuration, search, timeout, stop, crash, and restart |
 | Stockfish Android executable | Unavailable | Blocked | No distribution-verified ABI binary is declared or bundled |
 | Local two-player | Tested | Passed | Offline names, clocks, orientation, approvals, draw, resign, pause, and rematch |
-| Friend matches and relay server | Not started | Not run | Phase 6 |
+| Friend matches and relay server | Tested | Passed | 92-test Flutter suite and 7-test Node relay suite; Docker image build not run because Docker is unavailable |
 | Daily challenges, coins, and hints | Not started | Not run | Phase 7 |
 | Practice, tutorial, saves, and review | Not started | Not run | Phase 8 |
 | Complete settings and developer options | Not started | Not run | Phase 9 |
@@ -35,5 +35,6 @@ The `Status` column uses only the master prompt's permitted classifications.
 The engine manifest deliberately contains zero binaries. A native Stockfish
 executable cannot become available until its exact source, ABI, checksums, and
 debug/release loading evidence pass the committed verifier. Local match
-presentation exists, but the mode is not classified as fully tested until Phase
-5 clocks and approval policies are complete.
+presentation, clocks, and approval policies are tested. Friend relay runtime and
+protocol behavior are tested directly; deployment-container validation remains
+an environment-specific release check.

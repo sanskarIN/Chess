@@ -1,0 +1,22 @@
+[
+  {
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "moves": [],
+    "stateHash": "6c47d197300802706c715ba25b5e03e3808b31bd18af918af0acaf3451f88af1"
+  },
+  {
+    "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+    "moves": [
+      "e2e4"
+    ],
+    "stateHash": "81bb88ec891fec0fdca1ace99a9f97fd9023eedbe31850dc6568861eb9638bb0"
+  },
+  {
+    "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+    "moves": [
+      "e2e4",
+      "e7e5"
+    ],
+    "stateHash": "cc886ccfb23d408be64b11b42998afdd854446e0a895add9467391ae25ff40ad"
+  }
+]

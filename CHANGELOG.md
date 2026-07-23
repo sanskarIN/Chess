@@ -8,6 +8,18 @@ semantic versioning while the project remains pre-1.0.
 
 ### Added
 
+- Phase 6 friend multiplayer create/join/waiting/ready flow using validated
+  four- or six-digit team codes, assigned colors, privacy disclosure, clipboard
+  and Android share actions, and explicit room/service error states.
+- Versioned WebSocket client protocol with session-token reconnection,
+  authoritative move acknowledgement, legal history replay, deterministic state
+  hashes, synchronization failure handling, and bounded reconnect backoff.
+- Self-hostable Node.js/TypeScript relay with memory-only expiring rooms,
+  reconnect grace, rate/input/origin limits, authoritative `chess.js` move
+  validation, safe structured logging, health endpoint, and graceful shutdown.
+- Shared cross-language state-hash fixtures, Flutter client/widget tests, relay
+  protocol/room/integration tests, CI workflow, and deployment/privacy/security
+  documentation.
 - Phase 5 fully offline local multiplayer coordinator with optional names,
   same-device action approval, draw offers, resignation, and rematch.
 - Monotonic two-sided chess clock with common presets, per-move increment,
@@ -64,5 +76,5 @@ semantic versioning while the project remains pre-1.0.
   so the debug APK build has not completed.
 - No distribution-verified Stockfish executable is bundled; the tested UCI
   adapter currently falls back to the built-in local search opponent.
-- Friend relay, challenges/economy, training, settings, complete locale set,
-  legal package, and release QA remain in their prescribed later phases.
+- Challenges/economy, training, settings, complete locale set, legal package,
+  and release QA remain in their prescribed later phases.

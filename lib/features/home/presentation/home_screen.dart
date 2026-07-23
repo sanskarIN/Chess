@@ -92,7 +92,7 @@ final class HomeScreen extends ConsumerWidget {
                             icon: Icons.hub_outlined,
                             title: strings.friendMatch,
                             description: strings.friendMatchDescription,
-                            badge: strings.onlineExperimental,
+                            badge: strings.onlineRelayRequired,
                             onPressed: () => context.push(
                               AppRoutes.setupPath(GameMode.friend),
                             ),

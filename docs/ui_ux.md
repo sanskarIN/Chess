@@ -24,8 +24,9 @@ animation uses zero duration when Android or Flutter reports disabled
 animations.
 
 Unavailable later-phase features remain discoverable but clearly report that
-they are planned. Friend play is marked online and experimental. Screens always
-provide a back, close, home, or continuation action.
+they are planned. Friend play is marked online and relay-required, with an
+up-front explanation of temporary network processing. Screens always provide a
+back, close, home, or continuation action.
 
 The board palette does not carry meaning by color alone. A normal legal move is
 shown as a center dot; a legal capture uses a ring; selection, last move, and

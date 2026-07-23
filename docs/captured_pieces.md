@@ -23,5 +23,5 @@ Optional material advantage uses conventional display-only values:
 
 The leading side receives a `+N` value. These values do not affect rules,
 results, engine evaluation, rewards, or statistics. Phase 9 exposes the setting
-that hides material scores. Phase 6 synchronizes the same move history for
+that hides material scores. Friend matches synchronize the same move history for
 friend matches rather than sending an untrusted capture list.

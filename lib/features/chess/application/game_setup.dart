@@ -168,6 +168,27 @@ final class GameSetup {
     );
   }
 
+  factory GameSetup.friend({
+    required String whitePlayerName,
+    required String blackPlayerName,
+    required PieceColor localColor,
+  }) {
+    return GameSetup(
+      mode: GameMode.friend,
+      whitePlayerName: whitePlayerName,
+      blackPlayerName: blackPlayerName,
+      humanColor: localColor,
+      timeControl: TimeControl.none,
+      difficulty: ComputerDifficulty.beginner,
+      hintsEnabled: false,
+      rotateAfterMove: false,
+      boardOrientation: localColor == PieceColor.black
+          ? LocalBoardOrientation.blackAtBottom
+          : LocalBoardOrientation.whiteAtBottom,
+      undoPolicy: LocalUndoPolicy.requireOpponentApproval,
+    );
+  }
+
   static PieceColor resolveSide(PlayerSideChoice sideChoice, {Random? random}) {
     return switch (sideChoice) {
       PlayerSideChoice.white => PieceColor.white,

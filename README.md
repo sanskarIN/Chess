@@ -10,11 +10,12 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 5 local multiplayer is implemented. Two people can
-> play fully offline with optional names, live monotonic clocks and increments,
-> timeout adjudication, fixed or rotating orientation, approval-controlled
-> undo/redo and draw offers, resignation, pause, and rematch. No unverified
-> native executable is bundled. See
+> Development status: Phase 6 friend multiplayer is implemented. Players can
+> create or join temporary relay rooms using four- or six-digit codes, confirm
+> readiness, play synchronized legal moves, and reconnect within the configured
+> grace period. The self-hostable relay keeps active rooms only in memory and
+> has no account, profile, analytics, advertising, or permanent game-history
+> storage. No unverified native executable is bundled. See
 > [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
@@ -23,8 +24,9 @@ accessible multilingual interfaces.
 - No account, login, analytics, advertising identifier, or behavioral tracking.
 - Durable settings and game data stay in the application database on the device.
 - Android cloud backup is disabled; explicit export/import will be user-controlled.
-- Future friend matches will use a temporary WebSocket relay. That relay will
-  necessarily process active session messages but will not permanently store games.
+- Friend matches use an optional temporary WebSocket relay. That relay
+  necessarily processes active room messages but does not permanently store
+  games, names, profiles, or session tokens.
 - Offline features must not wait for the multiplayer service during startup.
 
 ## Current application
@@ -56,6 +58,12 @@ accessible multilingual interfaces.
   timeout results, rematch reset, and clock-aware history restoration.
 - Fixed White, fixed Black, or automatic after-move orientation and explicit
   opponent approval for undo, redo, and draw offers.
+- Optional friend matches with validated four- or six-digit room codes,
+  create/join/waiting/ready flow, assigned colors, move acknowledgement,
+  state-hash verification, reconnect handling, and actionable failure states.
+- A self-hostable Node.js/TypeScript WebSocket relay with authoritative legal
+  move validation, memory-only rooms, expiring reconnect sessions, rate limits,
+  input limits, origin controls, health checks, and graceful shutdown.
 
 ## Technology baseline
 
@@ -114,8 +122,10 @@ CHESS_MASTER_RELAY_URL
 CHESS_MASTER_STOCKFISH_PATH
 ```
 
-No production relay URL is invented by default. A relay will only be configured
-after the versioned protocol and self-hostable server exist.
+No production relay URL is invented by default. Friend multiplayer remains
+disabled until a distributor or self-hoster supplies an explicit `ws://` or
+`wss://` relay URL. See [friend multiplayer](docs/friend_multiplayer.md) and
+[server setup](server/README.md).
 
 `CHESS_MASTER_STOCKFISH_PATH` is a development-only escape hatch for a local UCI
 executable. It is classified as unverified and is never accepted as release
@@ -141,6 +151,7 @@ Flutter title when preparing a renamed distribution.
 - [Game modes](docs/game_modes.md)
 - [Chess engine](docs/chess_engine.md)
 - [Local multiplayer](docs/local_multiplayer.md)
+- [Friend multiplayer and relay](docs/friend_multiplayer.md)
 - [Roadmap phases](docs/upcoming/phases.md)
 - [Exact next work](docs/upcoming/next.md)
 - [Technology notes](docs/technologies/README.md)

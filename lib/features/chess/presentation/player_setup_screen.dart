@@ -5,6 +5,7 @@ import '../../../app/app_router.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/creator_watermark.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../friend_multiplayer/presentation/friend_lobby_screen.dart';
 import '../../local_multiplayer/domain/local_match_preferences.dart';
 import '../application/game_setup.dart';
 import '../application/player_name_validator.dart';
@@ -90,7 +91,7 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
   Widget build(BuildContext context) {
     final AppLocalizations strings = AppLocalizations.of(context);
     if (widget.mode == GameMode.friend) {
-      return _FriendModeNotice();
+      return const FriendLobbyScreen();
     }
     final bool isComputer = widget.mode == GameMode.computer;
     return Scaffold(
@@ -466,58 +467,6 @@ final class _TimeControlSelector extends StatelessWidget {
             );
           })
           .toList(growable: false),
-    );
-  }
-}
-
-final class _FriendModeNotice extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final AppLocalizations strings = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(strings.friendMatch)),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: DesignTokens.pagePadding(MediaQuery.sizeOf(context).width),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 620),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(DesignTokens.space24),
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.hub_outlined,
-                        size: 72,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(height: DesignTokens.space20),
-                      Text(
-                        strings.friendMatchExperimentalTitle,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: DesignTokens.space12),
-                      Text(
-                        strings.friendMatchExperimentalBody,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: DesignTokens.space24),
-                      FilledButton.icon(
-                        onPressed: () => context.pop(),
-                        icon: const Icon(Icons.arrow_back),
-                        label: Text(strings.backToModes),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

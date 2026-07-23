@@ -5,6 +5,8 @@ import '../core/errors/app_error.dart';
 import '../features/chess/application/game_setup.dart';
 import '../features/chess/presentation/game_screen.dart';
 import '../features/chess/presentation/player_setup_screen.dart';
+import '../features/friend_multiplayer/application/friend_game_launch.dart';
+import '../features/friend_multiplayer/presentation/friend_lobby_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/home/presentation/mode_selection_screen.dart';
 import '../features/onboarding/presentation/onboarding_screen.dart';
@@ -18,6 +20,7 @@ abstract final class AppRoutes {
   static const String modeSelection = '/play';
   static const String setup = '/play/:mode';
   static const String game = '/game';
+  static const String friendGame = '/friend-game';
 
   static String setupPath(GameMode mode) => '/play/${mode.name}';
 }
@@ -57,6 +60,9 @@ GoRouter createAppRouter({required AppError? startupError}) {
           if (mode == null) {
             return RouteErrorScreen(location: state.uri.toString());
           }
+          if (mode == GameMode.friend) {
+            return const FriendLobbyScreen();
+          }
           return PlayerSetupScreen(mode: mode);
         },
       ),
@@ -68,6 +74,19 @@ GoRouter createAppRouter({required AppError? startupError}) {
             return RouteErrorScreen(location: state.uri.toString());
           }
           return GameScreen(setup: extra);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.friendGame,
+        builder: (BuildContext context, GoRouterState state) {
+          final Object? extra = state.extra;
+          if (extra is! FriendGameLaunch) {
+            return RouteErrorScreen(location: state.uri.toString());
+          }
+          return GameScreen(
+            setup: extra.setup,
+            friendController: extra.controller,
+          );
         },
       ),
     ],

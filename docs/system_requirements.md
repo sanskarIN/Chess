@@ -14,7 +14,7 @@ observed on the current workstation on 2026-07-23.
 | Android SDK | API 36 installed | Current Flutter Android setup guidance |
 | Android minimum SDK | API 24 (Android 7.0) | Required by the selected `path_provider` 2.1.6 release |
 | Git | 2.40 or newer recommended | Source control and reproducible contribution workflow |
-| Node.js | Not required until Phase 6; use an active LTS line for the relay | Server runtime will be pinned with its lockfile |
+| Node.js | 24 or later, only for the optional friend relay | Server runtime and dependency graph are pinned |
 | npm | Bundled compatible version | Server dependency installation and checks |
 | Docker | Optional | Reproducible relay deployment and integration testing |
 

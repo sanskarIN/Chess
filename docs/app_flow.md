@@ -13,13 +13,14 @@ The home route is `/home`. Its current working actions are:
 
 1. Play vs Computer setup at `/play/computer`.
 2. Local Two-Player setup at `/play/local`.
-3. Friend Match information at `/play/friend`.
+3. Friend Match team-code lobby at `/play/friend`.
 4. Expanded mode selection at `/play`.
 
-Friend Match is explicitly marked experimental until Phase 6 supplies the
-versioned protocol, client, and temporary relay. Daily challenges, practice,
-saved games, history, and settings show an honest unavailable message rather
-than opening empty screens.
+Friend Match requires an explicitly configured optional relay. Its lobby creates
+or joins temporary four- or six-digit rooms, waits for both players, then passes
+the live session to `/friend-game`. Daily challenges, practice, saved games,
+history, and settings show an honest unavailable message rather than opening
+empty screens.
 
 Computer and local setup collect optional names, side assignment, time control,
 and mode-specific preferences. A valid setup is passed as typed route state to
