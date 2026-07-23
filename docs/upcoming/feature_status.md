@@ -15,8 +15,8 @@ The `Status` column uses only the master prompt's permitted classifications.
 | Privacy-safe structured logging | Implemented | Blocked | Redaction test authored; Dart/Flutter unavailable |
 | SQLite schema and lifecycle | Implemented | Blocked | v1 source and schema tests authored; device test unavailable |
 | Android host configuration | Implemented | Blocked | Text configuration exists; wrapper and Flutter SDK absent |
-| Complete chess rules | Not started | Not run | Phase 2 |
-| Perft validation | Not started | Not run | Phase 2 |
+| Complete chess rules | Tested | Passed | Dart verifier plus detailed Flutter test source |
+| Perft validation | Tested | Passed | Start d4; Kiwipete d3; rook/endgame d4 |
 | Playable board and game UI | Not started | Not run | Phase 3 |
 | Computer opponent and Stockfish | Not started | Not run | Phase 4 |
 | Local two-player | Not started | Not run | Phase 5 |

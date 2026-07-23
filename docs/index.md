@@ -7,6 +7,7 @@
 - [System requirements](system_requirements.md)
 - [Getting started](getting_started.md)
 - [Database migrations](database_migrations.md)
+- [Chess rules](chess_rules.md)
 - [Localization](localization.md)
 - [Logging](logging.md)
 

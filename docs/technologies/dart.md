@@ -9,5 +9,6 @@ matching, strict casts, strict inference, and strict raw-type checking. Domain
 code in Phase 2 will remain pure Dart so chess rules can run quickly in unit
 tests without Flutter UI dependencies.
 
-The authoring machine did not have `dart` on `PATH`; formatting and analysis
-remain blocked until the Flutter SDK is installed.
+Dart 3.12.2 stable was installed on 2026-07-23. It formatted, executed, and
+statically analyzed the complete pure-Dart chess domain. Flutter-dependent
+analysis remains blocked until the Flutter SDK is installed.

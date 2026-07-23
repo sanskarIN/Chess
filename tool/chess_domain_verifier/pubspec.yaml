@@ -1,0 +1,7 @@
+name: chess_master_domain_verifier
+description: Dependency-free executable verification for the pure Dart chess domain.
+publish_to: none
+version: 0.1.0
+
+environment:
+  sdk: ">=3.12.0 <4.0.0"

@@ -38,7 +38,7 @@ on an unsupported project-specific estimate.
 | --- | --- |
 | Operating system | Windows workspace |
 | Flutter | Not found on `PATH` or common local SDK paths |
-| Dart | Not found on `PATH` or common local SDK paths |
+| Dart | 3.12.2 stable installed through the official `Google.DartSDK` package |
 | Android Studio | Installed |
 | Android SDK | Present at `C:\Users\dell\AppData\Local\Android\Sdk` |
 | Installed Android platforms | API 36, 36.1, and 37.1 |

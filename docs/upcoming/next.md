@@ -1,28 +1,28 @@
 # Exact next work
 
-Phase 2 starts with:
+Phase 2 is complete and its required starting-position perft depth 4 passes.
+Phase 3 starts with:
 
 ```text
-lib/features/chess/domain/board/square.dart
+lib/features/splash/presentation/splash_screen.dart
 ```
 
-Before Phase 2 implementation, a toolchain-enabled environment must:
+Phase 3 implementation order:
 
-1. Install Flutter 3.44.7 stable and select JDK 17.
-2. Generate the Gradle wrapper and Flutter project metadata.
-3. Run `flutter pub get` and commit `pubspec.lock`.
-4. Run `flutter gen-l10n`.
-5. Run formatter, analyzer, foundation tests, and Android debug build.
-6. Fix every discovered foundation error and update the development manifest.
+1. branded splash and transition timing;
+2. optional onboarding flow;
+3. responsive home and game-mode selection;
+4. player setup with White, Black, and Random;
+5. accessible board rendering and square semantics;
+6. game controller connected only to the tested chess domain;
+7. captured pieces, move history, clocks, and result presentation;
+8. core widget and controller tests.
 
-Then implement pure-Dart chess value types in this order:
+Flutter 3.44.7 still needs to be installed before widget tests and the Android
+debug build can run. Pure-Dart domain changes must continue to pass:
 
-1. squares, files, ranks, colors, and piece types;
-2. immutable pieces, moves, castling rights, and game state;
-3. FEN parsing/serialization;
-4. pseudo-legal and legal move generation;
-5. checks, pins, special rules, and terminal results;
-6. position hashing/history, SAN, PGN, undo/redo;
-7. known perft and rule-specific tests.
-
-Do not begin the core game UI until the required perft positions pass.
+```text
+cd tool/chess_domain_verifier
+dart run bin/verify.dart
+dart analyze bin/verify.dart ../verify_chess_domain.dart ../../lib/features/chess/domain
+```

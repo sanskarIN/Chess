@@ -10,9 +10,9 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 1 foundation source has been created. It has not
-> yet been validated with Flutter on this machine because the Flutter and Dart
-> SDKs are not installed. Chess play is not available in this build yet. See
+> Development status: Phase 2 chess-domain source is implemented and passes its
+> pure-Dart verifier. Flutter is not installed, so the application shell and
+> Flutter test suite remain unbuilt. A playable board UI begins in Phase 3. See
 > [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
@@ -40,9 +40,9 @@ accessible multilingual interfaces.
 
 ## Technology baseline
 
-The source targets Flutter 3.44.7 and Dart 3.12.x. These are the current stable
-documentation baseline and compatible Dart line selected on 2026-07-23, not a
-claim that this workstation ran them. The available machine currently has:
+The source targets Flutter 3.44.7 and Dart 3.12.x. The standalone Dart 3.12.2
+SDK is now installed and has executed the chess verifier. The available machine
+currently has:
 
 - Android Studio and an Android SDK
 - Node.js 24.14.0
@@ -50,7 +50,8 @@ claim that this workstation ran them. The available machine currently has:
 - Git 2.55.0.windows.3
 - Java 8 on `PATH`, which is too old for this Android build; Android Studio's
   bundled OpenJDK 21 can compile the configured Java 17 target
-- no Flutter or standalone Dart command on `PATH`
+- Dart SDK 3.12.2 stable
+- no Flutter SDK
 
 Use the JDK bundled with a current Android Studio or install JDK 17.
 

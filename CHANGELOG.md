@@ -8,6 +8,14 @@ semantic versioning while the project remains pre-1.0.
 
 ### Added
 
+- Complete pure-Dart Phase 2 chess domain with legal move generation, all
+  standard special moves, FEN, SAN, PGN, perft, history, undo/redo, captures,
+  restoration, repetition, clocks, and terminal results.
+- Executable dependency-free chess verifier with passing standard perft depth 4,
+  Kiwipete depth 3, and rook/endgame depth 4 references.
+- Rule-specific unit tests for castling, en passant, promotion, pins, double
+  check, mate, stalemate, repetition, insufficient material, notation, and
+  saved-game restoration.
 - Phase 1 Flutter application shell with configurable Chess-Master branding.
 - Material 3 light and dark themes and typed navigation.
 - English localization template and generated-localization configuration.
