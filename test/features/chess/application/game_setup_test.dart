@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:chess_master/features/chess/application/game_setup.dart';
 import 'package:chess_master/features/chess/application/player_name_validator.dart';
 import 'package:chess_master/features/chess/domain/model/piece_color.dart';
+import 'package:chess_master/features/local_multiplayer/domain/local_match_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -39,6 +40,27 @@ void main() {
       expect(setup.whitePlayerName, 'Player 1');
       expect(setup.blackPlayerName, 'Player 2');
       expect(setup.rotateAfterMove, isTrue);
+      expect(setup.boardOrientation, LocalBoardOrientation.rotateAfterMove);
+      expect(setup.undoPolicy, LocalUndoPolicy.requireOpponentApproval);
+    });
+
+    test('supports fixed Black orientation and always-allow local undo', () {
+      final GameSetup setup = GameSetup.local(
+        playerOneName: 'Ada',
+        playerTwoName: 'Grace',
+        defaultPlayerOneName: 'Player 1',
+        defaultPlayerTwoName: 'Player 2',
+        playerOneSide: PlayerSideChoice.black,
+        timeControl: TimeControl.fiveMinutes,
+        boardOrientation: LocalBoardOrientation.blackAtBottom,
+        undoPolicy: LocalUndoPolicy.alwaysAllow,
+      );
+
+      expect(setup.whitePlayerName, 'Grace');
+      expect(setup.blackPlayerName, 'Ada');
+      expect(setup.boardOrientation, LocalBoardOrientation.blackAtBottom);
+      expect(setup.rotateAfterMove, isFalse);
+      expect(setup.undoPolicy, LocalUndoPolicy.alwaysAllow);
     });
 
     test('resolves random to exactly one playable color', () {

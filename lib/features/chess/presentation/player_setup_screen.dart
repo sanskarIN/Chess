@@ -5,6 +5,7 @@ import '../../../app/app_router.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/creator_watermark.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../local_multiplayer/domain/local_match_preferences.dart';
 import '../application/game_setup.dart';
 import '../application/player_name_validator.dart';
 
@@ -25,7 +26,8 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
   ComputerDifficulty _difficulty = ComputerDifficulty.beginner;
   TimeControl _timeControl = TimeControl.tenMinutes;
   bool _hintsEnabled = true;
-  bool _rotateAfterMove = false;
+  LocalBoardOrientation _boardOrientation = LocalBoardOrientation.whiteAtBottom;
+  LocalUndoPolicy _undoPolicy = LocalUndoPolicy.requireOpponentApproval;
 
   @override
   void initState() {
@@ -63,7 +65,8 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
         defaultPlayerTwoName: strings.playerTwo,
         playerOneSide: _sideChoice,
         timeControl: _timeControl,
-        rotateAfterMove: _rotateAfterMove,
+        boardOrientation: _boardOrientation,
+        undoPolicy: _undoPolicy,
       ),
       GameMode.friend => throw StateError(
         'Friend setup is provided by the multiplayer phase.',
@@ -250,18 +253,60 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                               title: Text(strings.allowHints),
                               subtitle: Text(strings.allowHintsDescription),
                             )
-                          else
-                            SwitchListTile(
-                              contentPadding: EdgeInsets.zero,
-                              value: _rotateAfterMove,
-                              onChanged: (bool value) {
-                                setState(() => _rotateAfterMove = value);
-                              },
-                              title: Text(strings.rotateBoardAfterMove),
-                              subtitle: Text(
-                                strings.rotateBoardAfterMoveDescription,
+                          else ...<Widget>[
+                            DropdownButtonFormField<LocalBoardOrientation>(
+                              initialValue: _boardOrientation,
+                              decoration: InputDecoration(
+                                labelText: strings.boardOrientation,
                               ),
+                              items: LocalBoardOrientation.values
+                                  .map(
+                                    (LocalBoardOrientation orientation) =>
+                                        DropdownMenuItem<LocalBoardOrientation>(
+                                          value: orientation,
+                                          child: Text(
+                                            _orientationLabel(
+                                              strings,
+                                              orientation,
+                                            ),
+                                          ),
+                                        ),
+                                  )
+                                  .toList(growable: false),
+                              onChanged: (LocalBoardOrientation? value) {
+                                if (value != null) {
+                                  setState(() => _boardOrientation = value);
+                                }
+                              },
                             ),
+                            const SizedBox(height: DesignTokens.space16),
+                            DropdownButtonFormField<LocalUndoPolicy>(
+                              initialValue: _undoPolicy,
+                              decoration: InputDecoration(
+                                labelText: strings.undoPolicy,
+                              ),
+                              items: LocalUndoPolicy.values
+                                  .map(
+                                    (LocalUndoPolicy policy) =>
+                                        DropdownMenuItem<LocalUndoPolicy>(
+                                          value: policy,
+                                          child: Text(
+                                            policy ==
+                                                    LocalUndoPolicy
+                                                        .requireOpponentApproval
+                                                ? strings.askOpponentForUndo
+                                                : strings.alwaysAllowUndo,
+                                          ),
+                                        ),
+                                  )
+                                  .toList(growable: false),
+                              onChanged: (LocalUndoPolicy? value) {
+                                if (value != null) {
+                                  setState(() => _undoPolicy = value);
+                                }
+                              },
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -305,6 +350,17 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
       ComputerDifficulty.intermediate => strings.intermediate,
       ComputerDifficulty.expert => strings.expert,
       ComputerDifficulty.grandmaster => strings.grandmaster,
+    };
+  }
+
+  String _orientationLabel(
+    AppLocalizations strings,
+    LocalBoardOrientation orientation,
+  ) {
+    return switch (orientation) {
+      LocalBoardOrientation.whiteAtBottom => strings.whiteAtBottom,
+      LocalBoardOrientation.blackAtBottom => strings.blackAtBottom,
+      LocalBoardOrientation.rotateAfterMove => strings.rotateBoardAfterMove,
     };
   }
 

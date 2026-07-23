@@ -56,11 +56,19 @@ final class ComputerOpponentController extends ChangeNotifier {
   }
 
   Future<void> synchronize() async {
-    if (_closed ||
-        !_started ||
-        _thinking ||
-        !isComputerTurn ||
-        _gameController.result != null) {
+    if (_closed || !_started) {
+      return;
+    }
+    if (_gameController.result != null) {
+      if (_thinking) {
+        _searchGeneration++;
+        _thinking = false;
+        await _engineService.cancelSearch();
+        _notifyIfOpen();
+      }
+      return;
+    }
+    if (_thinking || !isComputerTurn) {
       return;
     }
     final int generation = ++_searchGeneration;
@@ -86,11 +94,13 @@ final class ComputerOpponentController extends ChangeNotifier {
       }
       _gameController.playMove(engineMove.move);
     } on EngineFailure catch (failure) {
-      if (failure.code != EngineFailureCode.cancelled && !_closed) {
+      if (failure.code != EngineFailureCode.cancelled &&
+          !_closed &&
+          generation == _searchGeneration) {
         _failure = failure;
       }
     } on Object catch (error) {
-      if (!_closed) {
+      if (!_closed && generation == _searchGeneration) {
         _failure = EngineFailure(
           code: EngineFailureCode.crashed,
           message: 'The computer opponent stopped unexpectedly.',

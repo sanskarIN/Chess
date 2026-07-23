@@ -15,6 +15,7 @@
 - [Captured pieces](captured_pieces.md)
 - [Game modes](game_modes.md)
 - [Chess engine](chess_engine.md)
+- [Local multiplayer](local_multiplayer.md)
 - [Localization](localization.md)
 - [Logging](logging.md)
 

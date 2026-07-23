@@ -8,6 +8,15 @@ semantic versioning while the project remains pre-1.0.
 
 ### Added
 
+- Phase 5 fully offline local multiplayer coordinator with optional names,
+  same-device action approval, draw offers, resignation, and rematch.
+- Monotonic two-sided chess clock with common presets, per-move increment,
+  pause/resume, lifecycle handling, timeout adjudication, and history-aware
+  undo/redo restoration.
+- Fixed-White, fixed-Black, and automatic after-each-move board orientation.
+- Local setup controls for orientation and opponent-approved or always-allowed
+  undo policy.
+- Clock, timeout, approval, rotation, setup, and local game widget tests.
 - Phase 4 engine-neutral computer-player domain, serialized service lifecycle,
   typed health/failure states, cancellation, restart, and incremental analysis.
 - Isolate-backed legal local search with four documented difficulty presets,
@@ -55,6 +64,5 @@ semantic versioning while the project remains pre-1.0.
   so the debug APK build has not completed.
 - No distribution-verified Stockfish executable is bundled; the tested UCI
   adapter currently falls back to the built-in local search opponent.
-- Accurate clocks, friend relay, challenges/economy, training, settings,
-  complete locale set, legal package, and release QA remain in their prescribed
-  later phases.
+- Friend relay, challenges/economy, training, settings, complete locale set,
+  legal package, and release QA remain in their prescribed later phases.

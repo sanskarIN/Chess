@@ -256,6 +256,12 @@
   "hint": "Hint",
   "undo": "Undo",
   "redo": "Redo",
+  "undoPolicy": "Undo policy",
+  "askOpponentForUndo": "Ask the opponent",
+  "alwaysAllowUndo": "Always allow undo",
+  "boardOrientation": "Board orientation",
+  "whiteAtBottom": "White at bottom",
+  "blackAtBottom": "Black at bottom",
   "offerDraw": "Offer draw",
   "resign": "Resign",
   "pause": "Pause",
@@ -266,6 +272,44 @@
   "resignConfirmation": "Resign for the side whose turn it is? This ends the match.",
   "confirmResign": "Resign",
   "cancel": "Cancel",
+  "approve": "Approve",
+  "decline": "Decline",
+  "undoApprovalTitle": "Undo request",
+  "undoApprovalDescription": "{requester} requests an undo. {approver} must approve before the previous move and clock state are restored.",
+  "@undoApprovalDescription": {
+    "placeholders": {
+      "requester": {
+        "type": "String"
+      },
+      "approver": {
+        "type": "String"
+      }
+    }
+  },
+  "redoApprovalTitle": "Redo request",
+  "redoApprovalDescription": "{requester} requests a redo. {approver} must approve before the move and its clock state are restored.",
+  "@redoApprovalDescription": {
+    "placeholders": {
+      "requester": {
+        "type": "String"
+      },
+      "approver": {
+        "type": "String"
+      }
+    }
+  },
+  "drawApprovalTitle": "Draw offer",
+  "drawApprovalDescription": "{requester} offers a draw. {approver} can approve to end the match as a draw or decline to continue.",
+  "@drawApprovalDescription": {
+    "placeholders": {
+      "requester": {
+        "type": "String"
+      },
+      "approver": {
+        "type": "String"
+      }
+    }
+  },
   "gamePaused": "Game paused",
   "gamePausedDescription": "The board is hidden from interaction until play resumes.",
   "resume": "Resume",

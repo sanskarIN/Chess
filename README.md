@@ -10,11 +10,12 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 4 computer play is implemented. A legal,
-> isolate-backed local search opponent supports four difficulty presets while a
-> separately tested UCI adapter and Android ABI boundary are ready for a
-> distribution-verified Stockfish executable. No unverified native executable is
-> bundled. See [feature status](docs/upcoming/feature_status.md) and the
+> Development status: Phase 5 local multiplayer is implemented. Two people can
+> play fully offline with optional names, live monotonic clocks and increments,
+> timeout adjudication, fixed or rotating orientation, approval-controlled
+> undo/redo and draw offers, resignation, pause, and rematch. No unverified
+> native executable is bundled. See
+> [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
 ## Privacy principles
@@ -49,6 +50,12 @@ accessible multilingual interfaces.
 - Engine-neutral lifecycle API plus a tested UCI Stockfish process adapter.
 - Android ABI discovery and a strict source/checksum/load-test manifest gate for
   any future native Stockfish package.
+- Fully offline local two-player coordination with optional names and no server
+  or network dependency.
+- Monotonic two-sided clocks with increment, pause/resume, lifecycle pause,
+  timeout results, rematch reset, and clock-aware history restoration.
+- Fixed White, fixed Black, or automatic after-move orientation and explicit
+  opponent approval for undo, redo, and draw offers.
 
 ## Technology baseline
 
@@ -133,6 +140,7 @@ Flutter title when preparing a renamed distribution.
 - [Captured pieces](docs/captured_pieces.md)
 - [Game modes](docs/game_modes.md)
 - [Chess engine](docs/chess_engine.md)
+- [Local multiplayer](docs/local_multiplayer.md)
 - [Roadmap phases](docs/upcoming/phases.md)
 - [Exact next work](docs/upcoming/next.md)
 - [Technology notes](docs/technologies/README.md)

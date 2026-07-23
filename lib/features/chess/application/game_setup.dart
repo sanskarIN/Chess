@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import '../../local_multiplayer/domain/local_match_preferences.dart';
 import '../domain/model/piece_color.dart';
 
 enum GameMode { computer, local, friend }
@@ -87,6 +88,8 @@ final class GameSetup {
     required this.difficulty,
     required this.hintsEnabled,
     required this.rotateAfterMove,
+    required this.boardOrientation,
+    required this.undoPolicy,
   });
 
   factory GameSetup.computer({
@@ -112,6 +115,10 @@ final class GameSetup {
       difficulty: difficulty,
       hintsEnabled: hintsEnabled,
       rotateAfterMove: false,
+      boardOrientation: humanColor == PieceColor.black
+          ? LocalBoardOrientation.blackAtBottom
+          : LocalBoardOrientation.whiteAtBottom,
+      undoPolicy: LocalUndoPolicy.alwaysAllow,
     );
   }
 
@@ -122,7 +129,9 @@ final class GameSetup {
     required String defaultPlayerTwoName,
     required PlayerSideChoice playerOneSide,
     required TimeControl timeControl,
-    required bool rotateAfterMove,
+    bool rotateAfterMove = false,
+    LocalBoardOrientation? boardOrientation,
+    LocalUndoPolicy undoPolicy = LocalUndoPolicy.requireOpponentApproval,
     Random? random,
   }) {
     final PieceColor firstPlayerColor = resolveSide(
@@ -135,6 +144,11 @@ final class GameSetup {
     final String secondName = playerTwoName.trim().isEmpty
         ? defaultPlayerTwoName
         : playerTwoName.trim();
+    final LocalBoardOrientation resolvedOrientation =
+        boardOrientation ??
+        (rotateAfterMove
+            ? LocalBoardOrientation.rotateAfterMove
+            : LocalBoardOrientation.whiteAtBottom);
     return GameSetup(
       mode: GameMode.local,
       whitePlayerName: firstPlayerColor == PieceColor.white
@@ -147,7 +161,10 @@ final class GameSetup {
       timeControl: timeControl,
       difficulty: ComputerDifficulty.beginner,
       hintsEnabled: false,
-      rotateAfterMove: rotateAfterMove,
+      rotateAfterMove:
+          resolvedOrientation == LocalBoardOrientation.rotateAfterMove,
+      boardOrientation: resolvedOrientation,
+      undoPolicy: undoPolicy,
     );
   }
 
@@ -168,4 +185,6 @@ final class GameSetup {
   final ComputerDifficulty difficulty;
   final bool hintsEnabled;
   final bool rotateAfterMove;
+  final LocalBoardOrientation boardOrientation;
+  final LocalUndoPolicy undoPolicy;
 }

@@ -23,7 +23,7 @@ The `Status` column uses only the master prompt's permitted classifications.
 | Computer opponent | Tested | Passed | Four local-search levels, automatic turns, lock/thinking UI, cancellation, and retry |
 | Stockfish UCI adapter | Tested | Passed | Fake-process handshake, configuration, search, timeout, stop, crash, and restart |
 | Stockfish Android executable | Unavailable | Blocked | No distribution-verified ABI binary is declared or bundled |
-| Local two-player | Not started | Not run | Phase 5 |
+| Local two-player | Tested | Passed | Offline names, clocks, orientation, approvals, draw, resign, pause, and rematch |
 | Friend matches and relay server | Not started | Not run | Phase 6 |
 | Daily challenges, coins, and hints | Not started | Not run | Phase 7 |
 | Practice, tutorial, saves, and review | Not started | Not run | Phase 8 |

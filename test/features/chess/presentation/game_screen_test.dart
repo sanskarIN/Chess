@@ -1,5 +1,6 @@
 import 'package:chess_master/features/chess/application/game_setup.dart';
 import 'package:chess_master/features/chess/presentation/game_screen.dart';
+import 'package:chess_master/features/local_multiplayer/domain/local_match_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,6 +18,7 @@ void main() {
       playerOneSide: PlayerSideChoice.white,
       timeControl: TimeControl.none,
       rotateAfterMove: false,
+      undoPolicy: LocalUndoPolicy.alwaysAllow,
     );
 
     await tester.pumpWidget(localizedTestApp(GameScreen(setup: setup)));

@@ -170,6 +170,16 @@ final class ChessGameController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void declareTimeout(PieceColor timedOutColor) {
+    if (result != null) {
+      return;
+    }
+    _game.declareTimeout(timedOutColor);
+    _selectedSquare = null;
+    _resultAcknowledged = false;
+    notifyListeners();
+  }
+
   void acknowledgeResult() {
     _resultAcknowledged = true;
     notifyListeners();

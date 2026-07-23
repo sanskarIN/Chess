@@ -11,6 +11,7 @@ final class PlayerBanner extends StatelessWidget {
     required this.color,
     required this.isActive,
     required this.timeControl,
+    this.remaining,
     super.key,
   });
 
@@ -18,6 +19,7 @@ final class PlayerBanner extends StatelessWidget {
   final PieceColor color;
   final bool isActive;
   final TimeControl timeControl;
+  final Duration? remaining;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,11 @@ final class PlayerBanner extends StatelessWidget {
         ? strings.white
         : strings.black;
     final String timer = timeControl.hasClock
-        ? _formatDuration(timeControl.initialSeconds)
+        ? _formatDuration(
+            _displaySeconds(
+              remaining ?? Duration(seconds: timeControl.initialSeconds),
+            ),
+          )
         : strings.noClock;
     return Semantics(
       container: true,
@@ -119,5 +125,12 @@ final class PlayerBanner extends StatelessWidget {
     final int seconds = totalSeconds % 60;
     return '${minutes.toString().padLeft(2, '0')}:'
         '${seconds.toString().padLeft(2, '0')}';
+  }
+
+  int _displaySeconds(Duration value) {
+    if (value <= Duration.zero) {
+      return 0;
+    }
+    return (value.inMilliseconds + 999) ~/ 1000;
   }
 }

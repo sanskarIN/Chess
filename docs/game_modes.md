@@ -15,12 +15,17 @@ Stockfish.
 
 ## Local Two-Player
 
-The Phase 3 controller already supports two optional names, default localized
-names, side assignment, board flipping, optional rotation after a move,
-no-clock or preset clock display, legal play, undo/redo, draw agreement,
-resignation, rematch, review, and PGN copy. Accurate monotonic countdown clocks
-and local approval policy are implemented in Phase 5 before the entire mode is
-classified as tested.
+The local mode is fully offline and requires no server, account, or Internet
+connection. It supports optional names with localized defaults, White/Black/
+Random assignment, no-clock and common clock presets, increments, pause,
+timeout adjudication, fixed White, fixed Black, automatic rotation after each
+move, manual flip, and rematch.
+
+Undo and redo either happen immediately when `Always allow undo` was selected or
+show a named hand-off approval dialog for the other player. Draw offers always
+require the named opponent to approve. Resignation still requires confirmation
+from the side to move. Clock snapshots follow the move-history cursor, so an
+approved undo or redo restores both board and clock state consistently.
 
 ## Friend Match
 

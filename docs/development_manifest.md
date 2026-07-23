@@ -2,9 +2,9 @@
 
 ## Project identity
 
-- Version: `0.4.0+4`
-- Completed phase: 4 — Computer Opponent
-- Next phase: 5 — Local Multiplayer
+- Version: `0.5.0+5`
+- Completed phase: 5 — Local Multiplayer
+- Next phase: 6 — Friend Multiplayer
 - Updated: 2026-07-23
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
@@ -21,9 +21,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 1 foundation | `c10351b3b735b80dd7e3201d83c6feffbc673f91` | Published on `origin/main` |
 | Phase 2 chess domain | `498d41333ca6c9b227a86e7df506df815c2fff75` | Published on `origin/main` |
 | Phase 3 core UI | `1be99bd9ed4618285faaa34fffb8cd378746f0fe` | Published on `origin/main` |
+| Phase 4 computer opponent | `31717765384f61a8b1aa0b531992962af6670a95` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 4 is ready for its boundary commit
+directly without overwriting history. Phase 5 is ready for its boundary commit
 after this manifest update.
 
 ## Phase 1 completed source
@@ -95,6 +96,21 @@ after this manifest update.
   Stockfish 18 source/rebuild/GPL requirements
 - Domain, local-search, controller, UCI, process-adapter, and widget tests
 
+## Phase 5 completed source
+
+- Monotonic time-source boundary and two-sided clock domain
+- Initial time, per-move increment, active-side switching, zero clamping, and
+  timeout detection
+- Pause/resume and app-lifecycle pause without charging hidden time
+- Move-token clock history with undo, redo, alternate-branch, and rematch reset
+- Match clock coordinator covering both local and computer game screens
+- Local match controller with named requester/approver actions
+- Configurable always-allowed or opponent-approved undo and redo
+- Opponent-approved draw offers, resignation, pause, and rematch coordination
+- Fixed White, fixed Black, rotating, and manual board orientation
+- Live, accessible tabular clock display in both player banners
+- Clock, controller, setup, timeout, approval, orientation, and widget tests
+
 ## Toolchain evidence
 
 ```text
@@ -113,7 +129,7 @@ devices, and network resources. It reported:
 - Android license status unknown;
 - Flutter and Dart temporary SDK paths not added permanently to `PATH`.
 
-## Commands executed through Phase 4
+## Commands executed through Phase 5
 
 ```text
 flutter --version
@@ -130,13 +146,13 @@ dart run tool/verify_engine_manifest.dart
 ## Verification results
 
 ```text
-67 Flutter tests passed.
+79 Flutter tests passed.
 Flutter analysis: No issues found.
 Chess domain verification passed.
 Engine manifest valid; no native binary is declared or bundled.
 ```
 
-Executed coverage through Phase 4 includes:
+Executed coverage through Phase 5 includes:
 
 - splash, onboarding persistence, skip, and home transition;
 - malformed and invalid onboarding preference recovery;
@@ -153,6 +169,13 @@ Executed coverage through Phase 4 includes:
 - computer automatic White opening and post-search legal move application;
 - disabled board semantics and visible status while the computer is thinking;
 - engine source/checksum/ABI/declaration manifest validation.
+- monotonic clock consumption, increments, pause/resume, and zero clamping;
+- timeout result declaration and in-flight computer-search cancellation;
+- clock state restoration for undo, redo, and branched history;
+- named opponent approval and decline for undo, redo, and draw;
+- always-allow local undo policy;
+- fixed Black and automatic after-move board rotation;
+- local setup controls, live clock rendering, rematch, and resignation.
 
 Phase 2 perft remains:
 
@@ -168,7 +191,7 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 67 passed.
+- Flutter unit/widget tests: 79 passed.
 - Independent chess verifier: passed.
 - Native engine manifest verifier: passed with zero binaries declared.
 - Android resource compilation/linking: previously passed against API 36.
@@ -182,7 +205,6 @@ Phase 2 perft remains:
 
 - The Stockfish adapter is implemented and tested, but no distribution-verified
   native binary is bundled. Computer play uses the built-in local search.
-- Accurate monotonic local clocks and approval policy remain Phase 5.
 - Friend rooms, WebSocket protocol, and relay remain Phase 6.
 - Daily challenges, coins, and purchasable hints remain Phase 7.
 - Practice, tutorial, saves, and review mode remain Phase 8.
@@ -197,5 +219,5 @@ Phase 2 perft remains:
 ## Exact next file
 
 ```text
-lib/features/local_multiplayer/domain/game_clock.dart
+lib/features/friend_multiplayer/domain/team_code.dart
 ```
