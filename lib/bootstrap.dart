@@ -33,7 +33,7 @@ Future<void> bootstrap() async {
       AppError? startupError;
 
       try {
-        database = SqfliteAppDatabase(logger: logger);
+        database = SqfliteAppDatabase(appLogger: logger);
         await database.open();
       } on Object catch (error, stackTrace) {
         startupError = StorageError(
@@ -50,7 +50,7 @@ Future<void> bootstrap() async {
 
       runApp(
         ProviderScope(
-          overrides: <Override>[
+          overrides: [
             appConfigProvider.overrideWithValue(config),
             appDatabaseProvider.overrideWithValue(database),
             appLoggerProvider.overrideWithValue(logger),

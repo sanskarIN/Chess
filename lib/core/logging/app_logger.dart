@@ -20,9 +20,9 @@ enum LogLevel {
 final class AppLogger {
   AppLogger({
     DateTime Function()? clock,
-    void Function(LogRecord record)? sink,
+    void Function(LogRecord record)? recordWriter,
   }) : _clock = clock ?? DateTime.now,
-       _sink = sink;
+       _sink = recordWriter;
 
   static const Set<String> _sensitiveFieldNames = <String>{
     'authorization',

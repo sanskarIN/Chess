@@ -2,92 +2,131 @@
 
 ## Project identity
 
-- Version: `0.2.0+2`
-- Completed phase: 2 — Chess Domain
-- Next phase: 3 — Core UI
+- Version: `0.3.0+3`
+- Completed phase: 3 — Core UI
+- Next phase: 4 — Computer Opponent
 - Updated: 2026-07-23
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
 - Repository: <https://github.com/sanskarIN/Chess>
+- Active branch: `main`
+- Commit identity: `Sanskar <sanskarin@outlook.in>`
 
-## Published Phase 1 boundary
+## Published boundaries
 
 Phase 1 was committed and pushed before Phase 2 as requested.
 
-- Branch: `main`
-- Commit: `c10351b3b735b80dd7e3201d83c6feffbc673f91`
-- Commit author: `Sanskar <sanskarin@outlook.in>`
-- Remote verification: `origin/main` resolved to the same commit
-- Repository-local Git credential username: `Sanskar-in`
+| Boundary | Commit | Remote state |
+| --- | --- | --- |
+| Phase 1 foundation | `c10351b3b735b80dd7e3201d83c6feffbc673f91` | Published on `origin/main` |
+| Phase 2 chess domain | `498d41333ca6c9b227a86e7df506df815c2fff75` | Published on `origin/main` |
 
-The remote repository had no refs before this root commit, so `main` was
-initialized directly. No existing history was overwritten and no pull request
-was applicable.
+The target repository was empty before Phase 1, so `main` was initialized
+directly without overwriting history. Phase 3 is ready for its boundary commit
+after this manifest update.
 
 ## Phase 1 completed source
 
 - Flutter bootstrap and global error capture
 - Configurable application identity and version
 - Riverpod dependency injection
-- GoRouter root and error routes
+- GoRouter navigation and localized route errors
 - Material 3 light/dark themes
-- English ARB template and `gen-l10n` configuration
+- ARB localization architecture
 - Structured application errors and explicit result values
-- Structured logger with sensitive-field redaction
+- Redacting structured logger
 - SQLite v1 schema, constraints, indices, lifecycle, and atomic creation
-- Android Gradle configuration, manifest, network policy, backup exclusions,
-  adaptive icons, and light/dark launch resources
-- Foundation unit/widget test source
-- Initial architecture, setup, technology, and status documentation
-- Flutter analysis/test/Android build CI workflows
+- Privacy-safe Android manifest, network policy, backup exclusions, adaptive
+  icons, and launch resources
+- Initial unit/widget tests, CI, and documentation
 
 ## Phase 2 completed source
 
-- Canonical 64-square board coordinates
-- Piece colors, types, pieces, moves, and castling rights
-- Immutable position model and single state transition
-- Pseudo-legal and legal move generation
-- Attack and check detection
-- King-side and queen-side castling with all path restrictions
-- En passant with discovered-check rejection
-- Four promotion choices
-- Pins, double check, mate, and stalemate
-- Threefold repetition identity
-- Fifty-move and insufficient-material results
-- Draw agreement, resignation, and timeout results
-- Stable game/move IDs, captured pieces, position/move history
-- Undo, redo, alternate continuation, and validated restoration
-- Strict six-field FEN parsing and serialization
-- SAN encoding, decoding, disambiguation, check, and mate suffixes
-- PGN tag/movetext export and validated import
-- Perft traversal
-- Public `chess_domain.dart` API
-- Detailed rule and notation test source
-- Dependency-free executable verifier
+- Canonical board, piece, move, castling, and immutable position models
+- Legal generation, attack/check detection, castling, en passant, promotion,
+  pins, double check, mate, and stalemate
+- Threefold repetition, fifty-move rule, insufficient material, draw agreement,
+  resignation, and timeout
+- Stable game/move IDs, capture and position history, undo/redo, branching, and
+  validated restoration
+- FEN, SAN, PGN, perft, public domain barrel, detailed tests, and independent
+  dependency-free verifier
 
-## Commands executed for Phase 2
+## Phase 3 completed source
+
+- Original scalable code-drawn Chess-Master knight mark
+- Fast localized splash with reduced-motion handling and storage-degraded flow
+- Ten-page optional onboarding with back/next/skip/finish, persistent
+  `do not show again`, and corruption-safe preference reads
+- Responsive home dashboard and typed play-mode routes
+- Honest offline, online, experimental, and planned feature states
+- Computer and local player setup with optional names, safe validation,
+  White/Black/Random side selection, difficulty, clocks, hints, and rotation
+- Typed game setup and a `ChangeNotifier` application controller
+- Responsive portrait/landscape chessboard driven only by legal domain moves
+- Semantic square, piece, move, capture, last-move, selected, and check labels
+- Color-independent move dot and capture ring
+- Promotion picker for queen, rook, bishop, and knight
+- Player banners, displayed time controls, turn/check live status
+- Captured-by-White and captured-by-Black panels with optional material lead
+- SAN move history, undo, redo, draw agreement, resignation, pause surface,
+  board flip, settings/sound/hint status messaging, and permanent watermark
+- Match result dialog with reason, winner, duration, move/capture/hint counts,
+  rewards status, rematch, review, PGN copy, and home
+- Phase 3 UI, accessibility, flow, game-mode, splash, and capture documentation
+
+## Toolchain evidence
 
 ```text
-winget install --id Google.DartSDK -e --source winget
-dart --version
-dart format lib/features/chess/domain test/features/chess/domain tool
-cd tool/chess_domain_verifier
-dart pub get
-dart run bin/verify.dart
-dart analyze bin/verify.dart ../verify_chess_domain.dart ../../lib/features/chess/domain
+Flutter 3.44.7 • channel stable
+Framework revision 84fc5cbb22
+Engine revision 69c8c61792
+Dart 3.12.2
+DevTools 2.57.0
+Android SDK 36.1.0
 ```
 
-Installed toolchain:
+`flutter doctor -v` passed Flutter, Windows, Chrome, Visual Studio, connected
+devices, and network resources. It reported:
+
+- Android SDK command-line tools missing;
+- Android license status unknown;
+- Flutter and Dart temporary SDK paths not added permanently to `PATH`.
+
+## Commands executed for Phase 3
 
 ```text
-Dart SDK version: 3.12.2 (stable)
+flutter --version
+flutter doctor -v
+flutter pub get
+flutter gen-l10n
+dart format lib test tool
+flutter analyze --no-pub
+flutter test --no-pub
+dart run tool/chess_domain_verifier/bin/verify.dart
 ```
 
-## Tests completed
+## Verification results
 
-The executable verifier passed using the production domain source.
+```text
+57 Flutter tests passed.
+Flutter analysis: No issues found.
+Chess domain verification passed.
+```
 
-Perft results:
+Executed Phase 3 coverage includes:
+
+- splash, onboarding persistence, skip, and home transition;
+- malformed and invalid onboarding preference recovery;
+- optional and Unicode player names;
+- White, Black, and seeded Random assignment;
+- legal square selection and move delegation;
+- undo, redo, alternate continuation, captures, draw, resignation, and restart;
+- semantic piece, square, and legal-move labels;
+- game-screen move, SAN history, undo, and redo interaction;
+- complete match-result content and selected action.
+
+Phase 2 perft remains:
 
 | Position | Depth 1 | Depth 2 | Depth 3 | Depth 4 |
 | --- | ---: | ---: | ---: | ---: |
@@ -95,64 +134,38 @@ Perft results:
 | Kiwipete | 48 | 2,039 | 97,862 | Not run |
 | Rook/en-passant endgame | 14 | 191 | 2,812 | 43,238 |
 
-Additional executed checks:
-
-- castling availability
-- pinned en passant rejection
-- en passant state transition
-- queen/rook/bishop/knight promotion choices
-- threefold repetition
-- fifty-move rule
-- stalemate
-- insufficient material
-- checkmate PGN round-trip
-- timeout without mating material
-
-Static analysis result:
-
-```text
-No issues found!
-```
-
-The standalone formatter emitted expected warnings that the root
-`flutter_lints` package cannot resolve without Flutter. The domain analyzer
-itself completed with zero issues.
-
-## Authored Flutter tests pending execution
-
-- foundation unit/widget tests
-- square and FEN tests
-- standard start, Kiwipete, and endgame perft tests
-- castling, en passant, promotion, pin, and double-check tests
-- game result, history, capture, undo/redo, and restoration tests
-- SAN and PGN tests
-
 ## Build status
 
-The pure-Dart chess domain is formatted, analyzed, and executable.
-
-The Flutter application remains blocked from a full build by:
-
-- missing Flutter 3.44.7 SDK;
-- missing root `pubspec.lock`;
-- missing generated localization source;
-- missing Flutter-generated Gradle wrapper scripts/JAR and metadata.
-
-Android XML and resources previously parsed, compiled, and linked successfully
-against API 36 with minimum API 24 and target API 36.
+- Dependency resolution: passed; root `pubspec.lock` generated.
+- Localization generation: passed; English Dart output generated.
+- Dart formatting: passed.
+- Flutter static analysis: passed with zero issues.
+- Flutter unit/widget tests: 57 passed.
+- Independent chess verifier: passed.
+- Android resource compilation/linking: previously passed against API 36.
+- Android debug APK: attempted. Flutter generated the Gradle 9.1 wrapper and
+  selected Android Studio JDK 21. Gradle accepted the NDK license, then the
+  automatic NDK `28.2.13676358` install stalled with a zero-byte archive; no APK
+  was produced.
+- Release app bundle: not run; signing is intentionally not configured.
 
 ## Known limitations
 
-- No playable board UI exists yet; Phase 3 is next.
-- Flutter tests and Android APK build have not run.
-- No Stockfish binary/source is included.
-- No multiplayer relay is included.
-- Only English localization source exists.
-- The complete verbatim GPL text and final legal/license audit remain Phase 11.
-- Offline rewards and challenges do not exist yet.
+- The Stockfish adapter and native engine are not present; Phase 4 is next.
+- Accurate monotonic local clocks and approval policy remain Phase 5.
+- Friend rooms, WebSocket protocol, and relay remain Phase 6.
+- Daily challenges, coins, and purchasable hints remain Phase 7.
+- Practice, tutorial, saves, and review mode remain Phase 8.
+- Settings/developer options remain Phase 9.
+- Only English is generated; all 33 locale packs remain Phase 10.
+- Complete legal files, notices, and final documentation remain Phase 11.
+- Android command-line tools and a complete NDK installation are required
+  before repeating the debug APK build.
+- Android, device accessibility, performance, integration, and release checks
+  remain Phase 12.
 
 ## Exact next file
 
 ```text
-lib/features/splash/presentation/splash_screen.dart
+lib/features/computer_player/domain/chess_engine.dart
 ```

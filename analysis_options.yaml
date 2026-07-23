@@ -7,6 +7,10 @@ analyzer:
     strict-raw-types: true
   exclude:
     - build/**
+    # This script is also consumed from a dependency-free nested Dart package,
+    # so it intentionally uses relative imports into the pure-Dart domain.
+    - tool/verify_chess_domain.dart
+    - tool/chess_domain_verifier/**
 
 linter:
   rules:

@@ -4,4 +4,10 @@ abstract interface class AppDatabase {
 
   Future<void> open();
   Future<void> close();
+  Future<String?> readSetting(String key);
+  Future<void> writeSetting({
+    required String key,
+    required String valueJson,
+    required String valueType,
+  });
 }

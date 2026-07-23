@@ -6,7 +6,7 @@ void main() {
     final List<LogRecord> records = <LogRecord>[];
     final AppLogger logger = AppLogger(
       clock: () => DateTime.utc(2026, 7, 23),
-      sink: records.add,
+      recordWriter: records.add,
     );
 
     logger.info(

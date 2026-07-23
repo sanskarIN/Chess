@@ -8,6 +8,12 @@
 - [Getting started](getting_started.md)
 - [Database migrations](database_migrations.md)
 - [Chess rules](chess_rules.md)
+- [Application flow](app_flow.md)
+- [UI and UX](ui_ux.md)
+- [Accessibility](accessibility.md)
+- [Splash screen](splash_screen.md)
+- [Captured pieces](captured_pieces.md)
+- [Game modes](game_modes.md)
 - [Localization](localization.md)
 - [Logging](logging.md)
 

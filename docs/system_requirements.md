@@ -37,10 +37,10 @@ on an unsupported project-specific estimate.
 | Component | Observed result |
 | --- | --- |
 | Operating system | Windows workspace |
-| Flutter | Not found on `PATH` or common local SDK paths |
+| Flutter | 3.44.7 stable at `C:\tmp\flutter-sdk`; not added permanently to `PATH` |
 | Dart | 3.12.2 stable installed through the official `Google.DartSDK` package |
 | Android Studio | Installed |
-| Android SDK | Present at `C:\Users\dell\AppData\Local\Android\Sdk` |
+| Android SDK | 36.1 at `C:\Users\dell\AppData\Local\Android\sdk`; command-line tools missing and license status unknown |
 | Installed Android platforms | API 36, 36.1, and 37.1 |
 | Java on `PATH` | 1.8.0_501; unsuitable for this build |
 | Android Studio JBR | OpenJDK 21.0.10; suitable for compiling the Java 17 target |
@@ -48,8 +48,9 @@ on an unsupported project-specific estimate.
 | npm | 11.18.0 |
 | Git | 2.55.0.windows.3 |
 
-These observations are not a project compatibility certification. Run
-`flutter doctor -v` after installing Flutter and selecting JDK 17.
+`flutter doctor -v` passes the Flutter, Windows, Chrome, Visual Studio, connected
+device, and network checks. It reports Android command-line tools and license
+acceptance as unresolved.
 
 ## End-user baseline
 

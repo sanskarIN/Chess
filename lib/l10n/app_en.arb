@@ -2,54 +2,305 @@
   "@@locale": "en",
   "appTitle": "Chess-Master",
   "@appTitle": {
-    "description": "Default application title. The displayed application name can be overridden at build time."
+    "description": "Default application title. The displayed name can be overridden at build time."
   },
   "openSourceTagline": "Open-source chess game",
-  "@openSourceTagline": {
-    "description": "Short product tagline shown near the project identity."
-  },
   "creatorWatermark": "Made by the Sanskar",
-  "@creatorWatermark": {
-    "description": "Permanent creator watermark."
-  },
-  "foundationTitle": "Foundation ready",
-  "@foundationTitle": {
-    "description": "Heading on the temporary Phase 1 status screen."
-  },
-  "foundationDescription": "The application shell, routing, theming, localization, structured errors, logging, and local database foundation are connected.",
-  "@foundationDescription": {
-    "description": "Explanation on the temporary Phase 1 status screen."
-  },
-  "foundationDatabaseReady": "Local database ready",
-  "@foundationDatabaseReady": {
-    "description": "Status when local storage initialized successfully."
-  },
   "errorDatabaseUnavailable": "Local storage could not be opened. Restart the app. If the problem continues, export diagnostics before clearing app data.",
-  "@errorDatabaseUnavailable": {
-    "description": "User-facing recovery guidance when the local database cannot be opened."
-  },
   "diagnosticCode": "Diagnostic code: {code}",
   "@diagnosticCode": {
-    "description": "Displays a non-sensitive error identifier.",
     "placeholders": {
       "code": {
-        "type": "String",
-        "example": "database_initialization_failed"
+        "type": "String"
       }
     }
   },
   "routeNotFoundTitle": "Page not found",
-  "@routeNotFoundTitle": {
-    "description": "Title for an unknown application route."
-  },
   "routeNotFoundDescription": "The page “{location}” is not available in this build.",
   "@routeNotFoundDescription": {
-    "description": "Message for an unknown application route.",
     "placeholders": {
       "location": {
-        "type": "String",
-        "example": "/missing"
+        "type": "String"
       }
     }
-  }
+  },
+  "splashStorageWarning": "Local storage is unavailable. You can continue with temporary game data, but progress will not be saved.",
+  "continueWithoutSaving": "Continue without saving",
+  "onboardingTitle": "Welcome",
+  "onboardingWelcomeTitle": "Welcome to Chess-Master",
+  "onboardingWelcomeBody": "A complete, privacy-respecting chess experience designed for learning, practice, and play.",
+  "onboardingComputerTitle": "Play offline against the computer",
+  "onboardingComputerBody": "Choose your side, difficulty, time control, board style, and hint preference. Computer games work without an account.",
+  "onboardingLocalTitle": "Share one board",
+  "onboardingLocalBody": "Play face to face on the same device with optional names, clocks, board rotation, draw offers, and rematches.",
+  "onboardingFriendTitle": "Optional online friend matches",
+  "onboardingFriendBody": "Team-code games use a temporary relay connection while a room is active. The relay does not permanently store match history, and it can be self-hosted.",
+  "onboardingChallengesTitle": "A fresh local challenge every day",
+  "onboardingChallengesBody": "Daily activities are generated from your device date and remain available offline. Changing open-source local data or the device clock cannot be prevented.",
+  "onboardingRewardsTitle": "Earn coins and hints",
+  "onboardingRewardsBody": "Complete eligible activities to earn local rewards. Every balance change is recorded so a reward can be granted only once.",
+  "onboardingLanguagesTitle": "Choose from 33 language options",
+  "onboardingLanguagesBody": "The interface is structured for English and 32 Indian language locales, including right-to-left layout where required. Community review status is shown honestly.",
+  "onboardingPrivacyTitle": "Your durable data stays on your device",
+  "onboardingPrivacyBody": "No registration, advertising identifier, behavioral tracking, location, contacts, camera, or microphone access is required.",
+  "onboardingOpenSourceTitle": "Open source by design",
+  "onboardingOpenSourceBody": "Read the code, inspect technology choices, report issues, improve translations, and self-host the optional friend-match relay.",
+  "onboardingReadyTitle": "Ready for your first move?",
+  "onboardingReadyBody": "You can reopen onboarding later from Settings. No account or real name is needed to start.",
+  "pageOfTotal": "Page {position} of {total}",
+  "@pageOfTotal": {
+    "placeholders": {
+      "position": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "skip": "Skip",
+  "back": "Back",
+  "next": "Next",
+  "startPlaying": "Start playing",
+  "doNotShowOnboardingAgain": "Do not show onboarding at startup again",
+  "settings": "Settings",
+  "welcomeTo": "Welcome to {displayName}",
+  "@welcomeTo": {
+    "placeholders": {
+      "displayName": {
+        "type": "String"
+      }
+    }
+  },
+  "homePrivacyPromise": "Play offline with no account. Durable game data stays on this device.",
+  "chooseHowToPlay": "Choose how to play",
+  "playComputer": "Play vs Computer",
+  "playComputerDescription": "Choose a side, difficulty, clock, and optional hints.",
+  "localTwoPlayer": "Local Two-Player",
+  "localTwoPlayerDescription": "Play together offline on the same Android device.",
+  "friendMatch": "Play with Friend",
+  "friendMatchDescription": "Use a temporary four- or six-digit team-code room.",
+  "friendMatchPrivacyDescription": "Online-only. A temporary relay processes session messages while the room is active and stores no permanent match history.",
+  "offline": "Offline",
+  "onlineExperimental": "Online · Experimental",
+  "viewAllPlayModes": "View all play modes",
+  "explore": "Explore",
+  "dailyChallenges": "Daily challenges",
+  "practice": "Practice",
+  "savedGames": "Saved games",
+  "matchHistory": "Match history",
+  "featurePlannedMessage": "This feature is planned for a later implementation phase and is not available in this build yet.",
+  "playModeTitle": "Play",
+  "playModeHeading": "Select a game mode",
+  "playModeDescription": "Offline modes never require a network connection. Friend matches are clearly marked as online.",
+  "experimental": "Experimental",
+  "computerSetupTitle": "Computer match setup",
+  "computerSetupHeading": "Configure your computer match",
+  "localSetupTitle": "Local match setup",
+  "localSetupHeading": "Configure an offline two-player match",
+  "playerNamePrivacy": "Names are optional, stored locally when remembered, and never need to be real names.",
+  "players": "Players",
+  "yourNameOptional": "Your name (optional)",
+  "playerOneNameOptional": "Player 1 name (optional)",
+  "playerTwoNameOptional": "Player 2 name (optional)",
+  "you": "You",
+  "computer": "Computer",
+  "playerOne": "Player 1",
+  "playerTwo": "Player 2",
+  "playerNameTooLong": "Use no more than {maxLength} characters.",
+  "@playerNameTooLong": {
+    "placeholders": {
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "playerNameControlCharacter": "Control characters are not allowed in player names.",
+  "playAs": "Play as",
+  "playerOnePlaysAs": "Player 1 plays as",
+  "white": "White",
+  "black": "Black",
+  "random": "Random",
+  "difficulty": "Difficulty",
+  "computerDifficulty": "Computer difficulty",
+  "beginner": "Beginner",
+  "intermediate": "Intermediate",
+  "expert": "Expert",
+  "grandmaster": "Grandmaster",
+  "timeControl": "Time control",
+  "noClock": "No clock",
+  "gamePreferences": "Game preferences",
+  "allowHints": "Allow hints",
+  "allowHintsDescription": "Hints will be available when the local reward economy is enabled.",
+  "rotateBoardAfterMove": "Rotate board after each move",
+  "rotateBoardAfterMoveDescription": "Keeps the side to move nearest to the current player.",
+  "skipNames": "Skip names",
+  "startGame": "Start game",
+  "friendMatchExperimentalTitle": "Friend-match networking is not enabled yet",
+  "friendMatchExperimentalBody": "This screen is present for honest feature discovery. Team-code creation, joining, synchronization, and the self-hostable relay are implemented in the friend-multiplayer phase before this mode is marked available.",
+  "backToModes": "Back to modes",
+  "gameTitle": "Match",
+  "matchResult": "Match result",
+  "colorToMove": "{color} to move",
+  "@colorToMove": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "colorInCheck": "{color} to move · in check",
+  "@colorInCheck": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "chessBoard": "Chessboard",
+  "squareEmpty": "{coordinate}, empty",
+  "@squareEmpty": {
+    "placeholders": {
+      "coordinate": {
+        "type": "String"
+      }
+    }
+  },
+  "pieceOnSquare": "{piece} on {coordinate}",
+  "@pieceOnSquare": {
+    "placeholders": {
+      "piece": {
+        "type": "String"
+      },
+      "coordinate": {
+        "type": "String"
+      }
+    }
+  },
+  "squareWithState": "{occupant}, {state}",
+  "@squareWithState": {
+    "placeholders": {
+      "occupant": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "selectedSquare": "selected square",
+  "legalMove": "legal move",
+  "legalCapture": "legal capture",
+  "lastMove": "last move",
+  "inCheck": "in check",
+  "coloredPiece": "{color} {piece}",
+  "@coloredPiece": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      },
+      "piece": {
+        "type": "String"
+      }
+    }
+  },
+  "pawn": "pawn",
+  "knight": "knight",
+  "bishop": "bishop",
+  "rook": "rook",
+  "queen": "queen",
+  "king": "king",
+  "choosePromotionPiece": "Choose a promotion piece",
+  "capturedPieces": "Captured pieces",
+  "capturedBy": "Captured by {color}",
+  "@capturedBy": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "none": "None",
+  "moveHistory": "Move history",
+  "moveCount": "{count} moves",
+  "@moveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noMovesYet": "No moves yet. Select a piece to begin.",
+  "playerBannerSemantics": "{name}, {color}, timer {timer}, {status}",
+  "@playerBannerSemantics": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      },
+      "timer": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "activeTurn": "active turn",
+  "waitingTurn": "waiting",
+  "toMove": "To move",
+  "gameControls": "Game controls",
+  "hint": "Hint",
+  "undo": "Undo",
+  "redo": "Redo",
+  "offerDraw": "Offer draw",
+  "resign": "Resign",
+  "pause": "Pause",
+  "flipBoard": "Flip board",
+  "sound": "Sound",
+  "drawConfirmation": "For this local game, confirmation means both players agree to a draw. End the match as a draw?",
+  "confirmDraw": "Agree to draw",
+  "resignConfirmation": "Resign for the side whose turn it is? This ends the match.",
+  "confirmResign": "Resign",
+  "cancel": "Cancel",
+  "gamePaused": "Game paused",
+  "gamePausedDescription": "The board is hidden from interaction until play resumes.",
+  "resume": "Resume",
+  "hintsArriveInEconomyPhase": "The hint service and no-charge failure handling are enabled in the challenges and economy phase.",
+  "settingsShortcutMessage": "In-match settings are enabled in the settings phase.",
+  "soundShortcutMessage": "Sound controls are enabled with the original audio asset pack.",
+  "pgnCopied": "PGN copied to the clipboard.",
+  "gameDrawn": "Game drawn",
+  "gameWonBy": "{color} wins",
+  "@gameWonBy": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "result": "Result",
+  "duration": "Duration",
+  "moves": "Moves",
+  "captures": "Captures",
+  "hintsUsed": "Hints used",
+  "coinReward": "Coin reward",
+  "challengeProgress": "Challenge progress",
+  "noRewardThisMode": "No reward",
+  "notApplicable": "Not applicable",
+  "reviewGame": "Review game",
+  "copyPgn": "Copy PGN",
+  "returnHome": "Return home",
+  "rematch": "Rematch",
+  "resultCheckmate": "Checkmate",
+  "resultStalemate": "Draw by stalemate",
+  "resultThreefoldRepetition": "Draw by threefold repetition",
+  "resultFiftyMoveRule": "Draw by the fifty-move rule",
+  "resultInsufficientMaterial": "Draw by insufficient material",
+  "resultDrawAgreement": "Draw by agreement",
+  "resultResignation": "Win by resignation",
+  "resultTimeout": "Result by timeout",
+  "resultAdjudication": "Result by adjudication"
 }

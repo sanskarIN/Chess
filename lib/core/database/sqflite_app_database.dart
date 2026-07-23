@@ -6,7 +6,7 @@ import 'app_database.dart';
 import 'database_schema.dart';
 
 final class SqfliteAppDatabase implements AppDatabase {
-  SqfliteAppDatabase({required AppLogger logger}) : _logger = logger;
+  SqfliteAppDatabase({required AppLogger appLogger}) : _logger = appLogger;
 
   final AppLogger _logger;
   Database? _database;
@@ -53,17 +53,15 @@ final class SqfliteAppDatabase implements AppDatabase {
       },
       onUpgrade: (Database database, int oldVersion, int newVersion) async {
         await database.transaction((Transaction transaction) async {
-          for (final String statement
-              in DatabaseSchema.statementsForUpgrade(oldVersion, newVersion)) {
+          for (final String statement in DatabaseSchema.statementsForUpgrade(
+            oldVersion,
+            newVersion,
+          )) {
             await transaction.execute(statement);
           }
         });
       },
-      onDowngrade: (
-        Database database,
-        int oldVersion,
-        int newVersion,
-      ) async {
+      onDowngrade: (Database database, int oldVersion, int newVersion) async {
         throw UnsupportedError(
           'Database downgrade from $oldVersion to $newVersion is not supported.',
         );
@@ -72,7 +70,8 @@ final class SqfliteAppDatabase implements AppDatabase {
         final List<Map<String, Object?>> check = await database.rawQuery(
           'PRAGMA quick_check',
         );
-        final Object? result = check.length == 1 && check.first.values.length == 1
+        final Object? result =
+            check.length == 1 && check.first.values.length == 1
             ? check.first.values.first
             : null;
         if (result != 'ok') {
@@ -97,5 +96,44 @@ final class SqfliteAppDatabase implements AppDatabase {
 
     await database.close();
     _logger.info('database.closed');
+  }
+
+  @override
+  Future<String?> readSetting(String key) async {
+    final Database database = _requireOpenDatabase();
+    final List<Map<String, Object?>> rows = await database.query(
+      'app_settings',
+      columns: const <String>['value_json'],
+      where: 'setting_key = ?',
+      whereArgs: <Object?>[key],
+      limit: 1,
+    );
+    if (rows.isEmpty) {
+      return null;
+    }
+    return rows.single['value_json'] as String?;
+  }
+
+  @override
+  Future<void> writeSetting({
+    required String key,
+    required String valueJson,
+    required String valueType,
+  }) async {
+    final Database database = _requireOpenDatabase();
+    await database.insert('app_settings', <String, Object?>{
+      'setting_key': key,
+      'value_json': valueJson,
+      'value_type': valueType,
+      'updated_at': DateTime.now().toUtc().millisecondsSinceEpoch,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Database _requireOpenDatabase() {
+    final Database? database = _database;
+    if (database == null || !database.isOpen) {
+      throw StateError('The application database is not open.');
+    }
+    return database;
   }
 }

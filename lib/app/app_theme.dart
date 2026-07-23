@@ -5,15 +5,11 @@ abstract final class AppTheme {
   static const Color _lightSurface = Color(0xFFF8F4E8);
   static const Color _darkSurface = Color(0xFF121714);
 
-  static ThemeData light() => _theme(
-    brightness: Brightness.light,
-    surface: _lightSurface,
-  );
+  static ThemeData light() =>
+      _theme(brightness: Brightness.light, surface: _lightSurface);
 
-  static ThemeData dark() => _theme(
-    brightness: Brightness.dark,
-    surface: _darkSurface,
-  );
+  static ThemeData dark() =>
+      _theme(brightness: Brightness.dark, surface: _darkSurface);
 
   static ThemeData _theme({
     required Brightness brightness,
@@ -31,6 +27,11 @@ abstract final class AppTheme {
       colorScheme: colors,
       scaffoldBackgroundColor: colors.surface,
       visualDensity: VisualDensity.standard,
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+        },
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: colors.surface,
         foregroundColor: colors.onSurface,
@@ -47,9 +48,7 @@ abstract final class AppTheme {
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -58,6 +57,21 @@ abstract final class AppTheme {
             borderRadius: BorderRadius.circular(14),
           ),
         ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(48, 48),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      ),
+      tooltipTheme: const TooltipThemeData(
+        waitDuration: Duration(milliseconds: 450),
       ),
     );
   }
