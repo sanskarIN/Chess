@@ -1,29 +1,27 @@
 # Exact next work
 
-Phase 7 is complete with 108 passing Flutter tests, including real SQLite
-creation/migration/concurrency coverage, zero Flutter analyzer issues, 7 passing
-relay-server tests, a passing TypeScript type check, zero reported production
-npm vulnerabilities, a passing independent chess-domain verifier, and a passing
-native-engine manifest verification.
+Phase 8 is complete with offline tutorial, practice, puzzles, guide, feature
+catalog, saved games, strict FEN/PGN import, and review mode. The Flutter suite,
+real SQLite tests, puzzle verifier, analyzer, chess verifier, engine-manifest
+verifier, relay tests, type check, and dependency audit are rerun at the phase
+boundary.
 
-Phase 8 starts with:
+Phase 9 starts with:
 
 ```text
-lib/features/practice/domain/practice_exercise.dart
+lib/features/settings/domain/app_settings.dart
 ```
 
-Phase 8 implementation order:
+Phase 9 implementation order:
 
-1. versioned tutorial lessons and durable local completion/reward state;
-2. free board and legal piece-movement exercises;
-3. bundled, attributable mate-in-one, mate-in-two, and tactical puzzle library;
-4. opening-position and endgame practice plus validated custom FEN loading;
-5. in-app guide and factual features catalog;
-6. atomic save, resume, rename, delete, PGN export, FEN copy, and validated
-   FEN/PGN import;
-7. completed-game review with move stepping and optional local engine analysis;
-8. tutorial, practice, puzzle, saved-game, import, and review widget/domain tests;
-9. substantive guide, practice, puzzle-source, save-format, and review docs.
+1. typed settings model and grouped local persistence;
+2. appearance, gameplay, sound, accessibility, language, privacy, and data UI;
+3. deliberate developer-options unlock and warning;
+4. diagnostics, FEN editor, locale tester, economy and challenge tools;
+5. multiplayer relay diagnostics and safe log export;
+6. data view, export, import preview, selective reset, and delete-all controls;
+7. settings, migration, validation, destructive-confirmation, and widget tests;
+8. substantive settings, developer, diagnostics, and data-format documentation.
 
 Before the Android debug build can complete, install Android SDK command-line
 tools and repair the incomplete NDK `28.2.13676358` installation. Accept any

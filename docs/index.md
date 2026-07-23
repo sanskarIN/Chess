@@ -20,6 +20,9 @@
 - [Daily challenges](daily_challenges.md)
 - [Local reward economy](reward_economy.md)
 - [Chess hints](hints.md)
+- [Practice and tutorial](practice_and_tutorial.md)
+- [Puzzle catalog](puzzle_catalog.md)
+- [Saved games and review](saved_games_and_review.md)
 - [Localization](localization.md)
 - [Logging](logging.md)
 

@@ -1,0 +1,6 @@
+{
+  "formatVersion": 1,
+  "implementation": "lib/features/challenges/data/deterministic_challenge_generator.dart",
+  "description": "Daily definitions are generated deterministically in Dart so eligibility can remain synchronized with implemented game events.",
+  "contentLicense": "CC0-1.0"
+}

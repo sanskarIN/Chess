@@ -26,7 +26,7 @@ The `Status` column uses only the master prompt's permitted classifications.
 | Local two-player | Tested | Passed | Offline names, clocks, orientation, approvals, draw, resign, pause, and rematch |
 | Friend matches and relay server | Tested | Passed | 92-test Flutter suite and 7-test Node relay suite; Docker image build not run because Docker is unavailable |
 | Daily challenges, coins, and hints | Tested | Passed | Deterministic generation, real SQLite migration/transactions, concurrent claim, no-charge failure, game hooks, and widgets in 108-test suite |
-| Practice, tutorial, saves, and review | Not started | Not run | Phase 8 |
+| Practice, tutorial, saves, and review | Tested | Passed | Legal catalog replay, first-only rewards, SQLite v3 persistence/import, review stepping, and widget coverage |
 | Complete settings and developer options | Not started | Not run | Phase 9 |
 | 33 locale options | Not started | Not run | Phase 10 |
 | Complete legal and open-source package | Not started | Not run | Phase 11 |

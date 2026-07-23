@@ -35,6 +35,14 @@ abstract interface class ChallengeRepository {
 
   Future<LedgerIntegrityReport> verifyLedgerIntegrity();
 
+  Future<RewardWallet> grantEarnedReward({
+    required RewardTransactionType type,
+    required String source,
+    required int coins,
+    required int hints,
+    required DateTime now,
+  });
+
   Future<ChallengeDashboard> resetDate({
     required LocalDate date,
     required List<DailyChallenge> definitions,

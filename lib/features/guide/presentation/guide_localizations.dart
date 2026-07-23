@@ -1,0 +1,66 @@
+import '../../../l10n/app_localizations.dart';
+import '../domain/guide_topic.dart';
+
+String guideTopicTitle(AppLocalizations strings, GuideTopicId id) {
+  return switch (id) {
+    GuideTopicId.howChessWorks => strings.guideHowChessWorksTitle,
+    GuideTopicId.pieces => strings.guidePiecesTitle,
+    GuideTopicId.check => strings.guideCheckTitle,
+    GuideTopicId.checkmate => strings.guideCheckmateTitle,
+    GuideTopicId.stalemate => strings.guideStalemateTitle,
+    GuideTopicId.castling => strings.guideCastlingTitle,
+    GuideTopicId.enPassant => strings.guideEnPassantTitle,
+    GuideTopicId.promotion => strings.guidePromotionTitle,
+    GuideTopicId.draws => strings.guideDrawsTitle,
+    GuideTopicId.timeControls => strings.guideTimeControlsTitle,
+    GuideTopicId.computer => strings.guideComputerTitle,
+    GuideTopicId.difficulty => strings.guideDifficultyTitle,
+    GuideTopicId.local => strings.guideLocalTitle,
+    GuideTopicId.friend => strings.guideFriendTitle,
+    GuideTopicId.teamCodes => strings.guideTeamCodesTitle,
+    GuideTopicId.daily => strings.guideDailyTitle,
+    GuideTopicId.coins => strings.guideCoinsTitle,
+    GuideTopicId.hints => strings.guideHintsTitle,
+    GuideTopicId.saved => strings.guideSavedTitle,
+    GuideTopicId.importExport => strings.guideImportExportTitle,
+    GuideTopicId.accessibility => strings.guideAccessibilityTitle,
+    GuideTopicId.settings => strings.guideSettingsTitle,
+    GuideTopicId.developer => strings.guideDeveloperTitle,
+    GuideTopicId.privacy => strings.guidePrivacyTitle,
+    GuideTopicId.openSource => strings.guideOpenSourceTitle,
+    GuideTopicId.troubleshooting => strings.guideTroubleshootingTitle,
+    GuideTopicId.upcoming => strings.guideUpcomingTitle,
+  };
+}
+
+String guideTopicBody(AppLocalizations strings, GuideTopicId id) {
+  return switch (id) {
+    GuideTopicId.howChessWorks => strings.guideHowChessWorksBody,
+    GuideTopicId.pieces => strings.guidePiecesBody,
+    GuideTopicId.check => strings.guideCheckBody,
+    GuideTopicId.checkmate => strings.guideCheckmateBody,
+    GuideTopicId.stalemate => strings.guideStalemateBody,
+    GuideTopicId.castling => strings.guideCastlingBody,
+    GuideTopicId.enPassant => strings.guideEnPassantBody,
+    GuideTopicId.promotion => strings.guidePromotionBody,
+    GuideTopicId.draws => strings.guideDrawsBody,
+    GuideTopicId.timeControls => strings.guideTimeControlsBody,
+    GuideTopicId.computer => strings.guideComputerBody,
+    GuideTopicId.difficulty => strings.guideDifficultyBody,
+    GuideTopicId.local => strings.guideLocalBody,
+    GuideTopicId.friend => strings.guideFriendBody,
+    GuideTopicId.teamCodes => strings.guideTeamCodesBody,
+    GuideTopicId.daily => strings.guideDailyBody,
+    GuideTopicId.coins => strings.guideCoinsBody,
+    GuideTopicId.hints => strings.guideHintsBody,
+    GuideTopicId.saved => strings.guideSavedBody,
+    GuideTopicId.importExport => strings.guideImportExportBody,
+    GuideTopicId.accessibility => strings.guideAccessibilityBody,
+    GuideTopicId.settings => strings.guideSettingsBody,
+    GuideTopicId.developer => strings.guideDeveloperBody,
+    GuideTopicId.privacy => strings.guidePrivacyBody,
+    GuideTopicId.openSource => strings.guideOpenSourceBody,
+    GuideTopicId.troubleshooting => strings.guideTroubleshootingBody,
+    GuideTopicId.upcoming => strings.guideUpcomingBody,
+  };
+}

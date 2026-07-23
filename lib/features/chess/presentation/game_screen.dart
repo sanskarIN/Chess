@@ -30,9 +30,12 @@ import '../../local_multiplayer/application/match_clock_controller.dart';
 import '../../local_multiplayer/domain/local_action_request.dart';
 import '../../local_multiplayer/domain/local_match_preferences.dart';
 import '../../local_multiplayer/domain/monotonic_time_source.dart';
+import '../../saved_games/application/saved_game_providers.dart';
+import '../../saved_games/domain/saved_game.dart';
 import '../application/chess_game_controller.dart';
 import '../application/game_setup.dart';
 import '../domain/board/square.dart';
+import '../domain/model/chess_game.dart';
 import '../domain/model/game_result.dart';
 import '../domain/model/move.dart';
 import '../domain/model/move_record.dart';
@@ -56,6 +59,8 @@ final class GameScreen extends ConsumerStatefulWidget {
     this.clockTimeSource,
     this.clockAutoTick = true,
     this.challengesController,
+    this.initialGame,
+    this.savedGameId,
     super.key,
   });
 
@@ -65,6 +70,8 @@ final class GameScreen extends ConsumerStatefulWidget {
   final MonotonicTimeSource? clockTimeSource;
   final bool clockAutoTick;
   final DailyChallengesController? challengesController;
+  final ChessGame? initialGame;
+  final String? savedGameId;
 
   @override
   ConsumerState<GameScreen> createState() => _GameScreenState();
@@ -101,8 +108,10 @@ final class _GameScreenState extends ConsumerState<GameScreen>
         unawaited(_challengesController.initialize());
       }
     });
-    _controller = ChessGameController(setup: widget.setup)
-      ..addListener(_handleControllerChanged);
+    _controller = ChessGameController(
+      setup: widget.setup,
+      game: widget.initialGame,
+    )..addListener(_handleControllerChanged);
     if (widget.setup.timeControl.hasClock) {
       _clockController = MatchClockController(
         matchController: _controller,
@@ -434,6 +443,17 @@ final class _GameScreenState extends ConsumerState<GameScreen>
       await _copyPgn();
       return;
     }
+    if (action == MatchResultAction.review && mounted) {
+      await context.push(
+        AppRoutes.review,
+        extra: ReviewLaunch(
+          game: _controller.game,
+          setup: widget.setup,
+          savedGameId: widget.savedGameId,
+        ),
+      );
+      return;
+    }
     if (action == MatchResultAction.home && mounted) {
       context.go(AppRoutes.home);
     }
@@ -452,6 +472,82 @@ final class _GameScreenState extends ConsumerState<GameScreen>
     if (mounted) {
       _showMessage(strings.pgnCopied);
     }
+  }
+
+  Future<void> _saveGame() async {
+    final AppLocalizations strings = AppLocalizations.of(context);
+    final TextEditingController titleController = TextEditingController(
+      text: strings.defaultSaveTitle,
+    );
+    final TextEditingController notesController = TextEditingController();
+    final bool? save = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        title: Text(strings.saveCurrentGame),
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                controller: titleController,
+                maxLength: 80,
+                decoration: InputDecoration(
+                  labelText: strings.saveTitle,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: DesignTokens.space12),
+              TextField(
+                controller: notesController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  labelText: strings.saveNotesOptional,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(strings.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              final String title = titleController.text.trim();
+              if (title.isNotEmpty && title.length <= 80) {
+                Navigator.of(dialogContext).pop(true);
+              }
+            },
+            child: Text(strings.saveGame),
+          ),
+        ],
+      ),
+    );
+    if (save == true) {
+      await ref
+          .read(savedGameRepositoryProvider)
+          .save(
+            savedGameId: widget.savedGameId,
+            title: titleController.text,
+            notes: notesController.text,
+            setup: widget.setup,
+            game: _controller.game,
+            now: DateTime.now().toUtc(),
+          );
+      ref.invalidate(savedGamesProvider);
+      if (mounted) {
+        _showMessage(
+          widget.savedGameId == null
+              ? strings.gameSaved
+              : strings.savedGameUpdated,
+        );
+      }
+    }
+    titleController.dispose();
+    notesController.dispose();
   }
 
   Future<void> _requestHint() async {
@@ -811,6 +907,11 @@ final class _GameScreenState extends ConsumerState<GameScreen>
           ],
         ),
         actions: <Widget>[
+          IconButton(
+            tooltip: strings.saveGame,
+            onPressed: _saveGame,
+            icon: const Icon(Icons.bookmark_add_outlined),
+          ),
           if (_controller.result != null)
             IconButton(
               tooltip: strings.matchResult,

@@ -25,6 +25,8 @@ enum RewardTransactionType {
   developerAdjustment,
   reset,
   onboardingReward,
+  tutorialReward,
+  practiceReward,
 }
 
 final class RewardLedgerEntry {

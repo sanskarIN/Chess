@@ -125,17 +125,27 @@ final class HomeScreen extends ConsumerWidget {
                           _PlannedShortcut(
                             icon: Icons.school_outlined,
                             label: strings.practice,
-                            onPressed: () => _showPlannedMessage(context),
+                            onPressed: () => context.push(AppRoutes.practice),
                           ),
                           _PlannedShortcut(
                             icon: Icons.bookmark_outline,
                             label: strings.savedGames,
-                            onPressed: () => _showPlannedMessage(context),
+                            onPressed: () => context.push(AppRoutes.savedGames),
                           ),
                           _PlannedShortcut(
                             icon: Icons.history,
                             label: strings.matchHistory,
                             onPressed: () => _showPlannedMessage(context),
+                          ),
+                          _PlannedShortcut(
+                            icon: Icons.menu_book_outlined,
+                            label: strings.guide,
+                            onPressed: () => context.push(AppRoutes.guide),
+                          ),
+                          _PlannedShortcut(
+                            icon: Icons.fact_check_outlined,
+                            label: strings.featuresCatalog,
+                            onPressed: () => context.push(AppRoutes.features),
                           ),
                         ],
                       ),

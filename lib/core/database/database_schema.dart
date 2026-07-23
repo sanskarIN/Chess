@@ -1,5 +1,5 @@
 abstract final class DatabaseSchema {
-  static const int currentVersion = 2;
+  static const int currentVersion = 3;
   static const String fileName = 'chess_master.sqlite3';
 
   static const List<String> version1Statements = <String>[
@@ -329,9 +329,35 @@ ON challenge_events(local_date)
 ''',
   ];
 
+  static const List<String> version3Statements = <String>[
+    '''
+CREATE TABLE practice_progress (
+  exercise_id TEXT NOT NULL PRIMARY KEY,
+  exercise_type TEXT NOT NULL,
+  attempts INTEGER NOT NULL DEFAULT 0 CHECK (attempts >= 0),
+  solved_at INTEGER,
+  best_move_count INTEGER CHECK (best_move_count IS NULL OR best_move_count > 0),
+  updated_at INTEGER NOT NULL CHECK (updated_at >= 0)
+) WITHOUT ROWID
+''',
+    '''
+CREATE INDEX idx_practice_progress_solved_at
+ON practice_progress(solved_at DESC)
+''',
+    '''
+CREATE INDEX idx_saved_games_updated_at
+ON saved_games(updated_at DESC)
+''',
+    '''
+CREATE INDEX idx_tutorial_progress_completed_at
+ON tutorial_progress(completed_at DESC)
+''',
+  ];
+
   static List<String> get creationStatements => <String>[
     ...version1Statements,
     ...version2Statements,
+    ...version3Statements,
   ];
 
   static List<String> statementsForUpgrade(int oldVersion, int newVersion) {
@@ -347,6 +373,9 @@ ON challenge_events(local_date)
     final List<String> statements = <String>[];
     if (oldVersion < 2 && newVersion >= 2) {
       statements.addAll(version2Statements);
+    }
+    if (oldVersion < 3 && newVersion >= 3) {
+      statements.addAll(version3Statements);
     }
     return List<String>.unmodifiable(statements);
   }

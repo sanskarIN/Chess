@@ -263,6 +263,45 @@ LIMIT 1
   }
 
   @override
+  Future<RewardWallet> grantEarnedReward({
+    required RewardTransactionType type,
+    required String source,
+    required int coins,
+    required int hints,
+    required DateTime now,
+  }) {
+    if (coins < 0 || hints < 0 || (coins == 0 && hints == 0)) {
+      throw const EconomyFailure('invalid_reward');
+    }
+    return database.runTransaction((Transaction transaction) async {
+      await _initializeWallet(transaction, now);
+      if (coins > 0) {
+        await _insertLedgerEntry(
+          transaction,
+          type: type,
+          asset: RewardAsset.coin,
+          amount: coins,
+          source: source,
+          relatedChallengeId: null,
+          now: now,
+        );
+      }
+      if (hints > 0) {
+        await _insertLedgerEntry(
+          transaction,
+          type: type,
+          asset: RewardAsset.hint,
+          amount: hints,
+          source: source,
+          relatedChallengeId: null,
+          now: now,
+        );
+      }
+      return _readWallet(transaction);
+    });
+  }
+
+  @override
   Future<ChallengeDashboard> resetDate({
     required LocalDate date,
     required List<DailyChallenge> definitions,

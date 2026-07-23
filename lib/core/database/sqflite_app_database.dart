@@ -59,6 +59,14 @@ final class SqfliteAppDatabase implements AppDatabase, TransactionalDatabase {
             'completed_at': now,
             'details': 'Atomic challenge wallet and reward ledger.',
           });
+          await transaction.insert('data_migrations', <String, Object?>{
+            'migration_id': 'schema_v3',
+            'schema_version': 3,
+            'status': 'completed',
+            'started_at': now,
+            'completed_at': now,
+            'details': 'Practice progress and saved-game query indices.',
+          });
         });
       },
       onUpgrade: (Database database, int oldVersion, int newVersion) async {
@@ -78,6 +86,16 @@ final class SqfliteAppDatabase implements AppDatabase, TransactionalDatabase {
               'started_at': now,
               'completed_at': now,
               'details': 'Atomic challenge wallet and reward ledger.',
+            });
+          }
+          if (oldVersion < 3 && newVersion >= 3) {
+            await transaction.insert('data_migrations', <String, Object?>{
+              'migration_id': 'schema_v3',
+              'schema_version': 3,
+              'status': 'completed',
+              'started_at': now,
+              'completed_at': now,
+              'details': 'Practice progress and saved-game query indices.',
             });
           }
         });

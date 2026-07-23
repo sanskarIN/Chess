@@ -2,9 +2,9 @@
 
 ## Project identity
 
-- Version: `0.7.0+7`
-- Completed phase: 7 — Daily Challenges, Coins, and Hints
-- Next phase: 8 — Practice and Guide
+- Version: `0.8.0+8`
+- Completed phase: 8 — Practice and Guide
+- Next phase: 9 — Settings and Developer Options
 - Updated: 2026-07-23
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
@@ -24,9 +24,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 4 computer opponent | `31717765384f61a8b1aa0b531992962af6670a95` | Published on `origin/main` |
 | Phase 5 local multiplayer | `df5f9d37b18d6939b20d05a8aa51c4ac83466dc4` | Published on `origin/main` |
 | Phase 6 friend multiplayer | `7b4cf5b330ab316128cc65dbd290ea288f6c4e1d` | Published on `origin/main` |
+| Phase 7 challenges and economy | `e139bbf99e39544e88c69139d71d851439bf3609` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 7 is ready for its boundary commit
+directly without overwriting history. Phase 8 is ready for its boundary commit
 after this manifest update.
 
 ## Phase 1 completed source
@@ -153,6 +154,33 @@ after this manifest update.
   spending tests plus domain/controller/game/widget coverage
 - Daily challenge, reward economy, hint, migration, flow, and UI documentation
 
+## Phase 8 completed source
+
+- SQLite v3 practice-progress table plus saved-game and tutorial query indices
+- Seventeen interactive tutorial lessons with localized objectives,
+  instructions, legal validation, retry, durable attempts/completion, and
+  idempotent first-completion coin rewards
+- Offline free board with legal destinations, captures, check state, promotion,
+  undo, redo, reset, orientation, and FEN copy
+- Strict custom-FEN loading through the canonical six-field position validator
+- Original, attributed CC0 training catalog for mate in one, mate in two,
+  tactics, opening development, and pawn endgames
+- JSON Schema contract, legal-line/mate verifier, catalog asset tests, and CI
+  verification for bundled puzzles
+- Durable practice attempts, first solve, and best move count in SQLite with a
+  process-memory degraded-mode implementation
+- Searchable in-app guide covering rules, modes, rewards, privacy, accessibility,
+  settings, developer tools, troubleshooting, and upcoming work
+- Searchable feature catalog with factual Available, Beta, Planned, and Premium
+  candidate labels
+- Atomic local save/update, resume, rename, confirmed delete, FEN copy, PGN
+  export, and strictly validated FEN/PGN import
+- Versioned complete game-setup serialization and full move-history restoration
+- Immutable first/previous/next/last/direct-ply review with FEN/PGN copy and
+  explicitly requested bounded local evaluation when enabled
+- Practice, puzzle-source, tutorial, save-format, import, review, and guide
+  documentation
+
 ## Toolchain evidence
 
 ```text
@@ -171,7 +199,7 @@ devices, and network resources. It reported:
 - Android license status unknown;
 - Flutter and Dart temporary SDK paths not added permanently to `PATH`.
 
-## Commands executed through Phase 7
+## Commands executed through Phase 8
 
 ```text
 flutter --version
@@ -183,6 +211,7 @@ flutter analyze --no-pub
 flutter test --no-pub
 dart run tool/chess_domain_verifier/bin/verify.dart
 dart run tool/verify_engine_manifest.dart
+dart run tool/verify_puzzles.dart
 cd server
 npm install
 npm run check
@@ -193,13 +222,14 @@ npm audit --omit=dev
 ## Verification results
 
 ```text
-108 Flutter tests passed.
+126 Flutter tests passed.
 7 Node relay tests passed.
 Flutter analysis: No issues found.
 TypeScript type check passed.
 npm production dependency audit: 0 vulnerabilities.
 Chess domain verification passed.
 Engine manifest valid; no native binary is declared or bundled.
+Puzzle catalog valid: 5 positions.
 ```
 
 Executed coverage through Phase 7 includes:
@@ -249,6 +279,16 @@ Executed coverage through Phase 7 includes:
   token/coin charging;
 - challenge cards, balance display, progress, offline notice, claim animation,
   source/target hint presentation, and actual game-event hooks.
+- all seventeen tutorial objectives use a legal expected move or coordinate;
+- tutorial incorrect attempts, retry, first completion, and reward-once behavior;
+- all five puzzle solutions replay legally and mating lines end in checkmate;
+- puzzle wrong moves, automatic opponent replies, solving, and reward-once behavior;
+- SQLite v3 tutorial/practice persistence, first timestamps, and best move count;
+- saved-game save/update/load/rename/delete and complete move restoration;
+- strict FEN and PGN import success and malformed-input rejection;
+- immutable review stepping, FEN generation, and PGN export;
+- interactive tutorial/puzzle boards, custom-FEN error UI, saved-game metadata,
+  review controls, guide search, and feature-status widget behavior.
 
 Phase 2 perft remains:
 
@@ -264,13 +304,14 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 108 passed.
+- Flutter unit/widget tests: 126 passed.
 - TypeScript type checking: passed.
 - Node relay tests: 7 passed.
 - npm production dependency audit: passed with 0 vulnerabilities.
 - Relay Docker image: not built because Docker is unavailable on this machine.
 - Independent chess verifier: passed.
 - Native engine manifest verifier: passed with zero binaries declared.
+- Puzzle schema/legal-line verifier: passed with 5 positions.
 - Android resource compilation/linking: previously passed against API 36.
 - Android debug APK: attempted. Flutter generated the Gradle 9.1 wrapper and
   selected Android Studio JDK 21. Gradle accepted the NDK license, then the
@@ -282,7 +323,6 @@ Phase 2 perft remains:
 
 - The Stockfish adapter is implemented and tested, but no distribution-verified
   native binary is bundled. Computer play uses the built-in local search.
-- Practice, tutorial, saves, and review mode remain Phase 8.
 - Settings/developer options remain Phase 9.
 - Only English is generated; all 33 locale packs remain Phase 10.
 - Complete legal files, notices, and final documentation remain Phase 11.
@@ -294,5 +334,5 @@ Phase 2 perft remains:
 ## Exact next file
 
 ```text
-lib/features/practice/domain/practice_exercise.dart
+lib/features/settings/domain/app_settings.dart
 ```

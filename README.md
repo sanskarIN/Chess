@@ -10,11 +10,10 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 7 daily challenges, earned coins, hint tokens,
-> atomic reward ledger, and local chess hints are implemented. Three stable
-> challenges are generated from each device-local date, game events use
-> deduplicated receipts, and completed rewards can be claimed only once. Hint
-> generation succeeds before a confirmed earned-asset charge is committed. No
+> Development status: Phase 8 tutorial, practice, puzzle, guide, feature
+> catalog, saved-game, validated FEN/PGN import, and move-review flows are
+> implemented offline. Tutorial and practice rewards use idempotent local
+> ledger sources, and SQLite schema v3 stores durable progress and saves. No
 > real-money purchase or unverified native executable is bundled. See
 > [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
@@ -75,6 +74,15 @@ accessible multilingual interfaces.
   integrity fields, validation, and JSON clipboard export.
 - Confirmed computer-game hints that show and semantically highlight a suggested
   source/target move; failed generation never charges the wallet.
+- Seventeen interactive tutorial lessons with objectives, instructions, legal
+  validation, retry, durable progress, and first-completion rewards.
+- Offline free-board and legal-move practice, strict custom FEN loading, and a
+  schema-verified original CC0 puzzle catalog for mate, tactics, openings, and
+  endgames.
+- Searchable in-app chess/privacy/troubleshooting guide and factual feature
+  catalog with availability labels.
+- Local save, resume, rename, delete, FEN copy, PGN export, validated FEN/PGN
+  import, and immutable move-by-move review with optional local evaluation.
 
 ## Technology baseline
 
@@ -166,6 +174,9 @@ Flutter title when preparing a renamed distribution.
 - [Daily challenges](docs/daily_challenges.md)
 - [Local reward economy](docs/reward_economy.md)
 - [Chess hints](docs/hints.md)
+- [Practice and tutorial](docs/practice_and_tutorial.md)
+- [Puzzle catalog](docs/puzzle_catalog.md)
+- [Saved games and review](docs/saved_games_and_review.md)
 - [Roadmap phases](docs/upcoming/phases.md)
 - [Exact next work](docs/upcoming/next.md)
 - [Technology notes](docs/technologies/README.md)

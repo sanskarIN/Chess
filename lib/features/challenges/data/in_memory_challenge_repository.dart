@@ -173,6 +173,41 @@ final class InMemoryChallengeRepository implements ChallengeRepository {
   }
 
   @override
+  Future<RewardWallet> grantEarnedReward({
+    required RewardTransactionType type,
+    required String source,
+    required int coins,
+    required int hints,
+    required DateTime now,
+  }) async {
+    if (coins < 0 || hints < 0 || (coins == 0 && hints == 0)) {
+      throw const EconomyFailure('invalid_reward');
+    }
+    _initializeWallet(now);
+    if (coins > 0 && !_hasTransaction(type, RewardAsset.coin, source)) {
+      _applyTransaction(
+        type: type,
+        asset: RewardAsset.coin,
+        amount: coins,
+        source: source,
+        relatedChallengeId: null,
+        now: now,
+      );
+    }
+    if (hints > 0 && !_hasTransaction(type, RewardAsset.hint, source)) {
+      _applyTransaction(
+        type: type,
+        asset: RewardAsset.hint,
+        amount: hints,
+        source: source,
+        relatedChallengeId: null,
+        now: now,
+      );
+    }
+    return _wallet;
+  }
+
+  @override
   Future<ChallengeDashboard> resetDate({
     required LocalDate date,
     required List<DailyChallenge> definitions,
@@ -204,6 +239,17 @@ final class InMemoryChallengeRepository implements ChallengeRepository {
       source: 'onboarding-v1',
       relatedChallengeId: null,
       now: now,
+    );
+  }
+
+  bool _hasTransaction(
+    RewardTransactionType type,
+    RewardAsset asset,
+    String source,
+  ) {
+    return _ledger.any(
+      (RewardLedgerEntry entry) =>
+          entry.type == type && entry.asset == asset && entry.source == source,
     );
   }
 

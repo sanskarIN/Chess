@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "positions": [
+    {
+      "id": "fools-mate-finish",
+      "type": "mate_in_one",
+      "titleKey": "puzzleFoolsMateTitle",
+      "descriptionKey": "puzzleFoolsMateDescription",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq g3 0 2",
+      "solutionUci": ["d8h4"],
+      "difficulty": "beginner",
+      "source": "Original Chess-Master training position",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "scholar-pattern-line",
+      "type": "mate_in_two",
+      "titleKey": "puzzleScholarPatternTitle",
+      "descriptionKey": "puzzleScholarPatternDescription",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 2 3",
+      "solutionUci": ["d1h5", "g8f6", "h5f7"],
+      "difficulty": "intermediate",
+      "source": "Original Chess-Master training line based on a public-domain opening pattern",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "capture-hanging-queen",
+      "type": "tactic",
+      "titleKey": "puzzleHangingQueenTitle",
+      "descriptionKey": "puzzleHangingQueenDescription",
+      "fen": "3qk3/8/8/8/8/8/8/3RK3 w - - 0 1",
+      "solutionUci": ["d1d8"],
+      "difficulty": "beginner",
+      "source": "Original Chess-Master training position",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "claim-the-center",
+      "type": "opening",
+      "titleKey": "puzzleOpeningCenterTitle",
+      "descriptionKey": "puzzleOpeningCenterDescription",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "solutionUci": ["e2e4", "c7c5", "g1f3"],
+      "difficulty": "beginner",
+      "source": "Original Chess-Master training line",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "promote-the-pawn",
+      "type": "endgame",
+      "titleKey": "puzzlePromotionEndgameTitle",
+      "descriptionKey": "puzzlePromotionEndgameDescription",
+      "fen": "7k/4P3/4K3/8/8/8/8/8 w - - 0 1",
+      "solutionUci": ["e7e8q"],
+      "difficulty": "beginner",
+      "source": "Original Chess-Master training position",
+      "license": "CC0-1.0"
+    }
+  ]
+}
