@@ -1,0 +1,11 @@
+Chess-Master is distributed under GNU GPL version 3 or, at your option, any
+later version. See `LICENSE` for the project notice.
+
+The canonical license terms are:
+
+https://www.gnu.org/licenses/gpl-3.0.txt
+
+This Phase 1 repository notice does not represent the final license package.
+Before any source archive, APK, app bundle, or engine distribution, replace
+this notice with the verbatim GNU GPL version 3 text and complete the Phase 11
+license audit documented in `docs/upcoming/feature_status.md`.

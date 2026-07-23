@@ -1,0 +1,19 @@
+Chess-Master
+Copyright (C) 2026 Sanskar
+
+This project is licensed under the GNU General Public License, version 3, or
+(at your option) any later version (GPL-3.0-or-later).
+
+You may copy, modify, and redistribute this program under those terms. This
+program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+SPDX-License-Identifier: GPL-3.0-or-later
+
+The canonical GNU GPL version 3 terms are published at:
+https://www.gnu.org/licenses/gpl-3.0.txt
+
+The repository must contain a verbatim copy of those terms in `COPYING` before
+source or binary release. Phase 1 contains no Stockfish binary or other GPL
+engine payload.

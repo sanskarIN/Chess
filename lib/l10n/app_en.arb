@@ -1,0 +1,55 @@
+{
+  "@@locale": "en",
+  "appTitle": "Chess-Master",
+  "@appTitle": {
+    "description": "Default application title. The displayed application name can be overridden at build time."
+  },
+  "openSourceTagline": "Open-source chess game",
+  "@openSourceTagline": {
+    "description": "Short product tagline shown near the project identity."
+  },
+  "creatorWatermark": "Made by the Sanskar",
+  "@creatorWatermark": {
+    "description": "Permanent creator watermark."
+  },
+  "foundationTitle": "Foundation ready",
+  "@foundationTitle": {
+    "description": "Heading on the temporary Phase 1 status screen."
+  },
+  "foundationDescription": "The application shell, routing, theming, localization, structured errors, logging, and local database foundation are connected.",
+  "@foundationDescription": {
+    "description": "Explanation on the temporary Phase 1 status screen."
+  },
+  "foundationDatabaseReady": "Local database ready",
+  "@foundationDatabaseReady": {
+    "description": "Status when local storage initialized successfully."
+  },
+  "errorDatabaseUnavailable": "Local storage could not be opened. Restart the app. If the problem continues, export diagnostics before clearing app data.",
+  "@errorDatabaseUnavailable": {
+    "description": "User-facing recovery guidance when the local database cannot be opened."
+  },
+  "diagnosticCode": "Diagnostic code: {code}",
+  "@diagnosticCode": {
+    "description": "Displays a non-sensitive error identifier.",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "database_initialization_failed"
+      }
+    }
+  },
+  "routeNotFoundTitle": "Page not found",
+  "@routeNotFoundTitle": {
+    "description": "Title for an unknown application route."
+  },
+  "routeNotFoundDescription": "The page “{location}” is not available in this build.",
+  "@routeNotFoundDescription": {
+    "description": "Message for an unknown application route.",
+    "placeholders": {
+      "location": {
+        "type": "String",
+        "example": "/missing"
+      }
+    }
+  }
+}
