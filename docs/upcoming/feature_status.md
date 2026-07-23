@@ -20,7 +20,9 @@ The `Status` column uses only the master prompt's permitted classifications.
 | Splash, onboarding, home, and setup | Tested | Passed | Flutter application/widget tests |
 | Playable board and game UI | Tested | Passed | Legal moves, semantics, history, undo/redo, and result tests |
 | Captured-pieces display | Tested | Passed | Domain capture and controller/widget coverage |
-| Computer opponent and Stockfish | Not started | Not run | Phase 4 |
+| Computer opponent | Tested | Passed | Four local-search levels, automatic turns, lock/thinking UI, cancellation, and retry |
+| Stockfish UCI adapter | Tested | Passed | Fake-process handshake, configuration, search, timeout, stop, crash, and restart |
+| Stockfish Android executable | Unavailable | Blocked | No distribution-verified ABI binary is declared or bundled |
 | Local two-player | Not started | Not run | Phase 5 |
 | Friend matches and relay server | Not started | Not run | Phase 6 |
 | Daily challenges, coins, and hints | Not started | Not run | Phase 7 |
@@ -30,7 +32,8 @@ The `Status` column uses only the master prompt's permitted classifications.
 | Complete legal and open-source package | Not started | Not run | Phase 11 |
 | Beta release qualification | Not started | Not run | Phase 12 |
 
-Computer setup exists, but the computer opponent remains unavailable until the
-Phase 4 engine boundary passes its tests. Local match presentation exists, but
-the mode is not classified as fully tested until Phase 5 clocks and approval
-policies are complete.
+The engine manifest deliberately contains zero binaries. A native Stockfish
+executable cannot become available until its exact source, ABI, checksums, and
+debug/release loading evidence pass the committed verifier. Local match
+presentation exists, but the mode is not classified as fully tested until Phase
+5 clocks and approval policies are complete.

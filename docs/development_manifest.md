@@ -2,9 +2,9 @@
 
 ## Project identity
 
-- Version: `0.3.0+3`
-- Completed phase: 3 — Core UI
-- Next phase: 4 — Computer Opponent
+- Version: `0.4.0+4`
+- Completed phase: 4 — Computer Opponent
+- Next phase: 5 — Local Multiplayer
 - Updated: 2026-07-23
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
@@ -20,9 +20,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | --- | --- | --- |
 | Phase 1 foundation | `c10351b3b735b80dd7e3201d83c6feffbc673f91` | Published on `origin/main` |
 | Phase 2 chess domain | `498d41333ca6c9b227a86e7df506df815c2fff75` | Published on `origin/main` |
+| Phase 3 core UI | `1be99bd9ed4618285faaa34fffb8cd378746f0fe` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 3 is ready for its boundary commit
+directly without overwriting history. Phase 4 is ready for its boundary commit
 after this manifest update.
 
 ## Phase 1 completed source
@@ -75,6 +76,25 @@ after this manifest update.
   rewards status, rematch, review, PGN copy, and home
 - Phase 3 UI, accessibility, flow, game-mode, splash, and capture documentation
 
+## Phase 4 completed source
+
+- Engine-neutral contracts for lifecycle, configuration, moves, analysis,
+  health, failure, process transport, cancellation, and disposal
+- Four validated difficulty presets with bounded depth, time, memory, skill, and
+  single-thread CPU use
+- Isolate-backed iterative legal search used by the current computer player
+- Serialized engine service and computer-turn controller with automatic White
+  opening, stale-move prevention, and legal-move revalidation
+- Typed UCI parser and Stockfish adapter for handshake, readiness, options, FEN,
+  search, analysis, best move, timeout, stop, crash, restart, and disposal
+- Android supported-ABI reporting and explicit verified-distribution metadata
+  boundary
+- Locked board/action interaction while thinking, progress status, analysis,
+  errors, retry, and Grandmaster performance warning
+- Strict native-engine JSON manifest/schema/verifier and documented official
+  Stockfish 18 source/rebuild/GPL requirements
+- Domain, local-search, controller, UCI, process-adapter, and widget tests
+
 ## Toolchain evidence
 
 ```text
@@ -93,7 +113,7 @@ devices, and network resources. It reported:
 - Android license status unknown;
 - Flutter and Dart temporary SDK paths not added permanently to `PATH`.
 
-## Commands executed for Phase 3
+## Commands executed through Phase 4
 
 ```text
 flutter --version
@@ -104,17 +124,19 @@ dart format lib test tool
 flutter analyze --no-pub
 flutter test --no-pub
 dart run tool/chess_domain_verifier/bin/verify.dart
+dart run tool/verify_engine_manifest.dart
 ```
 
 ## Verification results
 
 ```text
-57 Flutter tests passed.
+67 Flutter tests passed.
 Flutter analysis: No issues found.
 Chess domain verification passed.
+Engine manifest valid; no native binary is declared or bundled.
 ```
 
-Executed Phase 3 coverage includes:
+Executed coverage through Phase 4 includes:
 
 - splash, onboarding persistence, skip, and home transition;
 - malformed and invalid onboarding preference recovery;
@@ -125,6 +147,12 @@ Executed Phase 3 coverage includes:
 - semantic piece, square, and legal-move labels;
 - game-screen move, SAN history, undo, and redo interaction;
 - complete match-result content and selected action.
+- difficulty validation and preset resource limits;
+- local-search legal move selection, cancellation, and lifecycle state;
+- UCI handshake, option configuration, search, stop, timeout, crash, and retry;
+- computer automatic White opening and post-search legal move application;
+- disabled board semantics and visible status while the computer is thinking;
+- engine source/checksum/ABI/declaration manifest validation.
 
 Phase 2 perft remains:
 
@@ -140,8 +168,9 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 57 passed.
+- Flutter unit/widget tests: 67 passed.
 - Independent chess verifier: passed.
+- Native engine manifest verifier: passed with zero binaries declared.
 - Android resource compilation/linking: previously passed against API 36.
 - Android debug APK: attempted. Flutter generated the Gradle 9.1 wrapper and
   selected Android Studio JDK 21. Gradle accepted the NDK license, then the
@@ -151,7 +180,8 @@ Phase 2 perft remains:
 
 ## Known limitations
 
-- The Stockfish adapter and native engine are not present; Phase 4 is next.
+- The Stockfish adapter is implemented and tested, but no distribution-verified
+  native binary is bundled. Computer play uses the built-in local search.
 - Accurate monotonic local clocks and approval policy remain Phase 5.
 - Friend rooms, WebSocket protocol, and relay remain Phase 6.
 - Daily challenges, coins, and purchasable hints remain Phase 7.
@@ -167,5 +197,5 @@ Phase 2 perft remains:
 ## Exact next file
 
 ```text
-lib/features/computer_player/domain/chess_engine.dart
+lib/features/local_multiplayer/domain/game_clock.dart
 ```

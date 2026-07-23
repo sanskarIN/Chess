@@ -8,6 +8,18 @@ semantic versioning while the project remains pre-1.0.
 
 ### Added
 
+- Phase 4 engine-neutral computer-player domain, serialized service lifecycle,
+  typed health/failure states, cancellation, restart, and incremental analysis.
+- Isolate-backed legal local search with four documented difficulty presets,
+  bounded depth/time/memory/thread configuration, and automatic computer turns.
+- UCI message parser and Stockfish process adapter covering handshake,
+  configuration, FEN positions, search, timeout, cancellation, crash, and retry.
+- Android ABI discovery channel and strict native-engine source, checksum,
+  packaging, load-test, and declaration verifier.
+- Computer-game thinking progress, board and action locking, analysis display,
+  performance warning, error reporting, and retry UI.
+- Engine application, process-adapter, local-search, parser, lifecycle, and
+  computer-game widget tests.
 - Phase 3 core UI with a configurable branded splash, reduced-motion entrance,
   durable optional onboarding, responsive home, mode selection, and player setup.
 - Accessible interactive chessboard with semantic squares, shape-based legal
@@ -41,6 +53,8 @@ semantic versioning while the project remains pre-1.0.
 - The Flutter application is formatted, analyzed, and tested. Android SDK
   command-line tools are missing, and the automatic NDK 28.2 download stalled,
   so the debug APK build has not completed.
-- The Stockfish engine, clocks, friend relay, challenges/economy, training,
-  settings, complete locale set, legal package, and release QA remain in their
-  prescribed later phases.
+- No distribution-verified Stockfish executable is bundled; the tested UCI
+  adapter currently falls back to the built-in local search opponent.
+- Accurate clocks, friend relay, challenges/economy, training, settings,
+  complete locale set, legal package, and release QA remain in their prescribed
+  later phases.

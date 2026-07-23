@@ -14,6 +14,7 @@
 - [Splash screen](splash_screen.md)
 - [Captured pieces](captured_pieces.md)
 - [Game modes](game_modes.md)
+- [Chess engine](chess_engine.md)
 - [Localization](localization.md)
 - [Logging](logging.md)
 
@@ -24,6 +25,7 @@
 - [Dart](technologies/dart.md)
 - [Riverpod](technologies/riverpod.md)
 - [SQLite choice](technologies/drift_sqlite.md)
+- [Stockfish](technologies/stockfish.md)
 
 ## Planning and evidence
 

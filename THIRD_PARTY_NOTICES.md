@@ -1,6 +1,6 @@
 # Third-party notices
 
-This Phase 1 inventory is based on declared direct dependencies. The final
+This inventory is based on declared direct dependencies. The final
 transitive inventory must be generated from `pubspec.lock` after Flutter
 dependency resolution and reviewed again before every release.
 
@@ -14,12 +14,16 @@ dependency resolution and reviewed again before every release.
 | path | 1.9.1 | BSD-3-Clause | Cross-platform path joining |
 | path_provider | 2.1.6 | BSD-3-Clause | Application directory discovery |
 | sqflite | 2.4.3 | BSD-3-Clause | Asynchronous local SQLite |
+| crypto | 3.0.7 | BSD-3-Clause | Development-time engine checksum verification |
 | flutter_lints | 6.0.0 | BSD-3-Clause | Static analysis rules |
 
 Package license texts and copyright statements remain with their respective
 authors. Version and license data must be confirmed from the resolved lockfile;
 this table is not a transitive dependency audit.
 
-Stockfish is not included. If a future release bundles it, the exact source
-revision, build instructions, binary checksum, GNU GPL text, copyright notices,
-and corresponding-source offer must be added before distribution.
+Stockfish executable code is not included. The source target for the implemented
+UCI adapter is official Stockfish 18 (`sf_18`, commit prefix `cb3d4ee`),
+GPL-3.0-only. If a future release bundles it, the exact source revision, build
+instructions, binary and archive checksums, GNU GPL text, copyright notices,
+network files, ABI evidence, load tests, and corresponding-source availability
+must be completed before distribution.

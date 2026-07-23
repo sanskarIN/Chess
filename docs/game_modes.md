@@ -2,10 +2,16 @@
 
 ## Play vs Computer
 
-Phase 3 provides the complete setup and match presentation for optional player
-name, White/Black/Random assignment, four difficulty labels, standard time
-controls, and hints. The Stockfish-backed move service is Phase 4, so current
-documentation does not classify the computer opponent as tested or available.
+The computer flow supports optional player name, White/Black/Random assignment,
+four difficulty presets, standard time-control labels, and hints. The built-in
+legal local-search engine runs asynchronously in an isolate, makes the first
+move when the computer is White, locks input while thinking, publishes analysis,
+and exposes retryable errors. This flow is covered by unit and widget tests.
+
+The UCI Stockfish adapter is also tested, but a native executable is not bundled
+until source correspondence, checksum, ABI, and debug/release load evidence can
+be supplied. The app therefore does not mislabel its current local search as
+Stockfish.
 
 ## Local Two-Player
 

@@ -10,11 +10,11 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 3 core UI is implemented. The branded splash,
-> optional onboarding, home and mode selection, player setup, accessible board,
-> local move interaction, captured pieces, move history, controls, and result
-> dialog pass the Flutter test suite and static analysis. The computer engine
-> begins in Phase 4. See [feature status](docs/upcoming/feature_status.md) and the
+> Development status: Phase 4 computer play is implemented. A legal,
+> isolate-backed local search opponent supports four difficulty presets while a
+> separately tested UCI adapter and Android ABI boundary are ready for a
+> distribution-verified Stockfish executable. No unverified native executable is
+> bundled. See [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
 ## Privacy principles
@@ -44,6 +44,11 @@ accessible multilingual interfaces.
 - Legal-move-driven accessible chessboard with promotion choice.
 - Captured-piece panels, material advantage, SAN history, undo/redo, board flip,
   draw, resignation, pause surface, PGN copy, and match result summary.
+- Asynchronous computer play at four resource-bounded difficulty levels with
+  move locking, thinking status, analysis details, cancellation, and recovery.
+- Engine-neutral lifecycle API plus a tested UCI Stockfish process adapter.
+- Android ABI discovery and a strict source/checksum/load-test manifest gate for
+  any future native Stockfish package.
 
 ## Technology baseline
 
@@ -99,10 +104,15 @@ Optional development values:
 ```text
 CHESS_MASTER_ENVIRONMENT
 CHESS_MASTER_RELAY_URL
+CHESS_MASTER_STOCKFISH_PATH
 ```
 
 No production relay URL is invented by default. A relay will only be configured
 after the versioned protocol and self-hostable server exist.
+
+`CHESS_MASTER_STOCKFISH_PATH` is a development-only escape hatch for a local UCI
+executable. It is classified as unverified and is never accepted as release
+evidence. See [chess engine architecture](docs/chess_engine.md).
 
 The Android launcher label is in
 `android/app/src/main/res/values/strings.xml`. Update it alongside the build-time
@@ -122,6 +132,7 @@ Flutter title when preparing a renamed distribution.
 - [Splash screen](docs/splash_screen.md)
 - [Captured pieces](docs/captured_pieces.md)
 - [Game modes](docs/game_modes.md)
+- [Chess engine](docs/chess_engine.md)
 - [Roadmap phases](docs/upcoming/phases.md)
 - [Exact next work](docs/upcoming/next.md)
 - [Technology notes](docs/technologies/README.md)
@@ -143,10 +154,11 @@ Files are added only when they contain substantive guidance.
 ## License status
 
 The intended project license is GNU GPL v3.0 or later because distributing
-Stockfish in a future phase has GPL compatibility consequences. The complete
-license, copyright notices, Stockfish source correspondence, and dependency
-audit will be added and reviewed in Phase 11 before any binary distribution.
-No Stockfish binary or source is included in the current foundation.
+Stockfish has GPL compatibility consequences. A strict manifest and documented
+rebuild process now guard the native packaging boundary. The complete license,
+copyright notices, Stockfish source correspondence, and dependency audit will
+be added and reviewed in Phase 11 before any binary distribution. No Stockfish
+binary or source is included in the current repository.
 
 This repository is not ready for Play Store publication. Signing, legal review,
 policy review, accessibility testing, localization review, device testing, and

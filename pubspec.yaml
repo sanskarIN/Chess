@@ -1,7 +1,7 @@
 name: chess_master
 description: A privacy-respecting, offline-first, open-source Android chess game.
 publish_to: none
-version: 0.3.0+3
+version: 0.4.0+4
 
 environment:
   sdk: ">=3.12.0 <4.0.0"
@@ -19,6 +19,7 @@ dependencies:
   sqflite: ^2.4.3
 
 dev_dependencies:
+  crypto: ^3.0.7
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter

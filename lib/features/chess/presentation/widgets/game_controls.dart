@@ -9,6 +9,7 @@ final class GameControls extends StatelessWidget {
     required this.canUndo,
     required this.canRedo,
     required this.hasClock,
+    required this.interactionEnabled,
     required this.onHint,
     required this.onUndo,
     required this.onRedo,
@@ -25,6 +26,7 @@ final class GameControls extends StatelessWidget {
   final bool canUndo;
   final bool canRedo;
   final bool hasClock;
+  final bool interactionEnabled;
   final VoidCallback onHint;
   final VoidCallback onUndo;
   final VoidCallback onRedo;
@@ -52,32 +54,32 @@ final class GameControls extends StatelessWidget {
               _Control(
                 icon: Icons.lightbulb_outline,
                 label: strings.hint,
-                onPressed: hintsEnabled ? onHint : null,
+                onPressed: hintsEnabled && interactionEnabled ? onHint : null,
               ),
               _Control(
                 icon: Icons.undo,
                 label: strings.undo,
-                onPressed: canUndo ? onUndo : null,
+                onPressed: canUndo && interactionEnabled ? onUndo : null,
               ),
               _Control(
                 icon: Icons.redo,
                 label: strings.redo,
-                onPressed: canRedo ? onRedo : null,
+                onPressed: canRedo && interactionEnabled ? onRedo : null,
               ),
               _Control(
                 icon: Icons.handshake_outlined,
                 label: strings.offerDraw,
-                onPressed: onDraw,
+                onPressed: interactionEnabled ? onDraw : null,
               ),
               _Control(
                 icon: Icons.flag_outlined,
                 label: strings.resign,
-                onPressed: onResign,
+                onPressed: interactionEnabled ? onResign : null,
               ),
               _Control(
                 icon: Icons.pause_outlined,
                 label: strings.pause,
-                onPressed: hasClock ? onPause : null,
+                onPressed: hasClock && interactionEnabled ? onPause : null,
               ),
               _Control(
                 icon: Icons.flip_camera_android_outlined,

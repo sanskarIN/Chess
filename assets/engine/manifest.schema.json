@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/sanskarIN/Chess/assets/engine/manifest.schema.json",
+  "title": "Chess-Master verified engine binary manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "source",
+    "binaries"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "tag",
+        "commit",
+        "license"
+      ],
+      "properties": {
+        "repository": {
+          "const": "https://github.com/official-stockfish/Stockfish"
+        },
+        "tag": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{7,40}$"
+        },
+        "license": {
+          "const": "GPL-3.0-only"
+        }
+      }
+    },
+    "binaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "abi",
+          "path",
+          "sha256",
+          "archiveUrl",
+          "archiveSha256",
+          "sourceTag",
+          "sourceCommit",
+          "distributionVerified",
+          "debugLoadTested",
+          "releaseLoadTested"
+        ],
+        "properties": {
+          "abi": {
+            "enum": [
+              "arm64-v8a",
+              "armeabi-v7a",
+              "x86_64"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^assets/engine/bin/"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "archiveUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "archiveSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "sourceTag": {
+            "type": "string"
+          },
+          "sourceCommit": {
+            "type": "string"
+          },
+          "distributionVerified": {
+            "const": true
+          },
+          "debugLoadTested": {
+            "const": true
+          },
+          "releaseLoadTested": {
+            "const": true
+          }
+        }
+      }
+    }
+  }
+}

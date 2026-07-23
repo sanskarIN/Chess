@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,13 @@ import '../../../app/app_router.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/creator_watermark.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../computer_player/application/computer_opponent_controller.dart';
+import '../../computer_player/application/engine_service.dart';
+import '../../computer_player/data/local_search_engine.dart';
+import '../../computer_player/domain/engine_analysis.dart';
+import '../../computer_player/domain/engine_configuration.dart';
+import '../../computer_player/domain/engine_difficulty.dart';
+import '../../computer_player/domain/engine_failure.dart';
 import '../application/chess_game_controller.dart';
 import '../application/game_setup.dart';
 import '../domain/board/square.dart';
@@ -24,9 +33,10 @@ import 'widgets/move_history_panel.dart';
 import 'widgets/player_banner.dart';
 
 final class GameScreen extends StatefulWidget {
-  const GameScreen({required this.setup, super.key});
+  const GameScreen({required this.setup, this.engineService, super.key});
 
   final GameSetup setup;
+  final EngineService? engineService;
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -34,6 +44,7 @@ final class GameScreen extends StatefulWidget {
 
 final class _GameScreenState extends State<GameScreen> {
   late final ChessGameController _controller;
+  ComputerOpponentController? _computerOpponent;
   bool _resultDialogOpen = false;
   bool _paused = false;
 
@@ -42,6 +53,25 @@ final class _GameScreenState extends State<GameScreen> {
     super.initState();
     _controller = ChessGameController(setup: widget.setup)
       ..addListener(_handleControllerChanged);
+    if (widget.setup.mode == GameMode.computer) {
+      final EngineConfiguration configuration =
+          EngineConfiguration.forDifficulty(
+            _engineDifficulty(widget.setup.difficulty),
+          );
+      final EngineService service =
+          widget.engineService ??
+          EngineService(
+            ownedEngine: LocalSearchEngine(initialConfiguration: configuration),
+          );
+      _computerOpponent = ComputerOpponentController(
+        matchController: _controller,
+        service: service,
+        opponentColor: widget.setup.humanColor!.opposite,
+      )..addListener(_handleComputerChanged);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_computerOpponent?.start());
+      });
+    }
   }
 
   void _handleControllerChanged() {
@@ -49,12 +79,19 @@ final class _GameScreenState extends State<GameScreen> {
       return;
     }
     setState(() {});
+    unawaited(_computerOpponent?.synchronize());
     if (_controller.result != null &&
         !_controller.resultAcknowledged &&
         !_resultDialogOpen) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showResultIfNeeded();
       });
+    }
+  }
+
+  void _handleComputerChanged() {
+    if (mounted) {
+      setState(() {});
     }
   }
 
@@ -93,6 +130,7 @@ final class _GameScreenState extends State<GameScreen> {
   Future<void> _handleResultAction(MatchResultAction? action) async {
     if (action == MatchResultAction.rematch) {
       _controller.restart();
+      unawaited(_computerOpponent?.newGame());
       return;
     }
     if (action == MatchResultAction.exportPgn) {
@@ -120,7 +158,10 @@ final class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> _handleSquareTap(BuildContext context, Square square) async {
-    if (_paused) {
+    if (_paused ||
+        (_computerOpponent?.isThinking ?? false) ||
+        (widget.setup.mode == GameMode.computer &&
+            _controller.position.sideToMove != widget.setup.humanColor)) {
       return;
     }
     final SquareSelectionResult result = _controller.selectSquare(square);
@@ -244,6 +285,11 @@ final class _GameScreenState extends State<GameScreen> {
     final PieceColor bottomColor = topColor.opposite;
     final String topName = _nameFor(topColor);
     final String bottomName = _nameFor(bottomColor);
+    final bool interactionEnabled =
+        !_paused &&
+        !(_computerOpponent?.isThinking ?? false) &&
+        (widget.setup.mode != GameMode.computer ||
+            _controller.position.sideToMove == widget.setup.humanColor);
 
     return Scaffold(
       appBar: AppBar(
@@ -278,6 +324,7 @@ final class _GameScreenState extends State<GameScreen> {
                   bottomColor: bottomColor,
                   bottomName: bottomName,
                   flipped: flipped,
+                  interactionEnabled: interactionEnabled,
                 ),
                 sideColumn: _sideColumn(),
               );
@@ -296,6 +343,7 @@ final class _GameScreenState extends State<GameScreen> {
                         bottomColor: bottomColor,
                         bottomName: bottomName,
                         flipped: flipped,
+                        interactionEnabled: interactionEnabled,
                       ),
                       const SizedBox(height: DesignTokens.space16),
                       _sideColumn(),
@@ -316,6 +364,7 @@ final class _GameScreenState extends State<GameScreen> {
     required PieceColor bottomColor,
     required String bottomName,
     required bool flipped,
+    required bool interactionEnabled,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -334,7 +383,7 @@ final class _GameScreenState extends State<GameScreen> {
           lastMove: _controller.lastMove,
           checkedKingSquare: _controller.checkedKingSquare,
           flipped: flipped,
-          enabled: !_paused && _controller.result == null,
+          enabled: interactionEnabled && _controller.result == null,
           onSquareTap: (square) {
             _handleSquareTap(context, square);
           },
@@ -359,6 +408,15 @@ final class _GameScreenState extends State<GameScreen> {
           text: _matchStatus(strings),
           isCheck: _controller.checkedKingSquare != null,
         ),
+        if (_computerOpponent != null) ...<Widget>[
+          const SizedBox(height: DesignTokens.space12),
+          _EngineStatusPanel(
+            thinking: _computerOpponent!.isThinking,
+            analysis: _computerOpponent!.latestAnalysis,
+            failure: _computerOpponent!.failure,
+            onRetry: _computerOpponent!.retry,
+          ),
+        ],
         const SizedBox(height: DesignTokens.space12),
         CapturedPiecesPanel(
           capturedByWhite: _controller.capturedBy(PieceColor.white),
@@ -372,6 +430,9 @@ final class _GameScreenState extends State<GameScreen> {
           canUndo: _controller.canUndo,
           canRedo: _controller.canRedo,
           hasClock: widget.setup.timeControl.hasClock,
+          interactionEnabled:
+              !(_computerOpponent?.isThinking ?? false) &&
+              _controller.result == null,
           onHint: () => _showMessage(strings.hintsArriveInEconomyPhase),
           onUndo: _controller.undo,
           onRedo: _controller.redo,
@@ -403,6 +464,9 @@ final class _GameScreenState extends State<GameScreen> {
               result.winner == PieceColor.white ? strings.white : strings.black,
             );
     }
+    if (_computerOpponent?.isThinking ?? false) {
+      return strings.computerIsThinking;
+    }
     final String color = _controller.position.sideToMove == PieceColor.white
         ? strings.white
         : strings.black;
@@ -414,10 +478,24 @@ final class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
+    final ComputerOpponentController? computerOpponent = _computerOpponent;
+    computerOpponent?.removeListener(_handleComputerChanged);
+    if (computerOpponent != null) {
+      unawaited(computerOpponent.close());
+    }
     _controller
       ..removeListener(_handleControllerChanged)
       ..dispose();
     super.dispose();
+  }
+
+  EngineDifficulty _engineDifficulty(ComputerDifficulty difficulty) {
+    return switch (difficulty) {
+      ComputerDifficulty.beginner => EngineDifficulty.beginner,
+      ComputerDifficulty.intermediate => EngineDifficulty.intermediate,
+      ComputerDifficulty.expert => EngineDifficulty.expert,
+      ComputerDifficulty.grandmaster => EngineDifficulty.grandmaster,
+    };
   }
 }
 
@@ -539,6 +617,91 @@ final class _StatusBanner extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+final class _EngineStatusPanel extends StatelessWidget {
+  const _EngineStatusPanel({
+    required this.thinking,
+    required this.analysis,
+    required this.failure,
+    required this.onRetry,
+  });
+
+  final bool thinking;
+  final EngineAnalysis? analysis;
+  final EngineFailure? failure;
+  final Future<void> Function() onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations strings = AppLocalizations.of(context);
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final EngineAnalysis? current = analysis;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(DesignTokens.space12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Icon(
+                  failure != null ? Icons.error_outline : Icons.memory_outlined,
+                  color: failure != null ? colors.error : colors.primary,
+                ),
+                const SizedBox(width: DesignTokens.space8),
+                Expanded(
+                  child: Text(
+                    failure != null
+                        ? strings.computerEngineError
+                        : thinking
+                        ? strings.computerIsThinking
+                        : strings.localComputerReady,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ),
+                if (failure != null)
+                  TextButton(onPressed: onRetry, child: Text(strings.retry)),
+              ],
+            ),
+            if (thinking) ...<Widget>[
+              const SizedBox(height: DesignTokens.space8),
+              const LinearProgressIndicator(),
+            ],
+            if (current != null) ...<Widget>[
+              const SizedBox(height: DesignTokens.space8),
+              Text(
+                strings.engineAnalysisSummary(
+                  current.depth,
+                  current.nodes,
+                  _score(current),
+                ),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+            if (failure != null) ...<Widget>[
+              const SizedBox(height: DesignTokens.space4),
+              Text(
+                strings.engineFailureCode(failure!.code.name),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colors.error),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _score(EngineAnalysis analysis) {
+    final int? mate = analysis.mateIn;
+    if (mate != null) {
+      return 'M$mate';
+    }
+    final int centipawns = analysis.scoreCentipawns ?? 0;
+    return (centipawns / 100).toStringAsFixed(2);
   }
 }
 

@@ -1,0 +1,11 @@
+{
+  "$schema": "manifest.schema.json",
+  "schemaVersion": 1,
+  "source": {
+    "repository": "https://github.com/official-stockfish/Stockfish",
+    "tag": "sf_18",
+    "commit": "cb3d4ee",
+    "license": "GPL-3.0-only"
+  },
+  "binaries": []
+}

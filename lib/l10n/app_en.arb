@@ -127,6 +127,7 @@
   "intermediate": "Intermediate",
   "expert": "Expert",
   "grandmaster": "Grandmaster",
+  "grandmasterPerformanceWarning": "Grandmaster uses the highest available local search budget and may increase battery use, heat, and response time. The label is a difficulty name, not a calibrated human rating.",
   "timeControl": "Time control",
   "noClock": "No clock",
   "gamePreferences": "Game preferences",
@@ -271,6 +272,32 @@
   "hintsArriveInEconomyPhase": "The hint service and no-charge failure handling are enabled in the challenges and economy phase.",
   "settingsShortcutMessage": "In-match settings are enabled in the settings phase.",
   "soundShortcutMessage": "Sound controls are enabled with the original audio asset pack.",
+  "computerIsThinking": "Computer is thinking",
+  "localComputerReady": "Built-in local computer ready",
+  "computerEngineError": "The computer engine needs attention",
+  "retry": "Retry",
+  "engineAnalysisSummary": "Depth {depth} · {nodes} nodes · score {score}",
+  "@engineAnalysisSummary": {
+    "placeholders": {
+      "depth": {
+        "type": "int"
+      },
+      "nodes": {
+        "type": "int"
+      },
+      "score": {
+        "type": "String"
+      }
+    }
+  },
+  "engineFailureCode": "Engine diagnostic code: {code}",
+  "@engineFailureCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "pgnCopied": "PGN copied to the clipboard.",
   "gameDrawn": "Game drawn",
   "gameWonBy": "{color} wins",

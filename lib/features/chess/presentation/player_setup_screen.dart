@@ -175,27 +175,53 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                       const SizedBox(height: DesignTokens.space16),
                       _SectionCard(
                         title: strings.difficulty,
-                        child: DropdownButtonFormField<ComputerDifficulty>(
-                          initialValue: _difficulty,
-                          decoration: InputDecoration(
-                            labelText: strings.computerDifficulty,
-                          ),
-                          items: ComputerDifficulty.values
-                              .map(
-                                (ComputerDifficulty difficulty) =>
-                                    DropdownMenuItem<ComputerDifficulty>(
-                                      value: difficulty,
+                        child: Column(
+                          children: <Widget>[
+                            DropdownButtonFormField<ComputerDifficulty>(
+                              initialValue: _difficulty,
+                              decoration: InputDecoration(
+                                labelText: strings.computerDifficulty,
+                              ),
+                              items: ComputerDifficulty.values
+                                  .map(
+                                    (ComputerDifficulty difficulty) =>
+                                        DropdownMenuItem<ComputerDifficulty>(
+                                          value: difficulty,
+                                          child: Text(
+                                            _difficultyLabel(
+                                              strings,
+                                              difficulty,
+                                            ),
+                                          ),
+                                        ),
+                                  )
+                                  .toList(growable: false),
+                              onChanged: (ComputerDifficulty? value) {
+                                if (value != null) {
+                                  setState(() => _difficulty = value);
+                                }
+                              },
+                            ),
+                            if (_difficulty ==
+                                ComputerDifficulty.grandmaster) ...<Widget>[
+                              const SizedBox(height: DesignTokens.space12),
+                              Semantics(
+                                liveRegion: true,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Icon(Icons.battery_alert_outlined),
+                                    const SizedBox(width: DesignTokens.space8),
+                                    Expanded(
                                       child: Text(
-                                        _difficultyLabel(strings, difficulty),
+                                        strings.grandmasterPerformanceWarning,
                                       ),
                                     ),
-                              )
-                              .toList(growable: false),
-                          onChanged: (ComputerDifficulty? value) {
-                            if (value != null) {
-                              setState(() => _difficulty = value);
-                            }
-                          },
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
                       ),
                     ],
