@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/design_tokens.dart';
+import '../../../../features/settings/application/settings_providers.dart';
+import '../../../../features/settings/domain/app_settings.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/board/square.dart';
 import '../../domain/model/move.dart';
@@ -8,7 +11,7 @@ import '../../domain/model/piece.dart';
 import '../../domain/model/position.dart';
 import 'chess_piece_glyph.dart';
 
-final class ChessBoard extends StatelessWidget {
+final class ChessBoard extends ConsumerWidget {
   const ChessBoard({
     required this.position,
     required this.selectedSquare,
@@ -33,10 +36,31 @@ final class ChessBoard extends StatelessWidget {
   final bool enabled;
 
   @override
-  Widget build(BuildContext context) {
-    final ChessBoardPalette palette = ChessBoardPalette.from(
-      Theme.of(context).colorScheme,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppSettings settings = ref.watch(
+      settingsControllerProvider.select((controller) => controller.settings),
     );
+    final ChessBoardPalette palette = _palette(
+      Theme.of(context).colorScheme,
+      settings,
+    );
+    final bool showLegalMoves = settings.enabled(SettingFlag.showLegalMoves);
+    final bool showLastMove = settings.enabled(SettingFlag.showLastMove);
+    final bool showCheck = settings.enabled(SettingFlag.checkHighlight);
+    final bool showCoordinates =
+        settings.enabled(SettingFlag.boardCoordinates) &&
+        settings.coordinatePosition != CoordinatePositionPreference.hidden;
+    final Duration animationDuration =
+        settings.enabled(SettingFlag.reducedMotion)
+        ? Duration.zero
+        : switch (settings.animationSpeed) {
+            AnimationSpeedPreference.none => Duration.zero,
+            AnimationSpeedPreference.fast => const Duration(milliseconds: 80),
+            AnimationSpeedPreference.normal => const Duration(
+              milliseconds: 150,
+            ),
+            AnimationSpeedPreference.slow => const Duration(milliseconds: 280),
+          };
     return Semantics(
       container: true,
       label: AppLocalizations.of(context).chessBoard,
@@ -64,18 +88,29 @@ final class ChessBoard extends StatelessWidget {
                           square: square,
                           piece: position.pieceAt(square),
                           isSelected: selectedSquare == square,
-                          legalMove: _moveTo(square),
-                          isCapture: _isCaptureOn(square),
+                          legalMove: showLegalMoves ? _moveTo(square) : null,
+                          isCapture: showLegalMoves && _isCaptureOn(square),
                           isLastMove:
-                              lastMove?.from == square ||
-                              lastMove?.to == square,
-                          isCheckedKing: checkedKingSquare == square,
+                              showLastMove &&
+                              (lastMove?.from == square ||
+                                  lastMove?.to == square),
+                          isCheckedKing:
+                              showCheck && checkedKingSquare == square,
                           isHintSource: hintMove?.from == square,
                           isHintTarget: hintMove?.to == square,
                           palette: palette,
+                          legalMoveStyle: settings.legalMoveStyle,
+                          animationDuration: animationDuration,
+                          strongMarkers: settings.enabled(
+                            SettingFlag.strongerLegalMoveMarkers,
+                          ),
+                          largeIndicators: settings.enabled(
+                            SettingFlag.largerBoardIndicators,
+                          ),
+                          pieceTheme: settings.pieceTheme,
                           enabled: enabled,
-                          showFileLabel: visualRank == 7,
-                          showRankLabel: visualFile == 0,
+                          showFileLabel: showCoordinates && visualRank == 7,
+                          showRankLabel: showCoordinates && visualFile == 0,
                           onTap: () => onSquareTap(square),
                         ),
                       );
@@ -103,6 +138,54 @@ final class ChessBoard extends StatelessWidget {
     final Move? move = _moveTo(square);
     return move != null && position.isCapture(move);
   }
+
+  ChessBoardPalette _palette(ColorScheme colors, AppSettings settings) {
+    if (settings.enabled(SettingFlag.colorBlindPalette)) {
+      return const ChessBoardPalette(
+        lightSquare: Color(0xFFF4E6C5),
+        darkSquare: Color(0xFF3F6C9A),
+        selected: Color(0xFFF2B134),
+        lastMove: Color(0xFF8FC7D8),
+        legalMove: Color(0xFF102A43),
+        capture: Color(0xFFB14A00),
+        check: Color(0xFF9C1C2B),
+        hint: Color(0xFF7B2CBF),
+      );
+    }
+    return switch (settings.boardTheme) {
+      BoardThemePreference.classic => ChessBoardPalette.from(colors),
+      BoardThemePreference.forest => const ChessBoardPalette(
+        lightSquare: Color(0xFFE9DFC4),
+        darkSquare: Color(0xFF3F6B4F),
+        selected: Color(0xFFF4C95D),
+        lastMove: Color(0xFF9CCB7E),
+        legalMove: Color(0xFF173C2B),
+        capture: Color(0xFF9D2438),
+        check: Color(0xFFD63A4A),
+        hint: Color(0xFF55C2FF),
+      ),
+      BoardThemePreference.ocean => const ChessBoardPalette(
+        lightSquare: Color(0xFFDCECF2),
+        darkSquare: Color(0xFF397C9A),
+        selected: Color(0xFFFFCC66),
+        lastMove: Color(0xFF80C7D9),
+        legalMove: Color(0xFF083B66),
+        capture: Color(0xFFB42336),
+        check: Color(0xFFE23D4F),
+        hint: Color(0xFF7C5CFC),
+      ),
+      BoardThemePreference.highContrast => const ChessBoardPalette(
+        lightSquare: Color(0xFFFFFFFF),
+        darkSquare: Color(0xFF111111),
+        selected: Color(0xFFFFFF00),
+        lastMove: Color(0xFF00FFFF),
+        legalMove: Color(0xFF00C853),
+        capture: Color(0xFFFF3D00),
+        check: Color(0xFFFF1744),
+        hint: Color(0xFF2979FF),
+      ),
+    };
+  }
 }
 
 final class _BoardSquare extends StatelessWidget {
@@ -117,6 +200,11 @@ final class _BoardSquare extends StatelessWidget {
     required this.isHintSource,
     required this.isHintTarget,
     required this.palette,
+    required this.legalMoveStyle,
+    required this.animationDuration,
+    required this.strongMarkers,
+    required this.largeIndicators,
+    required this.pieceTheme,
     required this.enabled,
     required this.showFileLabel,
     required this.showRankLabel,
@@ -133,6 +221,11 @@ final class _BoardSquare extends StatelessWidget {
   final bool isHintSource;
   final bool isHintTarget;
   final ChessBoardPalette palette;
+  final LegalMoveStylePreference legalMoveStyle;
+  final Duration animationDuration;
+  final bool strongMarkers;
+  final bool largeIndicators;
+  final PieceThemePreference pieceTheme;
   final bool enabled;
   final bool showFileLabel;
   final bool showRankLabel;
@@ -156,7 +249,7 @@ final class _BoardSquare extends StatelessWidget {
     final String semantics = _semanticsLabel(strings, isCapture);
     final Duration duration = MediaQuery.disableAnimationsOf(context)
         ? Duration.zero
-        : const Duration(milliseconds: 150);
+        : animationDuration;
 
     return Semantics(
       key: ValueKey<String>('square-${square.algebraic}'),
@@ -179,29 +272,7 @@ final class _BoardSquare extends StatelessWidget {
                 fit: StackFit.expand,
                 children: <Widget>[
                   if (legalMove != null)
-                    Center(
-                      child: isCapture
-                          ? Container(
-                              width: shortest * 0.82,
-                              height: shortest * 0.82,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: palette.capture,
-                                  width: shortest * 0.09,
-                                ),
-                              ),
-                            )
-                          : DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: palette.legalMove,
-                                shape: BoxShape.circle,
-                              ),
-                              child: SizedBox.square(
-                                dimension: shortest * 0.22,
-                              ),
-                            ),
-                    ),
+                    Center(child: _legalMoveIndicator(shortest)),
                   Center(
                     child: AnimatedSwitcher(
                       duration: duration,
@@ -222,7 +293,14 @@ final class _BoardSquare extends StatelessWidget {
                                 '${square.algebraic}-${piece!.fen}',
                               ),
                               piece: piece!,
-                              size: shortest * 0.76,
+                              size:
+                                  shortest *
+                                  (pieceTheme == PieceThemePreference.accessible
+                                      ? 0.82
+                                      : 0.76),
+                              modern: pieceTheme == PieceThemePreference.modern,
+                              highVisibility:
+                                  pieceTheme == PieceThemePreference.accessible,
                             ),
                     ),
                   ),
@@ -263,6 +341,43 @@ final class _BoardSquare extends StatelessWidget {
 
   Color get _coordinateColor {
     return square.isLight ? const Color(0xFF33513E) : const Color(0xFFE9DFC4);
+  }
+
+  Widget _legalMoveIndicator(double shortest) {
+    final double scale = largeIndicators ? 1.15 : 1;
+    final double borderWidth = shortest * (strongMarkers ? 0.13 : 0.09);
+    if (isCapture) {
+      return Container(
+        width: shortest * 0.82 * scale,
+        height: shortest * 0.82 * scale,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: palette.capture, width: borderWidth),
+        ),
+      );
+    }
+    return switch (legalMoveStyle) {
+      LegalMoveStylePreference.dotAndRing => DecoratedBox(
+        decoration: BoxDecoration(
+          color: palette.legalMove,
+          shape: BoxShape.circle,
+        ),
+        child: SizedBox.square(dimension: shortest * 0.22 * scale),
+      ),
+      LegalMoveStylePreference.square => Container(
+        width: shortest * 0.48 * scale,
+        height: shortest * 0.48 * scale,
+        color: palette.legalMove,
+      ),
+      LegalMoveStylePreference.outline => Container(
+        width: shortest * 0.58 * scale,
+        height: shortest * 0.58 * scale,
+        decoration: BoxDecoration(
+          border: Border.all(color: palette.legalMove, width: borderWidth),
+          borderRadius: BorderRadius.circular(shortest * 0.08),
+        ),
+      ),
+    };
   }
 
   String _semanticsLabel(AppLocalizations strings, bool isCapture) {

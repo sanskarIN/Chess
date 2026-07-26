@@ -38,10 +38,18 @@ String localizedPieceName(AppLocalizations strings, Piece piece) {
 }
 
 final class ChessPieceGlyph extends StatelessWidget {
-  const ChessPieceGlyph({required this.piece, required this.size, super.key});
+  const ChessPieceGlyph({
+    required this.piece,
+    required this.size,
+    this.modern = false,
+    this.highVisibility = false,
+    super.key,
+  });
 
   final Piece piece;
   final double size;
+  final bool modern;
+  final bool highVisibility;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +59,13 @@ final class ChessPieceGlyph extends StatelessWidget {
       style: TextStyle(
         fontSize: size,
         height: 1,
+        fontWeight: modern ? FontWeight.w500 : FontWeight.normal,
         color: white ? const Color(0xFFF8F5EC) : const Color(0xFF171B19),
         shadows: <Shadow>[
           Shadow(
             color: white ? const Color(0xB0000000) : const Color(0x8FFFFFFF),
-            blurRadius: white ? 2 : 1,
+            blurRadius: highVisibility ? 0 : (white ? 2 : 1),
+            offset: highVisibility ? const Offset(1.2, 1.2) : Offset.zero,
           ),
         ],
       ),

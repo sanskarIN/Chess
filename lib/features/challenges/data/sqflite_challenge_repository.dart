@@ -302,6 +302,31 @@ LIMIT 1
   }
 
   @override
+  Future<RewardWallet> adjustDeveloperBalance({
+    required RewardAsset asset,
+    required int amount,
+    required String source,
+    required DateTime now,
+  }) {
+    if (amount == 0) {
+      throw const EconomyFailure('invalid_adjustment');
+    }
+    return database.runTransaction((Transaction transaction) async {
+      await _initializeWallet(transaction, now);
+      await _insertLedgerEntry(
+        transaction,
+        type: RewardTransactionType.developerAdjustment,
+        asset: asset,
+        amount: amount,
+        source: source,
+        relatedChallengeId: null,
+        now: now,
+      );
+      return _readWallet(transaction);
+    });
+  }
+
+  @override
   Future<ChallengeDashboard> resetDate({
     required LocalDate date,
     required List<DailyChallenge> definitions,

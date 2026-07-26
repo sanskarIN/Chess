@@ -229,6 +229,28 @@ void main() {
       ),
     );
   });
+
+  test(
+    'developer adjustments remain idempotent and preserve ledger integrity',
+    () async {
+      final RewardWallet adjusted = await repository.adjustDeveloperBalance(
+        asset: RewardAsset.coin,
+        amount: -10,
+        source: 'developer:test-removal',
+        now: now,
+      );
+      final RewardWallet duplicate = await repository.adjustDeveloperBalance(
+        asset: RewardAsset.coin,
+        amount: -10,
+        source: 'developer:test-removal',
+        now: now,
+      );
+
+      expect(adjusted.coins, 40);
+      expect(duplicate.coins, 40);
+      expect((await repository.verifyLedgerIntegrity()).isValid, isTrue);
+    },
+  );
 }
 
 final class _FfiTransactionDatabase implements TransactionalDatabase {

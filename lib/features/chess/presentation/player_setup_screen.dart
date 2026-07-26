@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/app_router.dart';
@@ -7,34 +10,65 @@ import '../../../core/widgets/creator_watermark.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../friend_multiplayer/presentation/friend_lobby_screen.dart';
 import '../../local_multiplayer/domain/local_match_preferences.dart';
+import '../../settings/application/settings_providers.dart';
+import '../../settings/domain/app_settings.dart';
 import '../application/game_setup.dart';
 import '../application/player_name_validator.dart';
 
-final class PlayerSetupScreen extends StatefulWidget {
+final class PlayerSetupScreen extends ConsumerStatefulWidget {
   const PlayerSetupScreen({required this.mode, super.key});
 
   final GameMode mode;
 
   @override
-  State<PlayerSetupScreen> createState() => _PlayerSetupScreenState();
+  ConsumerState<PlayerSetupScreen> createState() => _PlayerSetupScreenState();
 }
 
-final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
+final class _PlayerSetupScreenState extends ConsumerState<PlayerSetupScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _playerOneController;
   late final TextEditingController _playerTwoController;
-  PlayerSideChoice _sideChoice = PlayerSideChoice.white;
-  ComputerDifficulty _difficulty = ComputerDifficulty.beginner;
-  TimeControl _timeControl = TimeControl.tenMinutes;
-  bool _hintsEnabled = true;
-  LocalBoardOrientation _boardOrientation = LocalBoardOrientation.whiteAtBottom;
-  LocalUndoPolicy _undoPolicy = LocalUndoPolicy.requireOpponentApproval;
+  late PlayerSideChoice _sideChoice;
+  late ComputerDifficulty _difficulty;
+  late TimeControl _timeControl;
+  late bool _hintsEnabled;
+  late LocalBoardOrientation _boardOrientation;
+  late LocalUndoPolicy _undoPolicy;
 
   @override
   void initState() {
     super.initState();
-    _playerOneController = TextEditingController();
+    final AppSettings settings = ref.read(settingsControllerProvider).settings;
+    _playerOneController = TextEditingController(
+      text: settings.enabled(SettingFlag.rememberPlayerName)
+          ? settings.defaultPlayerName
+          : '',
+    );
     _playerTwoController = TextEditingController();
+    _sideChoice = switch (settings.defaultPlayerSide) {
+      'black' => PlayerSideChoice.black,
+      'random' => PlayerSideChoice.random,
+      _ => PlayerSideChoice.white,
+    };
+    _difficulty = switch (settings.defaultDifficulty) {
+      'intermediate' => ComputerDifficulty.intermediate,
+      'expert' => ComputerDifficulty.expert,
+      'grandmaster' => ComputerDifficulty.grandmaster,
+      _ => ComputerDifficulty.beginner,
+    };
+    _timeControl = TimeControl.common.firstWhere(
+      (value) => value.id == settings.defaultTimeControl,
+      orElse: () => TimeControl.none,
+    );
+    _hintsEnabled = settings.enabled(SettingFlag.hintsEnabled);
+    _boardOrientation = settings.enabled(SettingFlag.rotateLocalBoard)
+        ? LocalBoardOrientation.rotateAfterMove
+        : LocalBoardOrientation.whiteAtBottom;
+    _undoPolicy = !settings.enabled(SettingFlag.allowLocalUndo)
+        ? LocalUndoPolicy.neverAllow
+        : settings.enabled(SettingFlag.confirmUndo)
+        ? LocalUndoPolicy.requireOpponentApproval
+        : LocalUndoPolicy.alwaysAllow;
   }
 
   void _skipNames() {
@@ -49,6 +83,17 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
       return;
     }
     final AppLocalizations strings = AppLocalizations.of(context);
+    final settingsController = ref.read(settingsControllerProvider);
+    if (settingsController.settings.enabled(SettingFlag.rememberPlayerName) &&
+        _playerOneController.text.trim().isNotEmpty) {
+      unawaited(
+        settingsController.update(
+          settingsController.settings.copyWith(
+            defaultPlayerName: _playerOneController.text.trim(),
+          ),
+        ),
+      );
+    }
     final GameSetup setup = switch (widget.mode) {
       GameMode.computer => GameSetup.computer(
         playerName: _playerOneController.text,
@@ -291,13 +336,15 @@ final class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                                     (LocalUndoPolicy policy) =>
                                         DropdownMenuItem<LocalUndoPolicy>(
                                           value: policy,
-                                          child: Text(
-                                            policy ==
-                                                    LocalUndoPolicy
-                                                        .requireOpponentApproval
-                                                ? strings.askOpponentForUndo
-                                                : strings.alwaysAllowUndo,
-                                          ),
+                                          child: Text(switch (policy) {
+                                            LocalUndoPolicy.neverAllow =>
+                                              strings.undoDisabled,
+                                            LocalUndoPolicy
+                                                .requireOpponentApproval =>
+                                              strings.askOpponentForUndo,
+                                            LocalUndoPolicy.alwaysAllow =>
+                                              strings.alwaysAllowUndo,
+                                          }),
                                         ),
                                   )
                                   .toList(growable: false),

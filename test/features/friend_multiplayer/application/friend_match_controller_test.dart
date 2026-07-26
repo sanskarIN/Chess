@@ -122,7 +122,7 @@ void main() {
     await Future<void>.delayed(Duration.zero);
 
     first.disconnect();
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await second.firstSend.timeout(const Duration(seconds: 1));
 
     expect(second.sent, isNotEmpty);
     expect(second.sent.single['type'], 'reconnect');

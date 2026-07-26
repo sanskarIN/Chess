@@ -23,6 +23,9 @@ import '../features/practice/presentation/tutorial_screen.dart';
 import '../features/saved_games/domain/saved_game.dart';
 import '../features/saved_games/presentation/review_screen.dart';
 import '../features/saved_games/presentation/saved_games_screen.dart';
+import '../features/settings/presentation/data_management_screen.dart';
+import '../features/settings/presentation/developer_options_screen.dart';
+import '../features/settings/presentation/settings_screen.dart';
 import '../features/splash/presentation/splash_screen.dart';
 import '../l10n/app_localizations.dart';
 
@@ -46,6 +49,9 @@ abstract final class AppRoutes {
   static const String review = '/review';
   static const String guide = '/guide';
   static const String features = '/features';
+  static const String settings = '/settings';
+  static const String developerOptions = '/settings/developer';
+  static const String dataManagement = '/settings/data';
 
   static String setupPath(GameMode mode) => '/play/${mode.name}';
 }
@@ -212,6 +218,24 @@ GoRouter createAppRouter({required AppError? startupError}) {
         path: AppRoutes.features,
         builder: (BuildContext context, GoRouterState state) {
           return const FeatureCatalogScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        builder: (BuildContext context, GoRouterState state) {
+          return const SettingsScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.developerOptions,
+        builder: (BuildContext context, GoRouterState state) {
+          return const DeveloperOptionsScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.dataManagement,
+        builder: (BuildContext context, GoRouterState state) {
+          return const DataManagementScreen();
         },
       ),
     ],

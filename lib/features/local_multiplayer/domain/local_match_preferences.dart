@@ -1,3 +1,3 @@
 enum LocalBoardOrientation { whiteAtBottom, blackAtBottom, rotateAfterMove }
 
-enum LocalUndoPolicy { requireOpponentApproval, alwaysAllow }
+enum LocalUndoPolicy { neverAllow, requireOpponentApproval, alwaysAllow }

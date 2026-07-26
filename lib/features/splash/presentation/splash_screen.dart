@@ -10,6 +10,10 @@ import '../../../core/widgets/brand_mark.dart';
 import '../../../core/widgets/creator_watermark.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../onboarding/data/onboarding_repository.dart';
+import '../../saved_games/application/saved_game_providers.dart';
+import '../../saved_games/domain/saved_game.dart';
+import '../../settings/application/settings_providers.dart';
+import '../../settings/domain/app_settings.dart';
 
 final class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({required this.startupError, super.key});
@@ -67,6 +71,8 @@ final class _SplashScreenState extends ConsumerState<SplashScreen>
     final bool showOnboarding = await ref
         .read(onboardingRepositoryProvider)
         .shouldShowOnboarding();
+    final settingsController = ref.read(settingsControllerProvider);
+    await settingsController.initialize();
     if (!mounted) {
       return;
     }
@@ -76,7 +82,40 @@ final class _SplashScreenState extends ConsumerState<SplashScreen>
     if (!mounted) {
       return;
     }
-    context.go(showOnboarding ? AppRoutes.onboarding : AppRoutes.home);
+    if (showOnboarding) {
+      context.go(AppRoutes.onboarding);
+      return;
+    }
+    final AppSettings settings = settingsController.settings;
+    if (settings.enabled(SettingFlag.resumeLastGame)) {
+      try {
+        final List<SavedGame> savedGames = await ref
+            .read(savedGameRepositoryProvider)
+            .loadAll();
+        if (savedGames.isNotEmpty && mounted) {
+          context.go(
+            AppRoutes.savedGame,
+            extra: SavedGameLaunch(savedGame: savedGames.first),
+          );
+          return;
+        }
+      } on Object {
+        // A corrupt or unavailable saved game must not block startup.
+      }
+    }
+    if (mounted) {
+      context.go(_startRoute(settings.startScreen));
+    }
+  }
+
+  String _startRoute(StartScreenPreference preference) {
+    return switch (preference) {
+      StartScreenPreference.home => AppRoutes.home,
+      StartScreenPreference.play => AppRoutes.modeSelection,
+      StartScreenPreference.challenges => AppRoutes.dailyChallenges,
+      StartScreenPreference.practice => AppRoutes.practice,
+      StartScreenPreference.savedGames => AppRoutes.savedGames,
+    };
   }
 
   @override

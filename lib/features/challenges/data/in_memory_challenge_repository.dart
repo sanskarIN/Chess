@@ -208,6 +208,34 @@ final class InMemoryChallengeRepository implements ChallengeRepository {
   }
 
   @override
+  Future<RewardWallet> adjustDeveloperBalance({
+    required RewardAsset asset,
+    required int amount,
+    required String source,
+    required DateTime now,
+  }) async {
+    if (amount == 0) {
+      throw const EconomyFailure('invalid_adjustment');
+    }
+    _initializeWallet(now);
+    if (!_hasTransaction(
+      RewardTransactionType.developerAdjustment,
+      asset,
+      source,
+    )) {
+      _applyTransaction(
+        type: RewardTransactionType.developerAdjustment,
+        asset: asset,
+        amount: amount,
+        source: source,
+        relatedChallengeId: null,
+        now: now,
+      );
+    }
+    return _wallet;
+  }
+
+  @override
   Future<ChallengeDashboard> resetDate({
     required LocalDate date,
     required List<DailyChallenge> definitions,

@@ -7,6 +7,41 @@ import 'package:chess_master/features/challenges/domain/reward_wallet.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test(
+    'developer adjustments are signed, idempotent, and ledger-safe',
+    () async {
+      final InMemoryChallengeRepository repository =
+          InMemoryChallengeRepository();
+      final DateTime now = DateTime.utc(2026, 7, 23, 12);
+
+      final RewardWallet adjusted = await repository.adjustDeveloperBalance(
+        asset: RewardAsset.coin,
+        amount: -10,
+        source: 'developer:test-removal',
+        now: now,
+      );
+      final RewardWallet duplicate = await repository.adjustDeveloperBalance(
+        asset: RewardAsset.coin,
+        amount: -10,
+        source: 'developer:test-removal',
+        now: now,
+      );
+
+      expect(adjusted.coins, 40);
+      expect(duplicate.coins, 40);
+      expect((await repository.verifyLedgerIntegrity()).isValid, isTrue);
+      await expectLater(
+        repository.adjustDeveloperBalance(
+          asset: RewardAsset.coin,
+          amount: -100,
+          source: 'developer:negative',
+          now: now,
+        ),
+        throwsA(isA<EconomyFailure>()),
+      );
+    },
+  );
+
   const DeterministicChallengeGenerator generator =
       DeterministicChallengeGenerator();
   final LocalDate date = LocalDate.parse('2026-07-23');

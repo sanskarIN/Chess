@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/app_router.dart';
+import '../../../core/platform/system_display_service.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/creator_watermark.dart';
 import '../../../l10n/app_localizations.dart';
@@ -32,6 +33,8 @@ import '../../local_multiplayer/domain/local_match_preferences.dart';
 import '../../local_multiplayer/domain/monotonic_time_source.dart';
 import '../../saved_games/application/saved_game_providers.dart';
 import '../../saved_games/domain/saved_game.dart';
+import '../../settings/application/settings_providers.dart';
+import '../../settings/domain/app_settings.dart';
 import '../application/chess_game_controller.dart';
 import '../application/game_setup.dart';
 import '../domain/board/square.dart';
@@ -79,6 +82,7 @@ final class GameScreen extends ConsumerStatefulWidget {
 
 final class _GameScreenState extends ConsumerState<GameScreen>
     with WidgetsBindingObserver {
+  static const SystemDisplayService _displayService = SystemDisplayService();
   late final ChessGameController _controller;
   late final DailyChallengesController _challengesController;
   ComputerOpponentController? _computerOpponent;
@@ -88,7 +92,10 @@ final class _GameScreenState extends ConsumerState<GameScreen>
   bool _synchronizingFriend = false;
   bool _resultDialogOpen = false;
   bool _paused = false;
+  bool _exitConfirmed = false;
   bool _hintLoading = false;
+  bool _autoSaveRunning = false;
+  bool _autoSaveQueued = false;
   HintSuggestion? _activeHint;
   int _hintPositionPly = 0;
   int _hintCount = 0;
@@ -151,6 +158,21 @@ final class _GameScreenState extends ConsumerState<GameScreen>
         unawaited(_computerOpponent?.start());
       });
     }
+    _applyDisplaySettings();
+  }
+
+  void _applyDisplaySettings() {
+    final AppSettings settings = ref.read(settingsControllerProvider).settings;
+    unawaited(
+      _displayService.setKeepScreenOn(
+        settings.enabled(SettingFlag.keepScreenAwake),
+      ),
+    );
+    if (settings.enabled(SettingFlag.fullScreenGame)) {
+      unawaited(
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky),
+      );
+    }
   }
 
   void _handleControllerChanged() {
@@ -163,6 +185,7 @@ final class _GameScreenState extends ConsumerState<GameScreen>
     }
     setState(() {});
     _recordChallengeProgress();
+    _scheduleAutoSave();
     unawaited(_computerOpponent?.synchronize());
     if (_controller.result != null &&
         !_controller.resultAcknowledged &&
@@ -171,6 +194,42 @@ final class _GameScreenState extends ConsumerState<GameScreen>
         _showResultIfNeeded();
       });
     }
+  }
+
+  void _scheduleAutoSave() {
+    final AppSettings settings = ref.read(settingsControllerProvider).settings;
+    if (!settings.enabled(SettingFlag.autoSave) ||
+        _controller.game.moveRecords.isEmpty) {
+      return;
+    }
+    if (_autoSaveRunning) {
+      _autoSaveQueued = true;
+      return;
+    }
+    unawaited(_runAutoSave());
+  }
+
+  Future<void> _runAutoSave() async {
+    _autoSaveRunning = true;
+    do {
+      _autoSaveQueued = false;
+      try {
+        await ref
+            .read(savedGameRepositoryProvider)
+            .save(
+              savedGameId:
+                  widget.savedGameId ?? 'autosave-${_controller.game.gameId}',
+              title: AppLocalizations.of(context).defaultSaveTitle,
+              setup: widget.setup,
+              game: _controller.game,
+              now: DateTime.now().toUtc(),
+            );
+        ref.invalidate(savedGamesProvider);
+      } on Object {
+        // Auto-save is best effort; manual save remains available.
+      }
+    } while (_autoSaveQueued && mounted);
+    _autoSaveRunning = false;
   }
 
   void _handleComputerChanged() {
@@ -476,10 +535,8 @@ final class _GameScreenState extends ConsumerState<GameScreen>
 
   Future<void> _saveGame() async {
     final AppLocalizations strings = AppLocalizations.of(context);
-    final TextEditingController titleController = TextEditingController(
-      text: strings.defaultSaveTitle,
-    );
-    final TextEditingController notesController = TextEditingController();
+    String title = strings.defaultSaveTitle;
+    String notes = '';
     final bool? save = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
@@ -489,18 +546,20 @@ final class _GameScreenState extends ConsumerState<GameScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              TextField(
-                controller: titleController,
+              TextFormField(
+                initialValue: title,
                 maxLength: 80,
+                onChanged: (value) => title = value,
                 decoration: InputDecoration(
                   labelText: strings.saveTitle,
                   border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: DesignTokens.space12),
-              TextField(
-                controller: notesController,
+              TextFormField(
+                initialValue: notes,
                 maxLines: 3,
+                onChanged: (value) => notes = value,
                 decoration: InputDecoration(
                   labelText: strings.saveNotesOptional,
                   border: const OutlineInputBorder(),
@@ -516,8 +575,8 @@ final class _GameScreenState extends ConsumerState<GameScreen>
           ),
           FilledButton(
             onPressed: () {
-              final String title = titleController.text.trim();
-              if (title.isNotEmpty && title.length <= 80) {
+              final String trimmedTitle = title.trim();
+              if (trimmedTitle.isNotEmpty && trimmedTitle.length <= 80) {
                 Navigator.of(dialogContext).pop(true);
               }
             },
@@ -531,8 +590,8 @@ final class _GameScreenState extends ConsumerState<GameScreen>
           .read(savedGameRepositoryProvider)
           .save(
             savedGameId: widget.savedGameId,
-            title: titleController.text,
-            notes: notesController.text,
+            title: title,
+            notes: notes,
             setup: widget.setup,
             game: _controller.game,
             now: DateTime.now().toUtc(),
@@ -546,58 +605,67 @@ final class _GameScreenState extends ConsumerState<GameScreen>
         );
       }
     }
-    titleController.dispose();
-    notesController.dispose();
   }
 
   Future<void> _requestHint() async {
     final AppLocalizations strings = AppLocalizations.of(context);
+    final AppSettings settings = ref.read(settingsControllerProvider).settings;
     await _challengesController.initialize();
     if (!mounted) {
       return;
     }
     final RewardWallet wallet =
         _challengesController.dashboard?.wallet ?? RewardWallet.empty;
-    final HintPaymentMethod?
-    paymentMethod = await showDialog<HintPaymentMethod>(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          icon: const Icon(Icons.lightbulb_outline),
-          title: Text(strings.hintPaymentTitle),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(strings.hintPaymentDescription),
-              const SizedBox(height: DesignTokens.space12),
-              Text('${strings.hints}: ${wallet.hints}'),
-              Text('${strings.coins}: ${wallet.coins}'),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(strings.cancel),
-            ),
-            TextButton(
-              onPressed: wallet.hints >= 1
-                  ? () =>
-                        Navigator.of(dialogContext).pop(HintPaymentMethod.hint)
-                  : null,
-              child: Text(strings.hintUseToken),
-            ),
-            FilledButton(
-              onPressed: wallet.coins >= 25
-                  ? () =>
-                        Navigator.of(dialogContext).pop(HintPaymentMethod.coins)
-                  : null,
-              child: Text(strings.hintUseCoins),
-            ),
-          ],
-        );
-      },
-    );
+    final bool confirmSpending =
+        settings.enabled(SettingFlag.confirmHintSpending) ||
+        settings.enabled(SettingFlag.confirmBeforeSpendingCoins);
+    final HintPaymentMethod? paymentMethod = confirmSpending
+        ? await showDialog<HintPaymentMethod>(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return AlertDialog(
+                icon: const Icon(Icons.lightbulb_outline),
+                title: Text(strings.hintPaymentTitle),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(strings.hintPaymentDescription),
+                    const SizedBox(height: DesignTokens.space12),
+                    Text('${strings.hints}: ${wallet.hints}'),
+                    Text('${strings.coins}: ${wallet.coins}'),
+                  ],
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.of(dialogContext).pop(),
+                    child: Text(strings.cancel),
+                  ),
+                  TextButton(
+                    onPressed: wallet.hints >= 1
+                        ? () => Navigator.of(
+                            dialogContext,
+                          ).pop(HintPaymentMethod.hint)
+                        : null,
+                    child: Text(strings.hintUseToken),
+                  ),
+                  FilledButton(
+                    onPressed: wallet.coins >= 25
+                        ? () => Navigator.of(
+                            dialogContext,
+                          ).pop(HintPaymentMethod.coins)
+                        : null,
+                    child: Text(strings.hintUseCoins),
+                  ),
+                ],
+              );
+            },
+          )
+        : wallet.hints >= 1
+        ? HintPaymentMethod.hint
+        : wallet.coins >= 25
+        ? HintPaymentMethod.coins
+        : null;
     if (paymentMethod == null || !mounted) {
       return;
     }
@@ -655,8 +723,19 @@ final class _GameScreenState extends ConsumerState<GameScreen>
     final SquareSelectionResult result = _controller.selectSquare(square);
     if (result.playedMove != null) {
       _submitFriendMove(result.playedMove!);
+      _performMoveFeedback();
     }
     if (!result.needsPromotionChoice || !mounted) {
+      return;
+    }
+    final AppSettings settings = ref.read(settingsControllerProvider).settings;
+    if (settings.promotion == PromotionPreference.autoQueen) {
+      final Move queen = result.promotionChoices.firstWhere(
+        (move) => move.promotion == PieceType.queen,
+      );
+      _controller.playMove(queen);
+      _submitFriendMove(queen);
+      _performMoveFeedback();
       return;
     }
     final Move? selectedMove = await showModalBottomSheet<Move>(
@@ -669,6 +748,31 @@ final class _GameScreenState extends ConsumerState<GameScreen>
     if (selectedMove != null && mounted) {
       _controller.playMove(selectedMove);
       _submitFriendMove(selectedMove);
+      _performMoveFeedback();
+    }
+  }
+
+  void _performMoveFeedback() {
+    final AppSettings settings = ref.read(settingsControllerProvider).settings;
+    final bool capture =
+        _controller.game.moveRecords.lastOrNull?.capturedPiece != null;
+    final bool inCheck = _controller.checkedKingSquare != null;
+    if (settings.enabled(SettingFlag.masterSound) &&
+        settings.enabled(SettingFlag.soundEffects)) {
+      if (inCheck && settings.enabled(SettingFlag.checkSound)) {
+        unawaited(SystemSound.play(SystemSoundType.alert));
+      } else if (capture && settings.enabled(SettingFlag.captureSound)) {
+        unawaited(SystemSound.play(SystemSoundType.click));
+      } else if (settings.enabled(SettingFlag.moveSound)) {
+        unawaited(SystemSound.play(SystemSoundType.click));
+      }
+    }
+    if (settings.enabled(SettingFlag.hapticFeedback)) {
+      if (capture && settings.enabled(SettingFlag.captureHaptic)) {
+        unawaited(HapticFeedback.mediumImpact());
+      } else if (settings.enabled(SettingFlag.moveHaptic)) {
+        unawaited(HapticFeedback.selectionClick());
+      }
     }
   }
 
@@ -710,12 +814,18 @@ final class _GameScreenState extends ConsumerState<GameScreen>
 
   Future<void> _confirmResignation() async {
     final AppLocalizations strings = AppLocalizations.of(context);
-    final bool confirmed = await _confirmation(
-      title: strings.resign,
-      body: strings.resignConfirmation,
-      confirmLabel: strings.confirmResign,
-      destructive: true,
-    );
+    final bool confirmed =
+        !ref
+            .read(settingsControllerProvider)
+            .settings
+            .enabled(SettingFlag.confirmBeforeResignation)
+        ? true
+        : await _confirmation(
+            title: strings.resign,
+            body: strings.resignConfirmation,
+            confirmLabel: strings.confirmResign,
+            destructive: true,
+          );
     if (confirmed) {
       final LocalMatchController? localController = _localMatchController;
       if (localController != null) {
@@ -879,6 +989,12 @@ final class _GameScreenState extends ConsumerState<GameScreen>
   @override
   Widget build(BuildContext context) {
     final AppLocalizations strings = AppLocalizations.of(context);
+    final bool confirmExit = ref.watch(
+      settingsControllerProvider.select(
+        (controller) =>
+            controller.settings.enabled(SettingFlag.confirmBeforeExit),
+      ),
+    );
     final bool baseFlipped =
         widget.setup.boardOrientation == LocalBoardOrientation.blackAtBottom;
     final bool flipped = baseFlipped != _controller.boardFlipped;
@@ -894,73 +1010,88 @@ final class _GameScreenState extends ConsumerState<GameScreen>
         (widget.setup.mode != GameMode.computer ||
             _controller.position.sideToMove == widget.setup.humanColor);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(strings.gameTitle),
-            Text(
-              _matchStatus(strings),
-              style: Theme.of(context).textTheme.labelMedium,
+    return PopScope<void>(
+      canPop: _exitConfirmed || !confirmExit,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || _exitConfirmed || !confirmExit) return;
+        final bool confirmed = await _confirmation(
+          title: strings.gameTitle,
+          body: strings.exitGameConfirmation,
+          confirmLabel: strings.exitGame,
+          destructive: true,
+        );
+        if (!context.mounted || !confirmed) return;
+        setState(() => _exitConfirmed = true);
+        context.pop();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(strings.gameTitle),
+              Text(
+                _matchStatus(strings),
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            IconButton(
+              tooltip: strings.saveGame,
+              onPressed: _saveGame,
+              icon: const Icon(Icons.bookmark_add_outlined),
             ),
+            if (_controller.result != null)
+              IconButton(
+                tooltip: strings.matchResult,
+                onPressed: () => _showResultIfNeeded(force: true),
+                icon: const Icon(Icons.emoji_events_outlined),
+              ),
           ],
         ),
-        actions: <Widget>[
-          IconButton(
-            tooltip: strings.saveGame,
-            onPressed: _saveGame,
-            icon: const Icon(Icons.bookmark_add_outlined),
-          ),
-          if (_controller.result != null)
-            IconButton(
-              tooltip: strings.matchResult,
-              onPressed: () => _showResultIfNeeded(force: true),
-              icon: const Icon(Icons.emoji_events_outlined),
-            ),
-        ],
-      ),
-      body: SafeArea(
-        top: false,
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            if (constraints.maxWidth >= 900) {
-              return _LandscapeGameLayout(
-                boardColumn: _boardColumn(
-                  topColor: topColor,
-                  topName: topName,
-                  bottomColor: bottomColor,
-                  bottomName: bottomName,
-                  flipped: flipped,
-                  interactionEnabled: interactionEnabled,
-                ),
-                sideColumn: _sideColumn(),
-              );
-            }
-            return SingleChildScrollView(
-              padding: DesignTokens.pagePadding(constraints.maxWidth),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 680),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      _boardColumn(
-                        topColor: topColor,
-                        topName: topName,
-                        bottomColor: bottomColor,
-                        bottomName: bottomName,
-                        flipped: flipped,
-                        interactionEnabled: interactionEnabled,
-                      ),
-                      const SizedBox(height: DesignTokens.space16),
-                      _sideColumn(),
-                    ],
+        body: SafeArea(
+          top: false,
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth >= 900) {
+                return _LandscapeGameLayout(
+                  boardColumn: _boardColumn(
+                    topColor: topColor,
+                    topName: topName,
+                    bottomColor: bottomColor,
+                    bottomName: bottomName,
+                    flipped: flipped,
+                    interactionEnabled: interactionEnabled,
+                  ),
+                  sideColumn: _sideColumn(),
+                );
+              }
+              return SingleChildScrollView(
+                padding: DesignTokens.pagePadding(constraints.maxWidth),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 680),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        _boardColumn(
+                          topColor: topColor,
+                          topName: topName,
+                          bottomColor: bottomColor,
+                          bottomName: bottomName,
+                          flipped: flipped,
+                          interactionEnabled: interactionEnabled,
+                        ),
+                        const SizedBox(height: DesignTokens.space16),
+                        _sideColumn(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -1012,6 +1143,12 @@ final class _GameScreenState extends ConsumerState<GameScreen>
 
   Widget _sideColumn() {
     final AppLocalizations strings = AppLocalizations.of(context);
+    final AppSettings settings = ref.watch(
+      settingsControllerProvider.select((controller) => controller.settings),
+    );
+    final bool showBalances =
+        settings.enabled(SettingFlag.coinBalanceDisplay) ||
+        settings.enabled(SettingFlag.hintBalanceDisplay);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -1019,16 +1156,21 @@ final class _GameScreenState extends ConsumerState<GameScreen>
           text: _matchStatus(strings),
           isCheck: _controller.checkedKingSquare != null,
         ),
-        if (_computerOpponent != null) ...<Widget>[
+        if (_computerOpponent != null &&
+            (settings.enabled(SettingFlag.computerThinkingIndicator) ||
+                settings.enabled(SettingFlag.showEvaluation))) ...<Widget>[
           const SizedBox(height: DesignTokens.space12),
           _EngineStatusPanel(
             thinking: _computerOpponent!.isThinking,
-            analysis: _computerOpponent!.latestAnalysis,
+            analysis: settings.enabled(SettingFlag.showEvaluation)
+                ? _computerOpponent!.latestAnalysis
+                : null,
             failure: _computerOpponent!.failure,
             onRetry: _computerOpponent!.retry,
           ),
         ],
-        if (widget.setup.hintsEnabled &&
+        if (showBalances &&
+            widget.setup.hintsEnabled &&
             _challengesController.dashboard != null) ...<Widget>[
           const SizedBox(height: DesignTokens.space12),
           RewardBalanceBar(wallet: _challengesController.dashboard!.wallet),
@@ -1043,18 +1185,31 @@ final class _GameScreenState extends ConsumerState<GameScreen>
           const SizedBox(height: DesignTokens.space12),
           _HintPanel(suggestion: _activeHint!),
         ],
-        const SizedBox(height: DesignTokens.space12),
-        CapturedPiecesPanel(
-          capturedByWhite: _controller.capturedBy(PieceColor.white),
-          capturedByBlack: _controller.capturedBy(PieceColor.black),
-        ),
-        const SizedBox(height: DesignTokens.space12),
-        MoveHistoryPanel(records: _controller.game.moveRecords),
+        if (settings.enabled(SettingFlag.capturedPieceDisplay)) ...<Widget>[
+          const SizedBox(height: DesignTokens.space12),
+          CapturedPiecesPanel(
+            capturedByWhite: _controller.capturedBy(PieceColor.white),
+            capturedByBlack: _controller.capturedBy(PieceColor.black),
+            showMaterialScore:
+                settings.enabled(SettingFlag.materialScoreDisplay) &&
+                settings.enabled(SettingFlag.estimatedMaterialAdvantage),
+          ),
+        ],
+        if (settings.enabled(SettingFlag.moveHistoryDisplay)) ...<Widget>[
+          const SizedBox(height: DesignTokens.space12),
+          MoveHistoryPanel(records: _controller.game.moveRecords),
+        ],
         const SizedBox(height: DesignTokens.space12),
         GameControls(
           hintsEnabled: widget.setup.hintsEnabled,
-          canUndo: widget.setup.mode != GameMode.friend && _controller.canUndo,
-          canRedo: widget.setup.mode != GameMode.friend && _controller.canRedo,
+          canUndo:
+              widget.setup.mode != GameMode.friend &&
+              widget.setup.undoPolicy != LocalUndoPolicy.neverAllow &&
+              _controller.canUndo,
+          canRedo:
+              widget.setup.mode != GameMode.friend &&
+              widget.setup.undoPolicy != LocalUndoPolicy.neverAllow &&
+              _controller.canRedo,
           hasClock: widget.setup.timeControl.hasClock,
           interactionEnabled:
               widget.setup.mode != GameMode.friend &&
@@ -1142,6 +1297,8 @@ final class _GameScreenState extends ConsumerState<GameScreen>
       ..removeListener(_handleControllerChanged)
       ..dispose();
     _challengesController.removeListener(_handleChallengesChanged);
+    unawaited(_displayService.setKeepScreenOn(false));
+    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
     super.dispose();
   }
 

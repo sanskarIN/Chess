@@ -30,7 +30,7 @@ final class HomeScreen extends ConsumerWidget {
         actions: <Widget>[
           IconButton(
             tooltip: strings.settings,
-            onPressed: () => _showPlannedMessage(context),
+            onPressed: () => context.push(AppRoutes.settings),
             icon: const Icon(Icons.settings_outlined),
           ),
           const SizedBox(width: DesignTokens.space8),

@@ -57,6 +57,27 @@ void main() {
       local.dispose();
       match.dispose();
     });
+
+    test('disabled policy rejects undo and redo without creating a request', () {
+      final ChessGameController match = ChessGameController(setup: _setup());
+      final LocalMatchController local = LocalMatchController(
+        matchController: match,
+        undoPolicy: LocalUndoPolicy.neverAllow,
+      );
+      _play(match, 'e2', 'e4');
+
+      expect(local.requestUndo(), LocalRequestOutcome.unavailable);
+      expect(local.pendingRequest, isNull);
+      expect(match.game.ply, 1);
+
+      match.undo();
+      expect(local.requestRedo(), LocalRequestOutcome.unavailable);
+      expect(local.pendingRequest, isNull);
+      expect(match.game.ply, 0);
+
+      local.dispose();
+      match.dispose();
+    });
   });
 }
 

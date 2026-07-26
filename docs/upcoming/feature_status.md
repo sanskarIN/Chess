@@ -27,7 +27,7 @@ The `Status` column uses only the master prompt's permitted classifications.
 | Friend matches and relay server | Tested | Passed | 92-test Flutter suite and 7-test Node relay suite; Docker image build not run because Docker is unavailable |
 | Daily challenges, coins, and hints | Tested | Passed | Deterministic generation, real SQLite migration/transactions, concurrent claim, no-charge failure, game hooks, and widgets in 108-test suite |
 | Practice, tutorial, saves, and review | Tested | Passed | Legal catalog replay, first-only rewards, SQLite v3 persistence/import, review stepping, and widget coverage |
-| Complete settings and developer options | Not started | Not run | Phase 9 |
+| Complete settings and developer options | Tested | Passed | Typed persistence, live runtime behavior, guarded tools, real SQLite snapshot/reset tests, and widget coverage |
 | 33 locale options | Not started | Not run | Phase 10 |
 | Complete legal and open-source package | Not started | Not run | Phase 11 |
 | Beta release qualification | Not started | Not run | Phase 12 |

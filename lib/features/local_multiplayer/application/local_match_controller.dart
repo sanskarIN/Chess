@@ -22,6 +22,9 @@ final class LocalMatchController extends ChangeNotifier {
     if (!matchController.canUndo || matchController.result != null) {
       return LocalRequestOutcome.unavailable;
     }
+    if (undoPolicy == LocalUndoPolicy.neverAllow) {
+      return LocalRequestOutcome.unavailable;
+    }
     if (undoPolicy == LocalUndoPolicy.alwaysAllow) {
       matchController.undo();
       return LocalRequestOutcome.applied;
@@ -31,6 +34,9 @@ final class LocalMatchController extends ChangeNotifier {
 
   LocalRequestOutcome requestRedo() {
     if (!matchController.canRedo || matchController.result != null) {
+      return LocalRequestOutcome.unavailable;
+    }
+    if (undoPolicy == LocalUndoPolicy.neverAllow) {
       return LocalRequestOutcome.unavailable;
     }
     if (undoPolicy == LocalUndoPolicy.alwaysAllow) {

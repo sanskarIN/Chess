@@ -11,15 +11,24 @@ abstract final class AppTheme {
   static ThemeData dark() =>
       _theme(brightness: Brightness.dark, surface: _darkSurface);
 
+  static ThemeData highContrast() {
+    return _theme(
+      brightness: Brightness.light,
+      surface: Colors.white,
+      contrastLevel: 1,
+    );
+  }
+
   static ThemeData _theme({
     required Brightness brightness,
     required Color surface,
+    double contrastLevel = 0.5,
   }) {
     final ColorScheme colors = ColorScheme.fromSeed(
       seedColor: _seed,
       brightness: brightness,
       surface: surface,
-      contrastLevel: 0.5,
+      contrastLevel: contrastLevel,
     );
 
     return ThemeData(

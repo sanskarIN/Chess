@@ -7,9 +7,11 @@ final class FakeFriendTransport implements FriendTransport {
       StreamController<Map<String, Object?>>.broadcast();
   final StreamController<FriendTransportState> _states =
       StreamController<FriendTransportState>.broadcast();
+  final Completer<void> _firstSend = Completer<void>();
   final List<Map<String, Object?>> sent = <Map<String, Object?>>[];
   Uri? connectedUrl;
   bool closed = false;
+  Future<void> get firstSend => _firstSend.future;
 
   @override
   Stream<Map<String, Object?>> get messages => _messages.stream;
@@ -26,6 +28,9 @@ final class FakeFriendTransport implements FriendTransport {
   @override
   void send(Map<String, Object?> message) {
     sent.add(Map<String, Object?>.unmodifiable(message));
+    if (!_firstSend.isCompleted) {
+      _firstSend.complete();
+    }
   }
 
   void emit(Map<String, Object?> message) => _messages.add(message);

@@ -10,11 +10,11 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 8 tutorial, practice, puzzle, guide, feature
-> catalog, saved-game, validated FEN/PGN import, and move-review flows are
-> implemented offline. Tutorial and practice rewards use idempotent local
-> ledger sources, and SQLite schema v3 stores durable progress and saves. No
-> real-money purchase or unverified native executable is bundled. See
+> Development status: Phase 9 typed settings, live board/game preferences,
+> documented developer tools, diagnostics, and versioned local-data management
+> are implemented. SQLite schema v3 stores durable preferences, progress, saves,
+> challenges, and ledger data. No real-money purchase or unverified native
+> executable is bundled. See
 > [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
@@ -83,6 +83,14 @@ accessible multilingual interfaces.
   catalog with availability labels.
 - Local save, resume, rename, delete, FEN copy, PGN export, validated FEN/PGN
   import, and immutable move-by-move review with optional local evaluation.
+- Versioned typed settings with live theme, board, accessibility, gameplay,
+  sound/haptic, startup, auto-save, and Android display behavior.
+- Seven-tap documented Developer Options with diagnostics, FEN/PGN/board tools,
+  ledger-safe economy tools, challenge simulations, multiplayer diagnostics,
+  localization previews, typed feature flags, and storage integrity checks.
+- Versioned local JSON export/import with preview, atomic merge/replace,
+  foreign-key validation, selective confirmed resets, typed delete-all
+  confirmation, and privacy-safe reward-ledger export.
 
 ## Technology baseline
 
@@ -177,6 +185,9 @@ Flutter title when preparing a renamed distribution.
 - [Practice and tutorial](docs/practice_and_tutorial.md)
 - [Puzzle catalog](docs/puzzle_catalog.md)
 - [Saved games and review](docs/saved_games_and_review.md)
+- [Settings system](docs/settings.md)
+- [Developer Options](docs/developer_options.md)
+- [Local data management](docs/data_management.md)
 - [Roadmap phases](docs/upcoming/phases.md)
 - [Exact next work](docs/upcoming/next.md)
 - [Technology notes](docs/technologies/README.md)

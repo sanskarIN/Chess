@@ -43,6 +43,13 @@ abstract interface class ChallengeRepository {
     required DateTime now,
   });
 
+  Future<RewardWallet> adjustDeveloperBalance({
+    required RewardAsset asset,
+    required int amount,
+    required String source,
+    required DateTime now,
+  });
+
   Future<ChallengeDashboard> resetDate({
     required LocalDate date,
     required List<DailyChallenge> definitions,

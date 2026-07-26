@@ -2,6 +2,7 @@ package in.sanskar.chessmaster
 
 import android.content.Intent
 import android.os.Build
+import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -48,6 +49,22 @@ class MainActivity : FlutterActivity() {
                         }
                     startActivity(Intent.createChooser(intent, null))
                     result.success(null)
+                }
+
+                "setKeepScreenOn" -> {
+                    val enabled = call.argument<Boolean>("enabled")
+                    if (enabled == null) {
+                        result.error("invalid_enabled", "Enabled is required.", null)
+                        return@setMethodCallHandler
+                    }
+                    runOnUiThread {
+                        if (enabled) {
+                            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                        } else {
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                        }
+                        result.success(null)
+                    }
                 }
 
                 else -> result.notImplemented()

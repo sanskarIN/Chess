@@ -2,9 +2,9 @@
 
 ## Project identity
 
-- Version: `0.8.0+8`
-- Completed phase: 8 — Practice and Guide
-- Next phase: 9 — Settings and Developer Options
+- Version: `0.9.0+9`
+- Completed phase: 9 — Settings and Developer Options
+- Next phase: 10 — Localization
 - Updated: 2026-07-23
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
@@ -25,9 +25,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 5 local multiplayer | `df5f9d37b18d6939b20d05a8aa51c4ac83466dc4` | Published on `origin/main` |
 | Phase 6 friend multiplayer | `7b4cf5b330ab316128cc65dbd290ea288f6c4e1d` | Published on `origin/main` |
 | Phase 7 challenges and economy | `e139bbf99e39544e88c69139d71d851439bf3609` | Published on `origin/main` |
+| Phase 8 practice and guide | `e7b0104048e1d2021549870944e8eb905be09213` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 8 is ready for its boundary commit
+directly without overwriting history. Phase 9 is ready for its boundary commit
 after this manifest update.
 
 ## Phase 1 completed source
@@ -181,6 +182,43 @@ after this manifest update.
 - Practice, puzzle-source, tutorial, save-format, import, review, and guide
   documentation
 
+## Phase 9 completed source
+
+- Versioned, corruption-safe `AppSettings` serialization with typed enums,
+  typed boolean settings, typed feature flags, bounded values, memory fallback,
+  reset, and live Riverpod controller
+- General, appearance, gameplay, sound/haptic, computer, multiplayer,
+  challenge/reward, language, accessibility, privacy/data, about, and creator
+  groups using progressive disclosure
+- Live theme, high-contrast, reduced-motion, locale, start-route, board palette,
+  legal-marker, coordinate, highlight, animation, piece emphasis, panel
+  visibility, engine evaluation, promotion, feedback, and confirmation behavior
+- Saved new-game name/side/difficulty/clock/hints/orientation/undo defaults,
+  explicit disabled undo policy, per-game auto-save, and resume-newest-save
+- Android keep-screen-on method channel and fullscreen restoration with
+  non-Android/test-host fallback
+- Safe `https:`/`mailto:` creator links with clipboard fallback and exact
+  repository/support/development destinations
+- Seven-tap persisted developer unlock with remaining-step messages and a
+  guarded direct route
+- Application, runtime, engine, database, migration, locale, theme, and
+  multiplayer diagnostics without sensitive identifiers
+- Typed debug/log/localization flags disabled by default
+- Production-codec FEN, PGN, board-state, validation, perft, and special-position
+  tools
+- Ledger-safe signed/idempotent developer balance adjustments, reward duplicate
+  checks, ledger export, challenge completion/claim/date/refresh tools
+- Validated relay editing, opt-in bounded health connection, local latency/loss/
+  disconnect/reconnect simulations, privacy-safe room state/hash, and protocol
+  display
+- Versioned 17-table JSON snapshot preview/export/atomic merge/atomic replace,
+  foreign-key verification, diagnostics, selective resets, reward-only export,
+  and typed DELETE confirmation
+- Real SQLite full-table round-trip/merge/reset/integrity tests plus settings,
+  controller, screen, developer guard, data confirmation, ledger adjustment,
+  and board integration coverage
+- Settings, Developer Options, and local data-format documentation
+
 ## Toolchain evidence
 
 ```text
@@ -199,7 +237,7 @@ devices, and network resources. It reported:
 - Android license status unknown;
 - Flutter and Dart temporary SDK paths not added permanently to `PATH`.
 
-## Commands executed through Phase 8
+## Commands executed through Phase 9
 
 ```text
 flutter --version
@@ -222,17 +260,18 @@ npm audit --omit=dev
 ## Verification results
 
 ```text
-126 Flutter tests passed.
+145 Flutter tests passed.
 7 Node relay tests passed.
 Flutter analysis: No issues found.
 TypeScript type check passed.
-npm production dependency audit: 0 vulnerabilities.
+npm production dependency audit: 0 vulnerabilities at the Phase 8 boundary;
+the relay lockfile is unchanged in Phase 9.
 Chess domain verification passed.
 Engine manifest valid; no native binary is declared or bundled.
 Puzzle catalog valid: 5 positions.
 ```
 
-Executed coverage through Phase 7 includes:
+Executed coverage through Phase 9 includes:
 
 - splash, onboarding persistence, skip, and home transition;
 - malformed and invalid onboarding preference recovery;
@@ -289,6 +328,16 @@ Executed coverage through Phase 7 includes:
 - immutable review stepping, FEN generation, and PGN export;
 - interactive tutorial/puzzle boards, custom-FEN error UI, saved-game metadata,
   review controls, guide search, and feature-status widget behavior.
+- complete typed settings default/round-trip/corruption/reset behavior;
+- exactly seven version taps, persistent developer unlock, and direct-route
+  guarding;
+- settings-group rendering, toggle persistence, and all data-management actions;
+- real SQLite 17-table export/preview/delete/replace restoration, idempotent
+  merge, selective reset isolation, and foreign-key checks;
+- signed idempotent developer ledger adjustments and negative-balance rejection;
+- disabled local undo, auto-queen/game feedback integration, and live board
+  preference behavior;
+- deterministic friend reconnect signaling under full parallel test load.
 
 Phase 2 perft remains:
 
@@ -304,10 +353,11 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 126 passed.
+- Flutter unit/widget tests: 145 passed.
 - TypeScript type checking: passed.
 - Node relay tests: 7 passed.
-- npm production dependency audit: passed with 0 vulnerabilities.
+- npm production dependency audit: last passed with 0 vulnerabilities at the
+  Phase 8 boundary; `server/package-lock.json` is unchanged in Phase 9.
 - Relay Docker image: not built because Docker is unavailable on this machine.
 - Independent chess verifier: passed.
 - Native engine manifest verifier: passed with zero binaries declared.
@@ -323,7 +373,6 @@ Phase 2 perft remains:
 
 - The Stockfish adapter is implemented and tested, but no distribution-verified
   native binary is bundled. Computer play uses the built-in local search.
-- Settings/developer options remain Phase 9.
 - Only English is generated; all 33 locale packs remain Phase 10.
 - Complete legal files, notices, and final documentation remain Phase 11.
 - Android command-line tools and a complete NDK installation are required
@@ -334,5 +383,5 @@ Phase 2 perft remains:
 ## Exact next file
 
 ```text
-lib/features/settings/domain/app_settings.dart
+lib/l10n/supported_locales.dart
 ```
