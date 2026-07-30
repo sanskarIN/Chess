@@ -1296,5 +1296,17 @@
         "type": "int"
       }
     }
+  },
+  "copyrightNotice": "Copyright © 2026 Sanskar and Chess-Master contributors.",
+  "gplSummary": "Chess-Master is free software under GNU GPL v3.0 or later.",
+  "noWarrantyNotice": "This program comes with absolutely no warranty. See the included LICENSE for the complete terms.",
+  "sourceCodeNotice": "Source code, notices, privacy information, security reporting, and contribution guidance are available in the project repository.",
+  "phaseElevenChangelog": "{version}: licensing, privacy, security, contribution, dependency-notice, and documentation completion.",
+  "@phaseElevenChangelog": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
   }
 }

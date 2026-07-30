@@ -43,6 +43,26 @@
 - [Node.js](technologies/nodejs.md)
 - [TypeScript](technologies/typescript.md)
 - [WebSocket](technologies/websocket.md)
+- [Android](technologies/android.md)
+- [Material 3](technologies/material3.md)
+- [GoRouter](technologies/go_router.md)
+- [Localization and intl](technologies/localization.md)
+- [GitHub Actions](technologies/github_actions.md)
+- [Gradle and Android builds](technologies/gradle.md)
+
+## Legal, security, and community
+
+- [Legal documentation index](legal/README.md)
+- [Dependency audit](legal/dependency_audit.md)
+- [Stockfish distribution obligations](legal/stockfish_distribution.md)
+- [Release legal checklist](legal/release_legal_checklist.md)
+- [Privacy data map](legal/privacy_data_map.md)
+- [Security threat model](security_threat_model.md)
+- [User suggestions](users_suggest/README.md)
+- [Suggestion triage](users_suggest/triage.md)
+- [Feature proposal template](users_suggest/feature_proposal_template.md)
+- [Community priorities](users_suggest/community_priorities.md)
+- [Release documentation](release/README.md)
 
 ## Planning and evidence
 
@@ -51,6 +71,6 @@
 - [Feature status](upcoming/feature_status.md)
 - [Exact next work](upcoming/next.md)
 
-Legal, security, release, user-suggestion, and product documentation expands in
-the master prompt's defined phases. A missing document is not evidence that a
-feature is available.
+Legal, security, community, technology, localization, and release-preparation
+documents are cross-linked here. Availability claims remain governed by the
+feature-status document and executable verification evidence.

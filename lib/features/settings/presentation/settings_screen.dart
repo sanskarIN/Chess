@@ -915,7 +915,10 @@ final class _AboutSection extends ConsumerWidget {
           onTap: () => _showAboutDialog(
             context,
             s.license,
-            'GNU General Public License v3.0 or later',
+            '${s.copyrightNotice}\n\n'
+            '${s.gplSummary}\n\n'
+            '${s.noWarrantyNotice}\n\n'
+            '${s.sourceCodeNotice}',
           ),
         ),
         ListTile(title: Text(s.creator), subtitle: const Text('Sanskar')),
@@ -960,8 +963,7 @@ final class _AboutSection extends ConsumerWidget {
           onTap: () => _showAboutDialog(
             context,
             s.changelog,
-            '${AppVersion.display}: settings, diagnostics, developer tools, '
-            'and local-data management.',
+            s.phaseElevenChangelog(AppVersion.display),
           ),
         ),
         ListTile(

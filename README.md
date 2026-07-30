@@ -10,12 +10,11 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 10 localization infrastructure, exact 33-language
-> selection, immediate persistent switching, honest English fallback drafts,
-> script-aware RTL behavior, and automated locale integrity checks are
-> implemented. SQLite schema v3 stores durable preferences, progress, saves,
-> challenges, and ledger data. No real-money purchase or unverified native
-> executable is bundled. See
+> Development status: Phase 11 legal, open-source, security, contribution, and
+> documentation completion is implemented on top of the Phase 10 localization
+> system. SQLite schema v3 stores durable preferences, progress, saves,
+> challenges, and ledger data. No real-money purchase, telemetry, or unverified
+> native executable is bundled. See
 > [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
@@ -95,7 +94,7 @@ accessible multilingual interfaces.
   confirmation, and privacy-safe reward-ledger export.
 - Searchable native/English language selector with system-language reset,
   immediate persisted switching, standard identifiers, documented format
-  fallbacks, script-aware runtime tags, and 859-message parity across 33 ARBs.
+  fallbacks, script-aware runtime tags, and 864-message parity across 33 ARBs.
 - RTL navigation for Kashmiri, Sindhi, and Urdu while chess coordinates and
   notation retain their logical order; TalkBack labels, expanded-text tests,
   pseudo-localization, font fallbacks, and community review status are included.
@@ -200,10 +199,10 @@ Flutter title when preparing a renamed distribution.
 - [Roadmap phases](docs/upcoming/phases.md)
 - [Exact next work](docs/upcoming/next.md)
 - [Technology notes](docs/technologies/README.md)
-
-The required `docs/users_suggest/`, expanded `docs/technologies/`, and
-`docs/upcoming/` documentation sets are scheduled in the master phase order.
-Files are added only when they contain substantive guidance.
+- [Legal and policy documentation](docs/legal/README.md)
+- [Security threat model](docs/security_threat_model.md)
+- [User suggestions and feature proposals](docs/users_suggest/README.md)
+- [Release preparation](docs/release/README.md)
 
 ## Repository and creator
 
@@ -217,13 +216,12 @@ Files are added only when they contain substantive guidance.
 
 ## License status
 
-The intended project license is GNU GPL v3.0 or later because distributing
-Stockfish has GPL compatibility consequences. A strict manifest and documented
-rebuild process now guard the native packaging boundary. The complete license,
-copyright notices, Stockfish source correspondence, and dependency audit will
-be added and reviewed in Phase 11 before any binary distribution. No Stockfish
-binary or source is included in the current repository.
+The project is licensed under GNU GPL v3.0 or later. The repository includes
+the complete license text, copyright and third-party notices, dependency audit
+procedure, privacy and security policies, and the Stockfish corresponding-source
+requirements that apply if a distributor adds Stockfish. No Stockfish binary or
+source archive is included in the current repository.
 
 This repository is not ready for Play Store publication. Signing, legal review,
-policy review, accessibility testing, localization review, device testing, and
-release QA remain required.
+policy review, accessibility testing, community translation review, device
+testing, and Phase 12 release QA remain required.

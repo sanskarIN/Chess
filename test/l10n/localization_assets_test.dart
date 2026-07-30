@@ -30,7 +30,7 @@ void main() {
             ..sort((left, right) => left.path.compareTo(right.path));
 
       expect(resources, hasLength(33));
-      expect(messageKeys, hasLength(859));
+      expect(messageKeys, hasLength(864));
       for (final SupportedLanguage language in SupportedLanguages.all) {
         final Map<String, Object?> resource = _read(
           'lib/l10n/app_${language.id}.arb',

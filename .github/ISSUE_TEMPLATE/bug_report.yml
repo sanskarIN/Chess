@@ -1,0 +1,79 @@
+name: Bug report
+description: Report a reproducible Chess-Master defect
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not report an unpatched vulnerability here; use SECURITY.md.
+        Remove player names, room/session values, tokens, IP addresses, signing
+        material, and private game/database exports.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: "0.11.0+11 or commit SHA"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Device/emulator, Android version, Flutter version if self-built
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Chess rules or notation
+        - Board or game UI
+        - Computer opponent
+        - Local multiplayer or clock
+        - Friend multiplayer or relay
+        - Challenges, rewards, or hints
+        - Practice, tutorial, puzzles, saves, or review
+        - Settings, data, accessibility, or localization
+        - Build, documentation, or other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Start from…
+        2. Tap…
+        3. Observe…
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Screenshots, FEN/PGN, or logs with private values removed
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmation
+      options:
+        - label: I searched existing issues and feature status.
+          required: true
+        - label: I removed secrets and personal information.
+          required: true
+        - label: This is not a confidential security report.
+          required: true

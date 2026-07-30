@@ -1,13 +1,24 @@
 Chess-Master
-Copyright (C) 2026 Sanskar
+Copyright (C) 2026 Sanskar and Chess-Master contributors
 
-Made by the Sanskar
+Chess-Master is free software distributed under GPL-3.0-or-later. It comes with
+ABSOLUTELY NO WARRANTY; see LICENSE for the complete terms.
 
-Repository: https://www.github.com/sanskarIN/Chess
-Creator: https://www.github.com/sanskarIN
+This source tree contains original code-drawn branding and an original puzzle
+catalog dedicated to the public domain under CC0-1.0 as recorded in
+assets/puzzles/catalog.json and docs/puzzle_catalog.md.
 
-Chess-Master is intended to be distributed under GNU GPL v3.0 or later. See
-LICENSE, COPYING, and THIRD_PARTY_NOTICES.md.
+Flutter/Dart and Node.js dependencies retain their own notices. Resolved
+dependency versions and integrity hashes are pinned in pubspec.lock and
+server/package-lock.json. Flutter’s LicenseRegistry is exposed through Settings
+→ About → Third-party licenses. See THIRD_PARTY_NOTICES.md for the auditable
+source inventory and release procedure.
 
-No Stockfish binary, source archive, model, audio file, or third-party visual
-asset is included in the Phase 1 foundation.
+The source implements a UCI adapter that can communicate with Stockfish, but
+this repository does not contain or distribute a Stockfish executable or
+Stockfish source archive. A distributor who adds one must satisfy the
+GPL-3.0-or-later corresponding-source obligations in
+docs/legal/stockfish_distribution.md and must update all notices and release
+evidence.
+
+Project source: https://github.com/sanskarIN/Chess

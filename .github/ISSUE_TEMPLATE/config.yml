@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Confidential security report
+    url: https://github.com/sanskarIN/Chess/security/advisories/new
+    about: Report vulnerabilities privately as described in SECURITY.md.
+  - name: Support
+    url: https://github.com/sanskarIN/Chess/blob/main/SUPPORT.md
+    about: Read support routes for non-sensitive usage or build questions.

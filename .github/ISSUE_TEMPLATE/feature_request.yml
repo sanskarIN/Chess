@@ -1,0 +1,57 @@
+name: Feature request
+description: Propose a scoped, maintainable improvement
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read docs/upcoming/feature_status.md and docs/users_suggest/README.md.
+        A suggestion is not a commitment or evidence that a feature exists.
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Describe the need without prescribing implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed experience
+      description: Include offline behavior and accessible alternatives.
+    validations:
+      required: true
+  - type: textarea
+    id: chess
+    attributes:
+      label: Chess correctness and edge cases
+      description: Rules, notation, clocks, synchronization, or puzzle implications
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy, security, and data impact
+      description: New permissions, network calls, storage, imports, or identifiers
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: A short list of observable, testable outcomes
+    validations:
+      required: true
+  - type: textarea
+    id: maintenance
+    attributes:
+      label: Maintenance and source/licensing
+      description: Dependencies, assets, services, cost, ownership, and licenses
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmation
+      options:
+        - label: I checked existing issues and the feature catalog.
+          required: true
+        - label: I understand submission does not promise implementation.
+          required: true

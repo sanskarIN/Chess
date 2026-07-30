@@ -2,10 +2,10 @@
 
 ## Project identity
 
-- Version: `0.10.0+10`
-- Completed phase: 10 — Localization
-- Next phase: 11 — Legal, open source, and documentation completion
-- Updated: 2026-07-26
+- Version: `0.11.0+11`
+- Completed phase: 11 — Legal, open source, and documentation completion
+- Next phase: 12 — QA and release preparation
+- Updated: 2026-07-30
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
 - Repository: <https://github.com/sanskarIN/Chess>
@@ -27,10 +27,11 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 7 challenges and economy | `e139bbf99e39544e88c69139d71d851439bf3609` | Published on `origin/main` |
 | Phase 8 practice and guide | `e7b0104048e1d2021549870944e8eb905be09213` | Published on `origin/main` |
 | Phase 9 settings and developer options | `b3390cf016a7c5bd736af5a480a616de383df4ca` | Published on `origin/main` |
+| Phase 10 localization | `721d3817dcc75ee7f966226deb0d33d59680d27c` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 10 is ready for its boundary commit
-after verification and this manifest update.
+directly without overwriting history. Every completed boundary through Phase 10
+is present on `origin/main`.
 
 ## Phase 1 completed source
 
@@ -229,7 +230,7 @@ after verification and this manifest update.
   Haryanvi, Awadhi, Gondi, and English
 - Standard base resource/settings identifiers plus documented `Arab`, `Guru`,
   `Mtei`, and `Olck` runtime script subtags
-- Exactly 33 ARB files with 859 non-empty messages each, exact key/metadata/
+- Exactly 33 ARB files with 864 non-empty messages each, exact key/metadata/
   placeholder parity, and English fallback instead of raw keys or empty text
 - Explicit translation status distinguishing the verified English source from
   32 `community_review_required` fallback drafts
@@ -249,6 +250,32 @@ after verification and this manifest update.
 - Complete localization, identifier, completeness, review policy, and
   contributor documentation without claiming unreviewed translations
 
+## Phase 11 completed source
+
+- Complete GNU GPL version 3 license text with the project’s
+  `GPL-3.0-or-later` grant, copyright record, notice, authorship, and changelog
+- Dependency notice inventory spanning Flutter/Dart, the Node relay, original
+  assets, puzzle data, fonts, and the explicitly unbundled Stockfish boundary
+- Automated verification of the complete project license, required legal and
+  policy documents, resolved hosted Dart package license files, npm lockfile
+  license expressions, and non-bundling claims
+- Stockfish corresponding-source, build-script, checksum, ABI, notice, offer,
+  and artifact-inspection requirements for any future distributor
+- Privacy policy and implementation-level data map covering SQLite, exports,
+  relay memory, logs, Android backup, links, and optional network activity
+- Terms, security reporting, threat model, support, conduct, contribution,
+  governance, authorship, and community decision policies
+- Structured GitHub issue forms and pull-request template with privacy,
+  testing, accessibility, licensing, and scope checks
+- Substantive user-suggestion workflow, triage rubric, proposal template, and
+  community-priority record
+- Expanded Android, Material 3, GoRouter, localization, GitHub Actions, Gradle,
+  and release technology notes with a checked documentation index
+- Localized in-app copyright, GPL, no-warranty, source, and changelog summaries
+  plus Flutter’s runtime third-party license registry
+- CI-enforced relative-link, documentation-set, legal-file, dependency-license,
+  distribution-claim, localization, source, test, and analysis verification
+
 ## Toolchain evidence
 
 ```text
@@ -267,7 +294,7 @@ devices, and network resources. It reported:
 - Android license status unknown;
 - Flutter and Dart temporary SDK paths not added permanently to `PATH`.
 
-## Commands executed through Phase 9
+## Commands executed through Phase 11
 
 ```text
 flutter --version
@@ -276,6 +303,8 @@ flutter pub get
 flutter gen-l10n
 dart run tool/generate_locale_fallbacks.dart --check
 dart run tool/verify_localizations.dart
+dart run tool/verify_legal.dart
+dart run tool/verify_documentation.dart
 dart format lib test tool
 flutter analyze --no-pub
 flutter test --no-pub
@@ -303,7 +332,7 @@ Engine manifest valid; no native binary is declared or bundled.
 Puzzle catalog valid: 5 positions.
 ```
 
-Executed coverage through Phase 9 includes:
+Executed coverage through Phase 11 includes:
 
 - splash, onboarding persistence, skip, and home transition;
 - malformed and invalid onboarding preference recovery;
@@ -372,13 +401,17 @@ Executed coverage through Phase 9 includes:
 - deterministic friend reconnect signaling under full parallel test load.
 - exact 33-language catalog ordering, native/English/alias search, base/resource
   identifiers, runtime script tags, system resolution, and English fallback;
-- 33 ARB resources with 859 non-empty messages each, exact key/metadata/
+- 33 ARB resources with 864 non-empty messages each, exact key/metadata/
   placeholder parity, and accurate translation-review status;
 - number/date/duration non-empty formatting across every locale, balanced-ICU
   pseudo-localization, native-script rendering, and expanded-text resilience;
 - language selection persistence, native/English TalkBack labels, selected
   semantics, Kashmiri RTL app navigation, framework-localization fallback, and
   logical chessboard coordinate order under RTL.
+- canonical GPL section, required policy-file, hosted Dart package license,
+  npm lockfile license-expression, and Stockfish non-bundling verification;
+- substantive Markdown-set and relative-link validation across repository,
+  documentation, relay, and GitHub community files.
 
 Phase 2 perft remains:
 
@@ -398,11 +431,13 @@ Phase 2 perft remains:
 - TypeScript type checking: passed.
 - Node relay tests: 7 passed.
 - npm production dependency audit: last passed with 0 vulnerabilities at the
-  Phase 8 boundary; `server/package-lock.json` is unchanged in Phase 9.
+  Phase 8 boundary; `server/package-lock.json` remains unchanged.
 - Relay Docker image: not built because Docker is unavailable on this machine.
 - Independent chess verifier: passed.
 - Native engine manifest verifier: passed with zero binaries declared.
 - Puzzle schema/legal-line verifier: passed with 5 positions.
+- Legal/source verifier: passed.
+- Documentation and relative-link verifier: passed.
 - Android resource compilation/linking: previously passed against API 36.
 - Android debug APK: attempted. Flutter generated the Gradle 9.1 wrapper and
   selected Android Studio JDK 21. Gradle accepted the NDK license, then the
@@ -416,14 +451,14 @@ Phase 2 perft remains:
   native binary is bundled. Computer play uses the built-in local search.
 - The 32 non-English packs remain English fallback drafts until qualified
   community translators and independent native-speaker reviewers approve them.
-- Complete legal files, notices, and final documentation remain Phase 11.
 - Android command-line tools and a complete NDK installation are required
   before repeating the debug APK build.
-- Android, device accessibility, performance, integration, and release checks
-  remain Phase 12.
+- Device accessibility, performance profiling, Android artifact inspection,
+  signing, store review, and final release authorization remain Phase 12 or
+  external human/distributor gates.
 
 ## Exact next file
 
 ```text
-LICENSE
+docs/release/release_checklist.md
 ```

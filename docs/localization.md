@@ -6,7 +6,7 @@ restarting the app is not required. “System language” follows the device
 preference and falls back to English when the device language is unsupported.
 
 `lib/l10n/app_en.arb` is the canonical source. Every supported locale has a
-complete ARB with the same 859 message keys, metadata, ICU syntax, and
+complete ARB with the same 864 message keys, metadata, ICU syntax, and
 placeholders. The 32 non-English resources currently contain the complete
 English fallback copy. They are deliberately marked
 `community_review_required` in `lib/l10n/translation_status.json`; no draft is

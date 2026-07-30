@@ -1,37 +1,36 @@
 # Exact next work
 
-Phase 10 is complete in source with the exact typed 33-language catalog,
-standard resource identifiers, script-aware runtime tags, complete 859-message
-ARB parity, immediate persisted switching, native/English search, system
-fallback, locale formatting safeguards, RTL navigation, logical chessboard
-direction, font fallbacks, accessibility semantics, developer previews,
-translation status, contribution documentation, and automated verification.
+Phase 11 is complete in source with the full GPL-3.0-or-later license,
+copyright and third-party notices, dependency-license evidence, Stockfish
+distribution boundaries, privacy and terms documents, security and contribution
+policies, community templates, expanded technology documentation, in-app legal
+summaries, and automated legal/link verification.
 
-Phase 11 starts with:
+Phase 12 starts with:
 
 ```text
-LICENSE
+docs/release/release_checklist.md
 ```
 
-Phase 11 implementation order:
+Phase 12 implementation order:
 
-1. add the complete GNU GPL v3-or-later license and accurate repository
-   copyright notices;
-2. inventory direct and transitive Flutter, Dart, Android, Node, JavaScript,
-   puzzle, icon, font, and engine-related materials with license/source evidence;
-3. add distributable third-party notices without claiming that unbundled
-   Stockfish is present;
-4. complete Stockfish GPL source-correspondence, rebuild, checksum, ABI, and
-   distribution obligations for any future binary;
-5. add privacy policy, terms, security policy, code of conduct, contribution,
-   support, governance, issue, pull-request, and release documentation;
-6. complete `docs/users_suggest/`, `docs/technologies/`, and `docs/upcoming/`
-   with substantive, cross-linked guidance;
-7. expose the legal/contribution documents through accurate in-app About and
-   Developer Options destinations where an offline summary or safe repository
-   link is appropriate;
-8. run license, dependency, source-manifest, link, documentation, localization,
-   Flutter, and relay checks before the Phase 11 boundary.
+1. define an auditable release gate model and record pass, blocked, external,
+   and not-applicable states without converting unexecuted checks into passes;
+2. add source, dependency, localization, legal, accessibility, privacy,
+   performance, Android build, signing, store-listing, device, rollback, and
+   support checklists;
+3. generate a deterministic source dependency bill of materials from the
+   committed Flutter and Node lockfiles;
+4. add release-notes, test-matrix, known-limitations, reproducible-build,
+   provenance, signing, incident, and rollback templates;
+5. add a repository verifier that rejects incomplete or contradictory release
+   evidence and enforce it in CI;
+6. run formatting, analysis, complete Flutter and relay tests, coverage,
+   localization, puzzle, engine, legal, documentation, and release checks;
+7. attempt an unsigned Android debug APK with the available official toolchain
+   and preserve the exact blocker if the SDK/NDK remains incomplete;
+8. keep release signing, Play Console actions, device accessibility approval,
+   native-speaker translation approval, and legal sign-off explicitly external.
 
 Before the Android debug build can complete, install Android SDK command-line
 tools and repair the incomplete NDK `28.2.13676358` installation. Accept any
