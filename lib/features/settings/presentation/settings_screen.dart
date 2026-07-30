@@ -9,6 +9,7 @@ import '../../../app/app_router.dart';
 import '../../../app/app_version.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../l10n/supported_locales.dart';
 import '../../onboarding/data/onboarding_repository.dart';
 import '../application/data_management_providers.dart';
 import '../application/settings_controller.dart';
@@ -548,7 +549,13 @@ final class SettingsScreen extends ConsumerWidget {
             children: <Widget>[
               ListTile(
                 title: Text(s.language),
-                subtitle: Text(settings.localeCode ?? s.useSystemLanguage),
+                subtitle: Text(
+                  settings.localeCode == null
+                      ? s.useSystemLanguage
+                      : SupportedLanguages.byId(settings.localeCode).nativeName,
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(AppRoutes.language),
               ),
               ListTile(
                 title: Text(s.useSystemLanguage),
@@ -558,15 +565,7 @@ final class SettingsScreen extends ConsumerWidget {
               ListTile(
                 title: Text(s.searchLanguage),
                 subtitle: Text(s.previewLanguage),
-                onTap: () => _chooseString(
-                  context,
-                  title: s.previewLanguage,
-                  values: const <String>['en'],
-                  current: settings.localeCode ?? 'en',
-                  labelFor: (_) => s.english,
-                  onSelected: (value) =>
-                      controller.update(settings.copyWith(localeCode: value)),
-                ),
+                onTap: () => context.push(AppRoutes.language),
               ),
               SwitchListTile(
                 title: Text(s.rtlPreview),

@@ -10,9 +10,10 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 9 typed settings, live board/game preferences,
-> documented developer tools, diagnostics, and versioned local-data management
-> are implemented. SQLite schema v3 stores durable preferences, progress, saves,
+> Development status: Phase 10 localization infrastructure, exact 33-language
+> selection, immediate persistent switching, honest English fallback drafts,
+> script-aware RTL behavior, and automated locale integrity checks are
+> implemented. SQLite schema v3 stores durable preferences, progress, saves,
 > challenges, and ledger data. No real-money purchase or unverified native
 > executable is bundled. See
 > [feature status](docs/upcoming/feature_status.md) and the
@@ -36,7 +37,8 @@ accessible multilingual interfaces.
 - Configurable displayed app name with `Chess-Master` as the default.
 - Material 3 light and dark themes with accessible target sizes.
 - Typed GoRouter navigation.
-- ARB-based localization generation with English as the fallback template.
+- ARB-based localization generation for exactly 33 language options, with
+  English as the verified source and explicitly unreviewed fallback draft.
 - Riverpod dependency injection.
 - Explicit success/failure values for expected application errors.
 - Structured logging with redaction of names, addresses, tokens, and team codes.
@@ -91,6 +93,12 @@ accessible multilingual interfaces.
 - Versioned local JSON export/import with preview, atomic merge/replace,
   foreign-key validation, selective confirmed resets, typed delete-all
   confirmation, and privacy-safe reward-ledger export.
+- Searchable native/English language selector with system-language reset,
+  immediate persisted switching, standard identifiers, documented format
+  fallbacks, script-aware runtime tags, and 859-message parity across 33 ARBs.
+- RTL navigation for Kashmiri, Sindhi, and Urdu while chess coordinates and
+  notation retain their logical order; TalkBack labels, expanded-text tests,
+  pseudo-localization, font fallbacks, and community review status are included.
 
 ## Technology baseline
 
@@ -169,6 +177,7 @@ Flutter title when preparing a renamed distribution.
 - [System requirements](docs/system_requirements.md)
 - [Database migrations](docs/database_migrations.md)
 - [Localization](docs/localization.md)
+- [Translation contribution guide](docs/translations/README.md)
 - [Logging](docs/logging.md)
 - [Application flow](docs/app_flow.md)
 - [UI and UX](docs/ui_ux.md)

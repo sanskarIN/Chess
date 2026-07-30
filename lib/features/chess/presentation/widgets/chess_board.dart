@@ -64,60 +64,67 @@ final class ChessBoard extends ConsumerWidget {
     return Semantics(
       container: true,
       label: AppLocalizations.of(context).chessBoard,
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(DesignTokens.radiusSmall),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).colorScheme.outline,
-                width: 2,
+      child: Directionality(
+        // App navigation mirrors for RTL locales, but chess files, ranks,
+        // notation, and the explicit `flipped` orientation remain logical.
+        textDirection: TextDirection.ltr,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(DesignTokens.radiusSmall),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.outline,
+                  width: 2,
+                ),
               ),
-            ),
-            child: Column(
-              children: List<Widget>.generate(8, (int visualRank) {
-                return Expanded(
-                  child: Row(
-                    children: List<Widget>.generate(8, (int visualFile) {
-                      final int rank = flipped ? visualRank : 7 - visualRank;
-                      final int file = flipped ? 7 - visualFile : visualFile;
-                      final Square square = Square.fromIndex((rank * 8) + file);
-                      return Expanded(
-                        child: _BoardSquare(
-                          square: square,
-                          piece: position.pieceAt(square),
-                          isSelected: selectedSquare == square,
-                          legalMove: showLegalMoves ? _moveTo(square) : null,
-                          isCapture: showLegalMoves && _isCaptureOn(square),
-                          isLastMove:
-                              showLastMove &&
-                              (lastMove?.from == square ||
-                                  lastMove?.to == square),
-                          isCheckedKing:
-                              showCheck && checkedKingSquare == square,
-                          isHintSource: hintMove?.from == square,
-                          isHintTarget: hintMove?.to == square,
-                          palette: palette,
-                          legalMoveStyle: settings.legalMoveStyle,
-                          animationDuration: animationDuration,
-                          strongMarkers: settings.enabled(
-                            SettingFlag.strongerLegalMoveMarkers,
+              child: Column(
+                children: List<Widget>.generate(8, (int visualRank) {
+                  return Expanded(
+                    child: Row(
+                      children: List<Widget>.generate(8, (int visualFile) {
+                        final int rank = flipped ? visualRank : 7 - visualRank;
+                        final int file = flipped ? 7 - visualFile : visualFile;
+                        final Square square = Square.fromIndex(
+                          (rank * 8) + file,
+                        );
+                        return Expanded(
+                          child: _BoardSquare(
+                            square: square,
+                            piece: position.pieceAt(square),
+                            isSelected: selectedSquare == square,
+                            legalMove: showLegalMoves ? _moveTo(square) : null,
+                            isCapture: showLegalMoves && _isCaptureOn(square),
+                            isLastMove:
+                                showLastMove &&
+                                (lastMove?.from == square ||
+                                    lastMove?.to == square),
+                            isCheckedKing:
+                                showCheck && checkedKingSquare == square,
+                            isHintSource: hintMove?.from == square,
+                            isHintTarget: hintMove?.to == square,
+                            palette: palette,
+                            legalMoveStyle: settings.legalMoveStyle,
+                            animationDuration: animationDuration,
+                            strongMarkers: settings.enabled(
+                              SettingFlag.strongerLegalMoveMarkers,
+                            ),
+                            largeIndicators: settings.enabled(
+                              SettingFlag.largerBoardIndicators,
+                            ),
+                            pieceTheme: settings.pieceTheme,
+                            enabled: enabled,
+                            showFileLabel: showCoordinates && visualRank == 7,
+                            showRankLabel: showCoordinates && visualFile == 0,
+                            onTap: () => onSquareTap(square),
                           ),
-                          largeIndicators: settings.enabled(
-                            SettingFlag.largerBoardIndicators,
-                          ),
-                          pieceTheme: settings.pieceTheme,
-                          enabled: enabled,
-                          showFileLabel: showCoordinates && visualRank == 7,
-                          showRankLabel: showCoordinates && visualFile == 0,
-                          onTap: () => onSquareTap(square),
-                        ),
-                      );
-                    }),
-                  ),
-                );
-              }),
+                        );
+                      }),
+                    ),
+                  );
+                }),
+              ),
             ),
           ),
         ),

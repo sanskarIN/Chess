@@ -1,32 +1,37 @@
 # Exact next work
 
-Phase 9 is complete with versioned typed settings, live board/game/startup
-behavior, guarded Developer Options, diagnostics, production-codec chess tools,
-ledger-safe economy/challenge tools, multiplayer simulations, and atomic
-17-table local-data management. The Flutter suite, analyzer, chess verifier,
-engine-manifest verifier, puzzle verifier, relay tests, type check, and
-dependency audit are rerun at the phase boundary.
+Phase 10 is complete in source with the exact typed 33-language catalog,
+standard resource identifiers, script-aware runtime tags, complete 859-message
+ARB parity, immediate persisted switching, native/English search, system
+fallback, locale formatting safeguards, RTL navigation, logical chessboard
+direction, font fallbacks, accessibility semantics, developer previews,
+translation status, contribution documentation, and automated verification.
 
-Phase 10 starts with:
+Phase 11 starts with:
 
 ```text
-lib/l10n/supported_locales.dart
+LICENSE
 ```
 
-Phase 10 implementation order:
+Phase 11 implementation order:
 
-1. exact typed catalog for the 33 requested language options;
-2. standard locale identifiers and documented internal identifiers/fallbacks;
-3. English template completeness and generated localization configuration;
-4. 32 additional ARB locale files with every template key and placeholder;
-5. immediate search, selection, system reset, preview, and persistent locale
-   switching;
-6. Urdu and Sindhi RTL handling plus explicit RTL developer preview;
-7. locale-aware number/date/duration/plural/relative-time behavior;
-8. automated JSON, key, placeholder, locale-count, fallback, RTL, and generated
-   delegate checks;
-9. translation contribution workflow with native-speaker review status that
-   does not overclaim unreviewed translations.
+1. add the complete GNU GPL v3-or-later license and accurate repository
+   copyright notices;
+2. inventory direct and transitive Flutter, Dart, Android, Node, JavaScript,
+   puzzle, icon, font, and engine-related materials with license/source evidence;
+3. add distributable third-party notices without claiming that unbundled
+   Stockfish is present;
+4. complete Stockfish GPL source-correspondence, rebuild, checksum, ABI, and
+   distribution obligations for any future binary;
+5. add privacy policy, terms, security policy, code of conduct, contribution,
+   support, governance, issue, pull-request, and release documentation;
+6. complete `docs/users_suggest/`, `docs/technologies/`, and `docs/upcoming/`
+   with substantive, cross-linked guidance;
+7. expose the legal/contribution documents through accurate in-app About and
+   Developer Options destinations where an offline summary or safe repository
+   link is appropriate;
+8. run license, dependency, source-manifest, link, documentation, localization,
+   Flutter, and relay checks before the Phase 11 boundary.
 
 Before the Android debug build can complete, install Android SDK command-line
 tools and repair the incomplete NDK `28.2.13676358` installation. Accept any

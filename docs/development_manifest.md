@@ -2,10 +2,10 @@
 
 ## Project identity
 
-- Version: `0.9.0+9`
-- Completed phase: 9 — Settings and Developer Options
-- Next phase: 10 — Localization
-- Updated: 2026-07-23
+- Version: `0.10.0+10`
+- Completed phase: 10 — Localization
+- Next phase: 11 — Legal, open source, and documentation completion
+- Updated: 2026-07-26
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
 - Repository: <https://github.com/sanskarIN/Chess>
@@ -26,10 +26,11 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 6 friend multiplayer | `7b4cf5b330ab316128cc65dbd290ea288f6c4e1d` | Published on `origin/main` |
 | Phase 7 challenges and economy | `e139bbf99e39544e88c69139d71d851439bf3609` | Published on `origin/main` |
 | Phase 8 practice and guide | `e7b0104048e1d2021549870944e8eb905be09213` | Published on `origin/main` |
+| Phase 9 settings and developer options | `b3390cf016a7c5bd736af5a480a616de383df4ca` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Phase 9 is ready for its boundary commit
-after this manifest update.
+directly without overwriting history. Phase 10 is ready for its boundary commit
+after verification and this manifest update.
 
 ## Phase 1 completed source
 
@@ -219,6 +220,35 @@ after this manifest update.
   and board integration coverage
 - Settings, Developer Options, and local data-format documentation
 
+## Phase 10 completed source
+
+- Exact typed product catalog for Assamese, Bengali, Bodo, Dogri, Gujarati,
+  Hindi, Kannada, Kashmiri, Konkani, Maithili, Malayalam, Manipuri/Meitei,
+  Marathi, Nepali, Odia, Punjabi, Sanskrit, Santali, Sindhi, Tamil, Telugu,
+  Urdu, Bhojpuri, Rajasthani, Chhattisgarhi, Tulu, Garhwali, Kumaoni, Magahi,
+  Haryanvi, Awadhi, Gondi, and English
+- Standard base resource/settings identifiers plus documented `Arab`, `Guru`,
+  `Mtei`, and `Olck` runtime script subtags
+- Exactly 33 ARB files with 859 non-empty messages each, exact key/metadata/
+  placeholder parity, and English fallback instead of raw keys or empty text
+- Explicit translation status distinguishing the verified English source from
+  32 `community_review_required` fallback drafts
+- Contribution-safe generator ownership that preserves translation drafts once
+  a locale moves to `community_translation` or `reviewed_translation`
+- Searchable native/English/alias/identifier selector, device-language reset,
+  immediate switching without restart, and durable settings persistence
+- English fallback for unsupported system locales and for failed number/date
+  formatting, with documented related-language formatting fallbacks
+- Right-to-left navigation for Kashmiri, Sindhi, and Urdu plus a left-to-right
+  chessboard boundary preserving logical file/rank/square/notation order
+- Native-and-English TalkBack semantics, selected state, expanded-text preview,
+  font fallback stack, pseudo-localization, and uncommon-locale delegate fallback
+- CI-enforced locale generation drift, resource JSON, key, placeholder, empty
+  value, locale count, status, RTL, formatting, pseudo, glyph, semantics,
+  large-text, persistence, and logical-board-direction coverage
+- Complete localization, identifier, completeness, review policy, and
+  contributor documentation without claiming unreviewed translations
+
 ## Toolchain evidence
 
 ```text
@@ -244,6 +274,8 @@ flutter --version
 flutter doctor -v
 flutter pub get
 flutter gen-l10n
+dart run tool/generate_locale_fallbacks.dart --check
+dart run tool/verify_localizations.dart
 dart format lib test tool
 flutter analyze --no-pub
 flutter test --no-pub
@@ -260,7 +292,7 @@ npm audit --omit=dev
 ## Verification results
 
 ```text
-145 Flutter tests passed.
+158 Flutter tests passed.
 7 Node relay tests passed.
 Flutter analysis: No issues found.
 TypeScript type check passed.
@@ -338,6 +370,15 @@ Executed coverage through Phase 9 includes:
 - disabled local undo, auto-queen/game feedback integration, and live board
   preference behavior;
 - deterministic friend reconnect signaling under full parallel test load.
+- exact 33-language catalog ordering, native/English/alias search, base/resource
+  identifiers, runtime script tags, system resolution, and English fallback;
+- 33 ARB resources with 859 non-empty messages each, exact key/metadata/
+  placeholder parity, and accurate translation-review status;
+- number/date/duration non-empty formatting across every locale, balanced-ICU
+  pseudo-localization, native-script rendering, and expanded-text resilience;
+- language selection persistence, native/English TalkBack labels, selected
+  semantics, Kashmiri RTL app navigation, framework-localization fallback, and
+  logical chessboard coordinate order under RTL.
 
 Phase 2 perft remains:
 
@@ -353,7 +394,7 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 145 passed.
+- Flutter unit/widget tests: 158 passed.
 - TypeScript type checking: passed.
 - Node relay tests: 7 passed.
 - npm production dependency audit: last passed with 0 vulnerabilities at the
@@ -373,7 +414,8 @@ Phase 2 perft remains:
 
 - The Stockfish adapter is implemented and tested, but no distribution-verified
   native binary is bundled. Computer play uses the built-in local search.
-- Only English is generated; all 33 locale packs remain Phase 10.
+- The 32 non-English packs remain English fallback drafts until qualified
+  community translators and independent native-speaker reviewers approve them.
 - Complete legal files, notices, and final documentation remain Phase 11.
 - Android command-line tools and a complete NDK installation are required
   before repeating the debug APK build.
@@ -383,5 +425,5 @@ Phase 2 perft remains:
 ## Exact next file
 
 ```text
-lib/l10n/supported_locales.dart
+LICENSE
 ```

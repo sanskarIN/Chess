@@ -7,6 +7,9 @@ import '../core/errors/app_error.dart';
 import '../features/settings/application/settings_providers.dart';
 import '../features/settings/domain/app_settings.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/fallback_localizations.dart';
+import '../l10n/pseudolocalizer.dart';
+import '../l10n/supported_locales.dart';
 import 'app_config.dart';
 import 'app_router.dart';
 import 'app_theme.dart';
@@ -38,6 +41,9 @@ final class _ChessMasterAppState extends ConsumerState<ChessMasterApp> {
     final bool forceHighContrast =
         settings.theme == AppThemePreference.highContrast ||
         settings.enabled(SettingFlag.highContrast);
+    final SupportedLanguage? explicitLanguage = settings.localeCode == null
+        ? null
+        : SupportedLanguages.byId(settings.localeCode);
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -54,20 +60,97 @@ final class _ChessMasterAppState extends ConsumerState<ChessMasterApp> {
         AppThemePreference.dark => ThemeMode.dark,
       },
       builder: (BuildContext context, Widget? child) {
-        if (!settings.enabled(SettingFlag.reducedMotion)) {
-          return child ?? const SizedBox.shrink();
+        Widget result = child ?? const SizedBox.shrink();
+        final MediaQueryData media = MediaQuery.of(context);
+        if (settings.enabled(SettingFlag.reducedMotion) ||
+            settings.featureEnabled(TypedFeatureFlag.expandedTextPreview)) {
+          result = MediaQuery(
+            data: media.copyWith(
+              disableAnimations: settings.enabled(SettingFlag.reducedMotion),
+              textScaler:
+                  settings.featureEnabled(TypedFeatureFlag.expandedTextPreview)
+                  ? const TextScaler.linear(1.4)
+                  : media.textScaler,
+            ),
+            child: result,
+          );
         }
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(disableAnimations: true),
-          child: child ?? const SizedBox.shrink(),
-        );
+        final SupportedLanguage activeLanguage =
+            explicitLanguage ??
+            SupportedLanguages.resolveSystem(
+              languageCode: Localizations.localeOf(context).languageCode,
+              scriptCode: Localizations.localeOf(context).scriptCode,
+            );
+        if (activeLanguage.isRightToLeft ||
+            settings.featureEnabled(TypedFeatureFlag.rtlPreview)) {
+          result = Directionality(
+            textDirection: TextDirection.rtl,
+            child: result,
+          );
+        }
+        if (settings.featureEnabled(TypedFeatureFlag.pseudolocalization)) {
+          result = Stack(
+            children: <Widget>[
+              result,
+              IgnorePointer(
+                child: SafeArea(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Semantics(
+                      label: Pseudolocalizer.transform(config.displayName),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.tertiaryContainer,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          child: Text(
+                            Pseudolocalizer.transform(config.displayName),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+        return result;
       },
-      locale: settings.localeCode == null ? null : Locale(settings.localeCode!),
+      locale: explicitLanguage == null ? null : _locale(explicitLanguage),
+      localeListResolutionCallback:
+          (List<Locale>? preferredLocales, Iterable<Locale> supportedLocales) {
+            if (explicitLanguage != null) return _locale(explicitLanguage);
+            for (final Locale locale in preferredLocales ?? const <Locale>[]) {
+              final SupportedLanguage language =
+                  SupportedLanguages.resolveSystem(
+                    languageCode: locale.languageCode,
+                    scriptCode: locale.scriptCode,
+                  );
+              if (language.id != SupportedLanguages.englishId ||
+                  locale.languageCode == SupportedLanguages.englishId) {
+                return _locale(language);
+              }
+            }
+            return _locale(SupportedLanguages.english);
+          },
       localizationsDelegates: const <LocalizationsDelegate<Object>>[
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
+        FallbackMaterialLocalizationsDelegate(),
         GlobalWidgetsLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        FallbackCupertinoLocalizationsDelegate(),
       ],
       supportedLocales: AppLocalizations.supportedLocales,
     );
@@ -78,4 +161,11 @@ final class _ChessMasterAppState extends ConsumerState<ChessMasterApp> {
     _router.dispose();
     super.dispose();
   }
+}
+
+Locale _locale(SupportedLanguage language) {
+  return Locale.fromSubtags(
+    languageCode: language.languageCode,
+    scriptCode: language.scriptCode,
+  );
 }

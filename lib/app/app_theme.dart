@@ -4,6 +4,21 @@ abstract final class AppTheme {
   static const Color _seed = Color(0xFF285943);
   static const Color _lightSurface = Color(0xFFF8F4E8);
   static const Color _darkSurface = Color(0xFF121714);
+  static const List<String> _fontFallbacks = <String>[
+    'Noto Sans',
+    'Noto Sans Devanagari',
+    'Noto Sans Bengali',
+    'Noto Sans Gujarati',
+    'Noto Sans Gurmukhi',
+    'Noto Sans Kannada',
+    'Noto Sans Malayalam',
+    'Noto Sans Oriya',
+    'Noto Sans Tamil',
+    'Noto Sans Telugu',
+    'Noto Sans Arabic',
+    'Noto Sans Meetei Mayek',
+    'Noto Sans Ol Chiki',
+  ];
 
   static ThemeData light() =>
       _theme(brightness: Brightness.light, surface: _lightSurface);
@@ -36,6 +51,7 @@ abstract final class AppTheme {
       colorScheme: colors,
       scaffoldBackgroundColor: colors.surface,
       visualDensity: VisualDensity.standard,
+      fontFamilyFallback: _fontFallbacks,
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),

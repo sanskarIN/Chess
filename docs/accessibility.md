@@ -27,6 +27,13 @@ Reduced motion is read from `MediaQuery.disableAnimationsOf`. Splash,
 onboarding, square, piece, and captured-list animations become instantaneous
 when reduced motion is active.
 
+Phase 10 adds native-and-English TalkBack labels and selected-state semantics
+for all 33 language options, searchable locale selection, a script-covering
+font fallback stack, expanded-text preview/tests, and explicit right-to-left
+navigation for Kashmiri, Sindhi, and Urdu. The chessboard establishes its own
+left-to-right layout boundary so app chrome can mirror without changing the
+logical order of files, ranks, SAN, FEN, PGN, or square identifiers.
+
 Automated widget tests verify semantic piece and legal-move descriptions. Device
 TalkBack, large-font, keyboard, switch-access, and high-contrast audits remain
 required in Phase 12 because widget tests cannot replace assistive-technology

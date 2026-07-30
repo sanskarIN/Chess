@@ -1,5 +1,5 @@
 {
-  "@@locale": "en",
+  "@@locale": "mag",
   "appTitle": "Chess-Master",
   "@appTitle": {
     "description": "Default application title. The displayed name can be overridden at build time."
@@ -609,15 +609,21 @@
   "lessonCountProgress": "{completed} of {total} lessons completed",
   "@lessonCountProgress": {
     "placeholders": {
-      "completed": {"type": "int"},
-      "total": {"type": "int"}
+      "completed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "completedLabel": "Completed",
   "attemptsCount": "{count} incorrect attempts",
   "@attemptsCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "lessonSuccess": "Lesson complete",
@@ -625,7 +631,9 @@
   "firstRewardCoins": "First completion reward: {count} coins",
   "@firstRewardCoins": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "rewardAlreadyEarned": "The first-completion reward for this item was already earned.",
@@ -635,8 +643,12 @@
   "puzzleLineProgress": "Line progress: {current} of {total} plies",
   "@puzzleLineProgress": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "puzzleCatalogFailed": "The bundled puzzle catalog could not be validated.",
@@ -734,8 +746,12 @@
   "reviewSubtitle": "Move {current} of {total}",
   "@reviewSubtitle": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "firstMove": "First position",
@@ -748,8 +764,12 @@
   "analysisScore": "Local evaluation: {score} · depth {depth}",
   "@analysisScore": {
     "placeholders": {
-      "score": {"type": "String"},
-      "depth": {"type": "int"}
+      "score": {
+        "type": "String"
+      },
+      "depth": {
+        "type": "int"
+      }
     }
   },
   "analysisFailed": "The local engine could not evaluate this position.",
@@ -886,7 +906,9 @@
   "developerStepsAway": "You are now {count} steps away from developer options.",
   "@developerStepsAway": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "developerOptionsEnabledMessage": "Developer options enabled.",
@@ -1049,8 +1071,12 @@
   "perftResult": "Perft depth {depth}: {nodes} positions",
   "@perftResult": {
     "placeholders": {
-      "depth": {"type": "int"},
-      "nodes": {"type": "int"}
+      "depth": {
+        "type": "int"
+      },
+      "nodes": {
+        "type": "int"
+      }
     }
   },
   "testPositions": "Test positions",
@@ -1078,8 +1104,12 @@
   "snapshotPreview": "{tables} tables · {rows} rows",
   "@snapshotPreview": {
     "placeholders": {
-      "tables": {"type": "int"},
-      "rows": {"type": "int"}
+      "tables": {
+        "type": "int"
+      },
+      "rows": {
+        "type": "int"
+      }
     }
   },
   "mergeImport": "Merge compatible data",
@@ -1091,7 +1121,9 @@
   "databaseIntegrityResult": "Integrity: {result}",
   "@databaseIntegrityResult": {
     "placeholders": {
-      "result": {"type": "String"}
+      "result": {
+        "type": "String"
+      }
     }
   },
   "fullyOpenSourceStatement": "This game is fully open source. The source code is available on GitHub.",
@@ -1131,20 +1163,26 @@
   "analysisLineCount": "{count, plural, =1{1 analysis line} other{{count} analysis lines}}",
   "@analysisLineCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "secondsValue": "{count} seconds",
   "@secondsValue": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "playerDisplayNameHint": "Stored locally and used only when name remembering is enabled.",
   "shareCodeTemplateHint": "Include {code} where the temporary room code should appear.",
   "@shareCodeTemplateHint": {
     "placeholders": {
-      "code": {"type": "String"}
+      "code": {
+        "type": "String"
+      }
     }
   },
   "settingsActionCompleted": "The setting action completed.",
@@ -1183,7 +1221,9 @@
   "simulationResult": "Simulation: {result}",
   "@simulationResult": {
     "placeholders": {
-      "result": {"type": "String"}
+      "result": {
+        "type": "String"
+      }
     }
   },
   "untranslatedStringReport": "Untranslated-string report",
@@ -1208,22 +1248,30 @@
   "@systemLanguageDescription": {
     "description": "Describes the device locale while the system-language option is selected.",
     "placeholders": {
-      "deviceLocale": {"type": "String"}
+      "deviceLocale": {
+        "type": "String"
+      }
     }
   },
   "languageOptionSemantics": "{nativeName}, {englishName}",
   "@languageOptionSemantics": {
     "description": "Accessible label for a language option.",
     "placeholders": {
-      "nativeName": {"type": "String"},
-      "englishName": {"type": "String"}
+      "nativeName": {
+        "type": "String"
+      },
+      "englishName": {
+        "type": "String"
+      }
     }
   },
   "localeIdentifier": "Locale: {localeId}",
   "@localeIdentifier": {
     "description": "Technical locale identifier shown in the language selector.",
     "placeholders": {
-      "localeId": {"type": "String"}
+      "localeId": {
+        "type": "String"
+      }
     }
   },
   "noLanguagesFound": "No matching languages found.",
@@ -1238,9 +1286,15 @@
   "@localizationCompletenessSummary": {
     "description": "Developer-facing localization completeness report.",
     "placeholders": {
-      "complete": {"type": "int"},
-      "total": {"type": "int"},
-      "drafts": {"type": "int"}
+      "complete": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "drafts": {
+        "type": "int"
+      }
     }
   }
 }

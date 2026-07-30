@@ -54,4 +54,43 @@ void main() {
     await tester.tap(find.byKey(const ValueKey<String>('square-e4')));
     expect(tapped, Square.fromAlgebraic('e4'));
   });
+
+  testWidgets('RTL navigation does not mirror logical chess coordinates', (
+    WidgetTester tester,
+  ) async {
+    final Position position = FenCodec.decode(FenCodec.standardInitialPosition);
+
+    await tester.pumpWidget(
+      localizedTestApp(
+        Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+            body: Center(
+              child: SizedBox.square(
+                dimension: 480,
+                child: ChessBoard(
+                  position: position,
+                  selectedSquare: null,
+                  legalMoves: const <Move>[],
+                  lastMove: null,
+                  checkedKingSquare: null,
+                  flipped: false,
+                  onSquareTap: (_) {},
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final Offset a8 = tester.getTopLeft(
+      find.byKey(const ValueKey<String>('square-a8')),
+    );
+    final Offset h8 = tester.getTopLeft(
+      find.byKey(const ValueKey<String>('square-h8')),
+    );
+    expect(a8.dx, lessThan(h8.dx));
+    expect(a8.dy, h8.dy);
+  });
 }

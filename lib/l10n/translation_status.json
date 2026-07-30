@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 1,
+  "sourceLocale": "en",
+  "fallbackLocale": "en",
+  "policy": "Non-English resources intentionally use complete English fallback copy until a qualified community reviewer approves translations.",
+  "locales": [
+    {
+      "id": "as",
+      "englishName": "Assamese",
+      "nativeName": "অসমীয়া",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "bn",
+      "englishName": "Bengali",
+      "nativeName": "বাংলা",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "brx",
+      "englishName": "Bodo",
+      "nativeName": "बड़ो",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "doi",
+      "englishName": "Dogri",
+      "nativeName": "डोगरी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "gu",
+      "englishName": "Gujarati",
+      "nativeName": "ગુજરાતી",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "hi",
+      "englishName": "Hindi",
+      "nativeName": "हिन्दी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "kn",
+      "englishName": "Kannada",
+      "nativeName": "ಕನ್ನಡ",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "ks",
+      "englishName": "Kashmiri",
+      "nativeName": "کٲشُر",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "kok",
+      "englishName": "Konkani",
+      "nativeName": "कोंकणी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "mai",
+      "englishName": "Maithili",
+      "nativeName": "मैथिली",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "ml",
+      "englishName": "Malayalam",
+      "nativeName": "മലയാളം",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "mni",
+      "englishName": "Manipuri or Meitei",
+      "nativeName": "ꯃꯤꯇꯩ ꯂꯣꯟ",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "mr",
+      "englishName": "Marathi",
+      "nativeName": "मराठी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "ne",
+      "englishName": "Nepali",
+      "nativeName": "नेपाली",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "or",
+      "englishName": "Odia",
+      "nativeName": "ଓଡ଼ିଆ",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "pa",
+      "englishName": "Punjabi",
+      "nativeName": "ਪੰਜਾਬੀ",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "sa",
+      "englishName": "Sanskrit",
+      "nativeName": "संस्कृतम्",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "sat",
+      "englishName": "Santali",
+      "nativeName": "ᱥᱟᱱᱛᱟᱲᱤ",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "sd",
+      "englishName": "Sindhi",
+      "nativeName": "سنڌي",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "ta",
+      "englishName": "Tamil",
+      "nativeName": "தமிழ்",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "te",
+      "englishName": "Telugu",
+      "nativeName": "తెలుగు",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "ur",
+      "englishName": "Urdu",
+      "nativeName": "اردو",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "bho",
+      "englishName": "Bhojpuri",
+      "nativeName": "भोजपुरी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "raj",
+      "englishName": "Rajasthani",
+      "nativeName": "राजस्थानी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "hne",
+      "englishName": "Chhattisgarhi",
+      "nativeName": "छत्तीसगढ़ी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "tcy",
+      "englishName": "Tulu",
+      "nativeName": "ತುಳು",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "gbm",
+      "englishName": "Garhwali",
+      "nativeName": "गढ़वाली",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "kfy",
+      "englishName": "Kumaoni",
+      "nativeName": "कुमाऊँनी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "mag",
+      "englishName": "Magahi",
+      "nativeName": "मगही",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "bgc",
+      "englishName": "Haryanvi",
+      "nativeName": "हरियाणवी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "awa",
+      "englishName": "Awadhi",
+      "nativeName": "अवधी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "gon",
+      "englishName": "Gondi",
+      "nativeName": "गोंडी",
+      "status": "community_review_required",
+      "nativeSpeakerReviewed": false,
+      "content": "english_fallback",
+      "fallbackLocale": "en"
+    },
+    {
+      "id": "en",
+      "englishName": "English",
+      "nativeName": "English",
+      "status": "source_verified",
+      "nativeSpeakerReviewed": true,
+      "content": "english_source",
+      "fallbackLocale": "en"
+    }
+  ]
+}

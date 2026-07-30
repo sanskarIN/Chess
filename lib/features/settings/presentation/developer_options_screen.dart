@@ -6,13 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../app/app_router.dart';
 import '../../../app/app_version.dart';
 import '../../../core/database/database_schema.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../l10n/locale_formatting.dart';
+import '../../../l10n/pseudolocalizer.dart';
+import '../../../l10n/supported_locales.dart';
 import '../../challenges/application/challenge_providers.dart';
 import '../../challenges/domain/challenge_event.dart';
 import '../../challenges/domain/local_date.dart';
@@ -322,6 +324,9 @@ final class DeveloperOptionsScreen extends ConsumerWidget {
               ])
                 SwitchListTile(
                   title: Text(featureFlagLabel(s, flag)),
+                  subtitle: flag == TypedFeatureFlag.pseudolocalization
+                      ? Text(Pseudolocalizer.transform(s.appTitle))
+                      : null,
                   value: settings.featureEnabled(flag),
                   onChanged: (value) => controller.setFeatureFlag(flag, value),
                 ),
@@ -334,29 +339,34 @@ final class DeveloperOptionsScreen extends ConsumerWidget {
                 title: Text(s.untranslatedStringReport),
                 onTap: () => _message(
                   context,
-                  s.simulationResult('generated locale audit required'),
+                  s.localizationCompletenessSummary(33, 33, 32),
                 ),
               ),
               ListTile(
                 title: Text(s.localeSwitching),
                 subtitle: Text(Localizations.localeOf(context).toLanguageTag()),
-                onTap: () =>
-                    controller.update(settings.copyWith(localeCode: 'en')),
+                onTap: () => context.push(AppRoutes.language),
               ),
               ListTile(
                 title: Text(s.numberFormatPreview),
                 subtitle: Text(
-                  NumberFormat.decimalPattern(
-                    Localizations.localeOf(context).toLanguageTag(),
-                  ).format(1234567.89),
+                  LocaleFormatting(
+                    SupportedLanguages.byId(
+                      settings.localeCode ??
+                          Localizations.localeOf(context).languageCode,
+                    ),
+                  ).formatDecimal(1234567.89),
                 ),
               ),
               ListTile(
                 title: Text(s.dateFormatPreview),
                 subtitle: Text(
-                  DateFormat.yMMMMd(
-                    Localizations.localeOf(context).toLanguageTag(),
-                  ).format(DateTime.now()),
+                  LocaleFormatting(
+                    SupportedLanguages.byId(
+                      settings.localeCode ??
+                          Localizations.localeOf(context).languageCode,
+                    ),
+                  ).formatDate(DateTime.now()),
                 ),
               ),
             ],

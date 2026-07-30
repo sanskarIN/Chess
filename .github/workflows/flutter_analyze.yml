@@ -21,5 +21,7 @@ jobs:
           cache: true
       - run: flutter pub get
       - run: flutter gen-l10n
+      - run: dart run tool/generate_locale_fallbacks.dart --check
+      - run: dart run tool/verify_localizations.dart
       - run: dart format --output=none --set-exit-if-changed .
       - run: flutter analyze

@@ -25,6 +25,7 @@ import '../features/saved_games/presentation/review_screen.dart';
 import '../features/saved_games/presentation/saved_games_screen.dart';
 import '../features/settings/presentation/data_management_screen.dart';
 import '../features/settings/presentation/developer_options_screen.dart';
+import '../features/settings/presentation/language_selector_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/splash/presentation/splash_screen.dart';
 import '../l10n/app_localizations.dart';
@@ -52,6 +53,7 @@ abstract final class AppRoutes {
   static const String settings = '/settings';
   static const String developerOptions = '/settings/developer';
   static const String dataManagement = '/settings/data';
+  static const String language = '/settings/language';
 
   static String setupPath(GameMode mode) => '/play/${mode.name}';
 }
@@ -236,6 +238,12 @@ GoRouter createAppRouter({required AppError? startupError}) {
         path: AppRoutes.dataManagement,
         builder: (BuildContext context, GoRouterState state) {
           return const DataManagementScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.language,
+        builder: (BuildContext context, GoRouterState state) {
+          return const LanguageSelectorScreen();
         },
       ),
     ],

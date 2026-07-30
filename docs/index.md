@@ -27,6 +27,9 @@
 - [Developer Options](developer_options.md)
 - [Local data management](data_management.md)
 - [Localization](localization.md)
+- [Translation status and contribution](translations/README.md)
+- [Locale identifiers](translations/locale_identifiers.md)
+- [Localization completeness](translations/completeness.md)
 - [Logging](logging.md)
 
 ## Technology
