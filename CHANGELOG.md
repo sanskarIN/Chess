@@ -3,6 +3,18 @@
 All notable project changes are documented here. The project is pre-release;
 versions follow the completed implementation phase.
 
+## 0.12.0 — 2026-08-04
+
+- Added idempotent local match history, result/mode/color/difficulty filters,
+  completed-game review, derived statistics with a preserved reset boundary,
+  and fifteen one-time timestamped achievements.
+- Added Android emulator integration coverage, comprehensive release-gate
+  evidence, accessibility/security/performance reviews, a deterministic
+  CycloneDX source SBOM, reproducible-build guidance, and release operations
+  documentation.
+- Repaired Android debug manifest merging, cross-drive Kotlin compilation, and
+  the escaped Kotlin package declaration; a debug APK now builds successfully.
+
 ## 0.11.0 — 2026-07-26
 
 - Added GPL-3.0-or-later licensing, copyright, notices, privacy, terms,

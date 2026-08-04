@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/app_router.dart';
+import '../../../core/logging/app_logger.dart';
 import '../../../core/platform/system_display_service.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/creator_watermark.dart';
@@ -26,6 +27,7 @@ import '../../computer_player/domain/engine_difficulty.dart';
 import '../../computer_player/domain/engine_failure.dart';
 import '../../friend_multiplayer/application/friend_match_controller.dart';
 import '../../friend_multiplayer/domain/friend_session.dart';
+import '../../history/application/match_history_providers.dart';
 import '../../local_multiplayer/application/local_match_controller.dart';
 import '../../local_multiplayer/application/match_clock_controller.dart';
 import '../../local_multiplayer/domain/local_action_request.dart';
@@ -316,6 +318,7 @@ final class _GameScreenState extends ConsumerState<GameScreen>
     final GameResult? result = _controller.result;
     final String gameId = _controller.game.gameId;
     if (result != null && _recordedResultGameIds.add(gameId)) {
+      unawaited(_recordCompletedMatchHistory());
       events.add(
         ChallengeEvent(
           id: '$gameId:${ChallengeType.finishMatch.name}',
@@ -376,6 +379,35 @@ final class _GameScreenState extends ConsumerState<GameScreen>
   Future<void> _recordEvents(List<ChallengeEvent> events) async {
     for (final ChallengeEvent event in events) {
       await _challengesController.recordEvent(event);
+    }
+  }
+
+  Future<void> _recordCompletedMatchHistory() async {
+    try {
+      final bool inserted = await ref
+          .read(matchHistoryRepositoryProvider)
+          .recordCompletedMatch(
+            setup: widget.setup,
+            game: _controller.game,
+            startedAt: _controller.startedAt,
+            completedAt: DateTime.now(),
+            hintCount: _hintCount,
+          );
+      if (inserted) {
+        ref
+          ..invalidate(matchHistoryProvider)
+          ..invalidate(chessStatisticsProvider)
+          ..invalidate(achievementsProvider);
+      }
+    } on Object catch (error, stackTrace) {
+      ref
+          .read(appLoggerProvider)
+          .warning(
+            'match_history.record_failed',
+            fields: <String, Object?>{'mode': widget.setup.mode.name},
+            error: error,
+            stackTrace: stackTrace,
+          );
     }
   }
 

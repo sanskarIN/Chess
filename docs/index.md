@@ -23,6 +23,7 @@
 - [Practice and tutorial](practice_and_tutorial.md)
 - [Puzzle catalog](puzzle_catalog.md)
 - [Saved games and review](saved_games_and_review.md)
+- [Match history, statistics, and achievements](history_and_achievements.md)
 - [Settings system](settings.md)
 - [Developer Options](developer_options.md)
 - [Local data management](data_management.md)

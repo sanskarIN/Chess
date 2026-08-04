@@ -135,7 +135,7 @@ final class HomeScreen extends ConsumerWidget {
                           _PlannedShortcut(
                             icon: Icons.history,
                             label: strings.matchHistory,
-                            onPressed: () => _showPlannedMessage(context),
+                            onPressed: () => context.push(AppRoutes.history),
                           ),
                           _PlannedShortcut(
                             icon: Icons.menu_book_outlined,
@@ -160,13 +160,6 @@ final class HomeScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  void _showPlannedMessage(BuildContext context) {
-    final AppLocalizations strings = AppLocalizations.of(context);
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(strings.featurePlannedMessage)));
   }
 }
 

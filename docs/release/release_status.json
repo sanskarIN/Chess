@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "releaseVersion": "0.12.0+12",
+  "recordedOn": "2026-08-04",
+  "readyForDistribution": false,
+  "gates": [
+    {
+      "id": "formatting",
+      "status": "passed",
+      "evidence": [
+        "dart format --output=none --set-exit-if-changed lib test integration_test tool: 276 files, 0 changes"
+      ]
+    },
+    {
+      "id": "analysis",
+      "status": "passed",
+      "evidence": [
+        "dart analyze lib test integration_test tool: No issues found"
+      ]
+    },
+    {
+      "id": "unit_widget_tests",
+      "status": "passed",
+      "evidence": [
+        "flutter test --coverage --no-pub: 161 tests passed",
+        "LCOV: 8,204 of 43,250 lines, 18.97 percent"
+      ]
+    },
+    {
+      "id": "integration_tests",
+      "status": "passed",
+      "evidence": [
+        "flutter test --no-pub -d emulator-5554 integration_test/app_smoke_test.dart: 1 test passed",
+        "Android API 36.1 emulator booted and app APK installed"
+      ]
+    },
+    {
+      "id": "server_tests",
+      "status": "passed",
+      "evidence": [
+        "server npm ci --offline: clean install and 0 vulnerabilities",
+        "server npm run check: passed",
+        "server npm test: 7 tests passed"
+      ]
+    },
+    {
+      "id": "chess_domain",
+      "status": "passed",
+      "evidence": [
+        "dart run tool/verify_chess_domain.dart: passed",
+        "Perft references cover start depth 4, Kiwipete depth 3, and rook/en-passant depth 4"
+      ]
+    },
+    {
+      "id": "localization",
+      "status": "passed",
+      "evidence": [
+        "33 locales with 931 non-empty messages each and exact key/metadata parity",
+        "32 fallback ARBs and translation status metadata are deterministic",
+        "3 RTL locales verified"
+      ]
+    },
+    {
+      "id": "license_review",
+      "status": "passed",
+      "evidence": [
+        "Canonical GPL and 18 policy/notice files verified",
+        "100 hosted Dart package license files and 26 npm license expressions verified"
+      ]
+    },
+    {
+      "id": "documentation",
+      "status": "passed",
+      "evidence": [
+        "tool/verify_documentation.dart validates all substantive Markdown and relative links",
+        "Phase 12 history, release, operations, legal, translation, and continuation records are indexed"
+      ]
+    },
+    {
+      "id": "security_source_review",
+      "status": "passed",
+      "evidence": [
+        "Source security and privacy controls reviewed against docs/release/security_review.md",
+        "No release signing material, telemetry, account, advertising, location, contacts, camera, or microphone integration is declared"
+      ]
+    },
+    {
+      "id": "accessibility_automated",
+      "status": "passed",
+      "evidence": [
+        "Widget suite covers chess semantics, color-independent state, RTL, expanded text, reduced motion, and localized labels"
+      ]
+    },
+    {
+      "id": "accessibility_device",
+      "status": "external",
+      "details": "Qualified physical-device TalkBack, largest-text, display-size, theme, RTL, and alternate-input review has not been approved.",
+      "evidence": [
+        "docs/release/accessibility_review.md physical-device matrix remains open"
+      ]
+    },
+    {
+      "id": "performance_source_review",
+      "status": "passed",
+      "evidence": [
+        "Bounded engine, transactional database, lazy-list, relay-limit, startup, and background-work source risks reviewed",
+        "docs/release/performance_review.md records budgets without claiming unmeasured device results"
+      ]
+    },
+    {
+      "id": "performance_device",
+      "status": "external",
+      "details": "Release-mode startup, frame, memory, CPU, battery, long-match, export, and reconnect profiling on representative physical Android hardware remains unexecuted.",
+      "evidence": [
+        "docs/release/performance_review.md measurement plan remains open"
+      ]
+    },
+    {
+      "id": "android_debug_build",
+      "status": "passed",
+      "artifact": "build/app/outputs/flutter-apk/app-debug.apk",
+      "artifactRetainedInRepository": false,
+      "bytes": 183465799,
+      "sha256": "ed24292c66daa3f5622a663c7d3a37f453c6a58839df71f7eaf752f582e44e1e",
+      "evidence": [
+        "flutter build apk --debug --no-pub: passed",
+        "Flutter 3.44.7, Dart 3.12.2, Android SDK 36.1.0, NDK 28.2.13676358",
+        "Generated debug APK is not a public distribution artifact"
+      ]
+    },
+    {
+      "id": "stockfish_binary",
+      "status": "not_applicable",
+      "evidence": [
+        "assets/engine/manifest.json declares zero binaries",
+        "Built-in bounded Dart search supplies current computer play"
+      ]
+    },
+    {
+      "id": "native_translation_review",
+      "status": "external",
+      "details": "The 32 non-English resources are complete English fallback drafts and require qualified translation plus independent native-speaker approval.",
+      "evidence": [
+        "lib/l10n/translation_status.json marks every fallback community_review_required"
+      ]
+    },
+    {
+      "id": "release_signing",
+      "status": "external",
+      "details": "Developer-owned upload/app-signing keys, protected configuration, signed AAB generation, certificate verification, and provenance attestation are intentionally outside this repository.",
+      "evidence": [
+        "docs/release/signing_and_provenance.md ownership boundary"
+      ]
+    },
+    {
+      "id": "store_submission",
+      "status": "external",
+      "details": "Play Console listing, policy declarations, screenshots, data safety, content rating, pre-launch report, staged rollout, and support ownership require distributor action.",
+      "evidence": [
+        "docs/release/store_submission.md checklist remains open"
+      ]
+    },
+    {
+      "id": "human_legal_approval",
+      "status": "external",
+      "details": "Automated source/license checks pass, but a qualified human must authorize the final artifact, notices, policies, corresponding-source offer, and distribution terms.",
+      "evidence": [
+        "docs/legal/release_legal_checklist.md requires named final approval"
+      ]
+    }
+  ]
+}

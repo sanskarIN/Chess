@@ -1,38 +1,28 @@
 # Exact next work
 
-Phase 11 is complete in source with the full GPL-3.0-or-later license,
-copyright and third-party notices, dependency-license evidence, Stockfish
-distribution boundaries, privacy and terms documents, security and contribution
-policies, community templates, expanded technology documentation, in-app legal
-summaries, and automated legal/link verification.
+All 12 planned source phases are complete. There is no next implementation
+phase or placeholder source file.
 
-Phase 12 starts with:
+The next release work is external qualification against the current candidate:
+
+1. run TalkBack, largest-text, display-size, theme, RTL, lifecycle, and input
+   review on the documented physical-device matrix;
+2. capture release-mode startup, frame, memory, CPU, battery, long-match,
+   database-export, and relay-reconnect performance evidence;
+3. replace the 32 English fallback locale packs only through qualified
+   translation and independent native-speaker review;
+4. obtain final human legal/privacy/store-policy approval;
+5. configure developer-owned release signing outside the repository, build an
+   AAB from an approved clean commit, inspect it, and record provenance;
+6. complete the Play Console listing, data-safety declarations, pre-launch
+   report, staged rollout, support ownership, and rollback readiness.
+
+The source-level release record is maintained in:
 
 ```text
-docs/release/release_checklist.md
+docs/release/release_status.json
 ```
 
-Phase 12 implementation order:
-
-1. define an auditable release gate model and record pass, blocked, external,
-   and not-applicable states without converting unexecuted checks into passes;
-2. add source, dependency, localization, legal, accessibility, privacy,
-   performance, Android build, signing, store-listing, device, rollback, and
-   support checklists;
-3. generate a deterministic source dependency bill of materials from the
-   committed Flutter and Node lockfiles;
-4. add release-notes, test-matrix, known-limitations, reproducible-build,
-   provenance, signing, incident, and rollback templates;
-5. add a repository verifier that rejects incomplete or contradictory release
-   evidence and enforce it in CI;
-6. run formatting, analysis, complete Flutter and relay tests, coverage,
-   localization, puzzle, engine, legal, documentation, and release checks;
-7. attempt an unsigned Android debug APK with the available official toolchain
-   and preserve the exact blocker if the SDK/NDK remains incomplete;
-8. keep release signing, Play Console actions, device accessibility approval,
-   native-speaker translation approval, and legal sign-off explicitly external.
-
-Before the Android debug build can complete, install Android SDK command-line
-tools and repair the incomplete NDK `28.2.13676358` installation. Accept any
-remaining SDK licenses through the official tool. Do not configure or use a
-release signing key.
+No external gate may be converted to `passed` without its own evidence. No
+keystore, signing password, service-account credential, or Play Console secret
+may be added to this repository.

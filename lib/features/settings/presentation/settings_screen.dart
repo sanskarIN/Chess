@@ -963,7 +963,7 @@ final class _AboutSection extends ConsumerWidget {
           onTap: () => _showAboutDialog(
             context,
             s.changelog,
-            s.phaseElevenChangelog(AppVersion.display),
+            s.phaseTwelveChangelog(AppVersion.display),
           ),
         ),
         ListTile(

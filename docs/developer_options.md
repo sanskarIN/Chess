@@ -83,4 +83,4 @@ versioned data-management service used by normal settings.
 The screen states that the game is fully open source and links to the
 repository, GPL identifier, contribution guide, security guide, issue chooser,
 and source-build instructions. The referenced repository documents are
-completed at the Phase 11 legal/documentation boundary.
+completed at the Phase 12 source/release-preparation boundary.

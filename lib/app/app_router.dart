@@ -10,6 +10,7 @@ import '../features/friend_multiplayer/application/friend_game_launch.dart';
 import '../features/friend_multiplayer/presentation/friend_lobby_screen.dart';
 import '../features/guide/presentation/feature_catalog_screen.dart';
 import '../features/guide/presentation/guide_screen.dart';
+import '../features/history/presentation/history_statistics_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/home/presentation/mode_selection_screen.dart';
 import '../features/onboarding/presentation/onboarding_screen.dart';
@@ -50,6 +51,7 @@ abstract final class AppRoutes {
   static const String review = '/review';
   static const String guide = '/guide';
   static const String features = '/features';
+  static const String history = '/history';
   static const String settings = '/settings';
   static const String developerOptions = '/settings/developer';
   static const String dataManagement = '/settings/data';
@@ -220,6 +222,12 @@ GoRouter createAppRouter({required AppError? startupError}) {
         path: AppRoutes.features,
         builder: (BuildContext context, GoRouterState state) {
           return const FeatureCatalogScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.history,
+        builder: (BuildContext context, GoRouterState state) {
+          return const HistoryStatisticsScreen();
         },
       ),
       GoRoute(

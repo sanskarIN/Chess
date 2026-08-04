@@ -382,7 +382,7 @@
   "gamePausedDescription": "The board is hidden from interaction until play resumes.",
   "resume": "Resume",
   "settingsShortcutMessage": "In-match settings are enabled in the settings phase.",
-  "soundShortcutMessage": "Sound controls are enabled with the original audio asset pack.",
+  "soundShortcutMessage": "Move, capture, and check feedback follows the enabled system-sound and haptic settings.",
   "computerIsThinking": "Computer is thinking",
   "localComputerReady": "Built-in local computer ready",
   "computerEngineError": "The computer engine needs attention",
@@ -840,8 +840,8 @@
   "featureSettingsBody": "Appearance, sound, gameplay, accessibility, privacy, data, and developer groups.",
   "featureLocalizationTitle": "33 language packs",
   "featureLocalizationBody": "English plus 32 Indian language locales with fallback, RTL testing, and community review status.",
-  "featureAudioTitle": "Original sound pack",
-  "featureAudioBody": "Optional offline move, capture, check, challenge, clock, and connection sounds.",
+  "featureAudioTitle": "Sound and haptic controls",
+  "featureAudioBody": "Offline platform system sounds and haptics for move, capture, and check feedback with individually persisted controls. No external audio asset pack is bundled.",
   "featureHistoryTitle": "History and statistics",
   "featureHistoryBody": "Filterable local match history, statistics, and achievements.",
   "featureDataTitle": "Data export and import",
@@ -1249,6 +1249,97 @@
   "sourceCodeNotice": "Source code, notices, privacy information, security reporting, and contribution guidance are available in the project repository.",
   "phaseElevenChangelog": "{version}: licensing, privacy, security, contribution, dependency-notice, and documentation completion.",
   "@phaseElevenChangelog": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "historyStatisticsTitle": "History, statistics, and achievements",
+  "historyTab": "History",
+  "statisticsTab": "Statistics",
+  "achievementsTab": "Achievements",
+  "filterLabel": "Filter",
+  "filterAll": "All matches",
+  "filterWins": "Wins",
+  "filterLosses": "Losses",
+  "filterDraws": "Draws",
+  "filterComputer": "Computer matches",
+  "filterLocal": "Local matches",
+  "filterFriend": "Friend matches",
+  "filterWhite": "Played as White",
+  "filterBlack": "Played as Black",
+  "noMatchHistory": "No completed matches are stored yet.",
+  "noFilteredMatches": "No completed matches match this filter.",
+  "opponentLabel": "Opponent",
+  "completedLabel": "Completed",
+  "resultLabel": "Result",
+  "winResult": "Win",
+  "lossResult": "Loss",
+  "drawResult": "Draw",
+  "reviewHistoryGame": "Review this completed game",
+  "historyPrivacyNotice": "Match history stays in local SQLite storage and exported PGN never includes relay connection details.",
+  "gamesPlayedStatistic": "Games played",
+  "winsStatistic": "Wins",
+  "lossesStatistic": "Losses",
+  "drawsStatistic": "Draws",
+  "computerWinsByDifficultyStatistic": "Computer wins by difficulty",
+  "whiteResultsStatistic": "White-side results",
+  "blackResultsStatistic": "Black-side results",
+  "resultTriple": "{wins} W · {losses} L · {draws} D",
+  "@resultTriple": {
+    "placeholders": {
+      "wins": {"type": "int"},
+      "losses": {"type": "int"},
+      "draws": {"type": "int"}
+    }
+  },
+  "averageGameLengthStatistic": "Average game length",
+  "fastestWinStatistic": "Fastest win",
+  "longestGameStatistic": "Longest game",
+  "totalMovesStatistic": "Total moves",
+  "totalCapturesStatistic": "Total captures",
+  "totalHintsUsedStatistic": "Total hints used",
+  "challengesCompletedStatistic": "Challenges completed",
+  "coinsEarnedStatistic": "Coins earned",
+  "hintsEarnedStatistic": "Hints earned",
+  "puzzlesSolvedStatistic": "Puzzles solved",
+  "currentStreakStatistic": "Current streak",
+  "bestStreakStatistic": "Best streak",
+  "notRecorded": "Not recorded",
+  "resetStatisticsTitle": "Reset statistics?",
+  "resetStatisticsDescription": "Future statistics will start from now. Match history and one-time achievement unlocks are preserved.",
+  "statisticsResetCompleted": "Statistics were reset.",
+  "achievementProgress": "{current} of {target}",
+  "@achievementProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "target": {"type": "int"}
+    }
+  },
+  "achievementUnlocked": "Unlocked",
+  "achievementLocked": "Locked",
+  "unlockedOn": "Unlocked on {date}",
+  "@unlockedOn": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "achievementFirstMove": "First Move",
+  "achievementFirstWin": "First Win",
+  "achievementFirstCheckmate": "First Checkmate",
+  "achievementWinAsBlack": "Win as Black",
+  "achievementCastleSuccessfully": "Castle Successfully",
+  "achievementPromotePawn": "Promote a Pawn",
+  "achievementPuzzleBeginner": "Puzzle Beginner",
+  "achievementPuzzleSolver": "Puzzle Solver",
+  "achievementChallengeStarter": "Challenge Starter",
+  "achievementChallengeMaster": "Challenge Master",
+  "achievementNoHintVictory": "No-Hint Victory",
+  "achievementTenGamesPlayed": "Ten Games Played",
+  "achievementFiftyGamesPlayed": "Fifty Games Played",
+  "achievementLocalMatchCompleted": "Local Match Completed",
+  "achievementFriendMatchCompleted": "Friend Match Completed",
+  "phaseTwelveChangelog": "{version}: match history, statistics, achievements, comprehensive QA evidence, source SBOM, and release preparation.",
+  "@phaseTwelveChangelog": {
     "placeholders": {
       "version": {"type": "String"}
     }

@@ -1,6 +1,6 @@
 # Third-party notices
 
-This file describes the source boundary at version 0.11.0. It is not a
+This file describes the source boundary at version 0.12.0. It is not a
 substitute for the license text shipped by each dependency.
 
 ## Flutter application

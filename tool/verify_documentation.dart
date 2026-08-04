@@ -57,6 +57,10 @@ void main() {
     'docs/technologies/README.md',
     'docs/legal/README.md',
     'docs/translations/README.md',
+    'docs/history_and_achievements.md',
+    'docs/release/README.md',
+    'docs/release/release_checklist.md',
+    'docs/release/test_matrix.md',
     'docs/upcoming/phases.md',
     'docs/upcoming/next.md',
   ];

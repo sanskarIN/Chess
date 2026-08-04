@@ -10,11 +10,13 @@ accessible multilingual interfaces.
 
 **Made by the Sanskar**
 
-> Development status: Phase 11 legal, open-source, security, contribution, and
-> documentation completion is implemented on top of the Phase 10 localization
-> system. SQLite schema v3 stores durable preferences, progress, saves,
+> Development status: all 12 planned source phases are implemented. Phase 12
+> adds local match history, complete derived statistics, fifteen achievements,
+> integration and release gates, an auditable source SBOM, and Android build
+> evidence. SQLite schema v3 stores durable preferences, games, progress,
 > challenges, and ledger data. No real-money purchase, telemetry, or unverified
-> native executable is bundled. See
+> native executable is bundled. Public distribution still requires the external
+> approvals recorded in the
 > [feature status](docs/upcoming/feature_status.md) and the
 > [continuation manifest](docs/development_manifest.md) for exact evidence.
 
@@ -84,6 +86,9 @@ accessible multilingual interfaces.
   catalog with availability labels.
 - Local save, resume, rename, delete, FEN copy, PGN export, validated FEN/PGN
   import, and immutable move-by-move review with optional local evaluation.
+- Idempotent local match history with result/mode/color/difficulty filters,
+  review launch, complete derived statistics, confirmed reset boundary, and
+  fifteen one-time timestamped achievements.
 - Versioned typed settings with live theme, board, accessibility, gameplay,
   sound/haptic, startup, auto-save, and Android display behavior.
 - Seven-tap documented Developer Options with diagnostics, FEN/PGN/board tools,
@@ -94,7 +99,7 @@ accessible multilingual interfaces.
   confirmation, and privacy-safe reward-ledger export.
 - Searchable native/English language selector with system-language reset,
   immediate persisted switching, standard identifiers, documented format
-  fallbacks, script-aware runtime tags, and 864-message parity across 33 ARBs.
+  fallbacks, script-aware runtime tags, and 931-message parity across 33 ARBs.
 - RTL navigation for Kashmiri, Sindhi, and Urdu while chess coordinates and
   notation retain their logical order; TalkBack labels, expanded-text tests,
   pseudo-localization, font fallbacks, and community review status are included.
@@ -108,12 +113,11 @@ machine currently has:
 - Node.js 24.14.0
 - npm 11.18.0
 - Git 2.55.0.windows.3
-- Java 8 on `PATH`, which is too old for this Android build; Android Studio's
-  bundled OpenJDK 21 can compile the configured Java 17 target
+- Android Studio's bundled OpenJDK 21 compiling the configured Java 17 target
 - Dart SDK 3.12.2 stable
-- Flutter 3.44.7 stable in a temporary SDK location
-- Android SDK 36.1, with command-line tools and license acceptance still needed
-  before an Android APK can be built
+- Flutter 3.44.7 stable at `E:\Development\flutter`
+- Android SDK 36.1 with Platform 35 and NDK `28.2.13676358`; the Phase 12 debug
+  APK build and API 36.1 emulator integration test pass
 
 Use the JDK bundled with a current Android Studio or install JDK 17.
 
@@ -222,6 +226,8 @@ procedure, privacy and security policies, and the Stockfish corresponding-source
 requirements that apply if a distributor adds Stockfish. No Stockfish binary or
 source archive is included in the current repository.
 
-This repository is not ready for Play Store publication. Signing, legal review,
-policy review, accessibility testing, community translation review, device
-testing, and Phase 12 release QA remain required.
+This repository is not ready for Play Store publication. Owner-controlled
+release signing, store review, physical-device accessibility/performance
+approval, community translation review, and final human legal authorization
+remain external gates. See the machine-readable
+[release status](docs/release/release_status.json).

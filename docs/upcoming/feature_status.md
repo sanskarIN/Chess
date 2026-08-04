@@ -1,40 +1,33 @@
 # Feature status
 
-Updated: 2026-07-23
+Updated: 2026-08-04
 
-The `Status` column uses only the master prompt's permitted classifications.
-`Verification` states whether the evidence was executed in this environment.
+`Tested` means the source behavior has executed in the recorded automated
+environment. External human/device/distribution gates remain separately
+identified and are not implied by source completion.
 
-| Capability | Status | Verification | Evidence or blocker |
+| Capability | Status | Verification | Evidence or boundary |
 | --- | --- | --- | --- |
-| App configuration and bootstrap | Tested | Passed | Flutter widget flow test |
-| Typed routing | Tested | Passed | Splash/onboarding/home and typed mode routes execute |
-| Light/dark theme foundation | Implemented | Passed | Flutter analysis and widget rendering; device visual QA pending |
-| Localization architecture | Tested | Passed | `flutter gen-l10n` and localized widget tests |
-| Error and result types | Tested | Passed | Flutter unit suite |
-| Privacy-safe structured logging | Tested | Passed | Redaction test |
-| SQLite schema and lifecycle | Tested | Passed | Schema plus onboarding settings tests; device migration QA pending |
-| Android host configuration | Implemented | Blocked | Command-line tools/licenses block APK build |
-| Complete chess rules | Tested | Passed | Dart verifier plus detailed Flutter test source |
-| Perft validation | Tested | Passed | Start d4; Kiwipete d3; rook/endgame d4 |
-| Splash, onboarding, home, and setup | Tested | Passed | Flutter application/widget tests |
-| Playable board and game UI | Tested | Passed | Legal moves, semantics, history, undo/redo, and result tests |
-| Captured-pieces display | Tested | Passed | Domain capture and controller/widget coverage |
-| Computer opponent | Tested | Passed | Four local-search levels, automatic turns, lock/thinking UI, cancellation, and retry |
-| Stockfish UCI adapter | Tested | Passed | Fake-process handshake, configuration, search, timeout, stop, crash, and restart |
-| Stockfish Android executable | Unavailable | Blocked | No distribution-verified ABI binary is declared or bundled |
-| Local two-player | Tested | Passed | Offline names, clocks, orientation, approvals, draw, resign, pause, and rematch |
-| Friend matches and relay server | Tested | Passed | 92-test Flutter suite and 7-test Node relay suite; Docker image build not run because Docker is unavailable |
-| Daily challenges, coins, and hints | Tested | Passed | Deterministic generation, real SQLite migration/transactions, concurrent claim, no-charge failure, game hooks, and widgets in 108-test suite |
-| Practice, tutorial, saves, and review | Tested | Passed | Legal catalog replay, first-only rewards, SQLite v3 persistence/import, review stepping, and widget coverage |
-| Complete settings and developer options | Tested | Passed | Typed persistence, live runtime behavior, guarded tools, real SQLite snapshot/reset tests, and widget coverage |
-| 33 locale options | Not started | Not run | Phase 10 |
-| Complete legal and open-source package | Not started | Not run | Phase 11 |
-| Beta release qualification | Not started | Not run | Phase 12 |
+| App bootstrap, routing, theme, errors, logging, and SQLite lifecycle | Tested | Passed | Analysis, unit/widget flow, persistence, redaction, and schema tests |
+| Complete chess rules, notation, game history, and perft | Tested | Passed | 161-test Flutter suite plus independent domain verifier |
+| Accessible board and complete game UI | Tested | Passed | Widget semantics, legal interaction, captured pieces, result, undo/redo, and review tests |
+| Four-level local computer opponent | Tested | Passed | Search, cancellation, lifecycle, UCI fake-process, and UI tests |
+| Distribution-verified Stockfish Android executable | Unavailable | Not applicable | No native executable is declared or bundled; built-in Dart search is used |
+| Local two-player and clocks | Tested | Passed | Monotonic clock, orientation, approval, draw, resign, lifecycle, and screen tests |
+| Friend matches and self-hostable relay | Tested | Passed | Flutter protocol/UI coverage plus clean TypeScript build and 7 relay tests |
+| Daily challenges, coins, ledger, and hints | Tested | Passed | Determinism, real SQLite transactions, idempotency, integrity chain, and UI tests |
+| Tutorials, practice, puzzles, saves, import, and review | Tested | Passed | Legal replay, reward-once, persistence, validation, and widget coverage |
+| History, statistics, and fifteen achievements | Tested | Passed | Real SQLite idempotency/filter/reset/unlock tests and complete widget flow |
+| Settings, Developer Options, and local data management | Tested | Passed | Typed persistence, guarded tools, 17-table export/import/reset, and widget tests |
+| Exactly 33 locale options | Tested | Passed | 931-message key/metadata/placeholder parity, RTL, formatting, fonts, and widget tests |
+| Complete legal/open-source documentation | Tested | Passed | GPL/source verifier, 18 policy/notice files, 100 Dart licenses, 26 npm licenses, and link verifier |
+| Source SBOM and release-control package | Tested | Passed | Deterministic CycloneDX 1.5 SBOM and machine-readable 20-gate verifier |
+| Android debug build | Implemented | Passed | Flutter 3.44.7 debug APK built after NDK/manifest/Kotlin corrections |
+| Android integration smoke flow | Tested | Passed | API 36.1 emulator: 1 test passed |
+| Physical-device accessibility and performance | External | Not run | Requires qualified physical-device evidence |
+| Native-speaker translation review | External | Not run | 32 complete English fallback drafts remain clearly marked |
+| Release signing, store submission, and legal authorization | External | Not run | Developer/reviewer-owned actions; no signing material is stored here |
 
-The engine manifest deliberately contains zero binaries. A native Stockfish
-executable cannot become available until its exact source, ABI, checksums, and
-debug/release loading evidence pass the committed verifier. Local match
-presentation, clocks, and approval policies are tested. Friend relay runtime and
-protocol behavior are tested directly; deployment-container validation remains
-an environment-specific release check.
+Source implementation is complete, but `readyForDistribution` remains false
+until every external release gate has evidence and approval. See
+[the release status](../release/release_status.json).

@@ -2,10 +2,10 @@
 
 ## Project identity
 
-- Version: `0.11.0+11`
-- Completed phase: 11 — Legal, open source, and documentation completion
-- Next phase: 12 — QA and release preparation
-- Updated: 2026-07-30
+- Version: `0.12.0+12`
+- Completed phase: 12 — QA and release preparation
+- Next phase: none — all planned source phases are complete
+- Updated: 2026-08-04
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
 - Repository: <https://github.com/sanskarIN/Chess>
@@ -28,9 +28,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 8 practice and guide | `e7b0104048e1d2021549870944e8eb905be09213` | Published on `origin/main` |
 | Phase 9 settings and developer options | `b3390cf016a7c5bd736af5a480a616de383df4ca` | Published on `origin/main` |
 | Phase 10 localization | `721d3817dcc75ee7f966226deb0d33d59680d27c` | Published on `origin/main` |
+| Phase 11 legal and documentation | `a4b231ed4121c6d469d8e1026f6d38511a91e850` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Every completed boundary through Phase 10
+directly without overwriting history. Every completed boundary through Phase 11
 is present on `origin/main`.
 
 ## Phase 1 completed source
@@ -230,7 +231,7 @@ is present on `origin/main`.
   Haryanvi, Awadhi, Gondi, and English
 - Standard base resource/settings identifiers plus documented `Arab`, `Guru`,
   `Mtei`, and `Olck` runtime script subtags
-- Exactly 33 ARB files with 864 non-empty messages each, exact key/metadata/
+- Exactly 33 ARB files with 931 non-empty messages each, exact key/metadata/
   placeholder parity, and English fallback instead of raw keys or empty text
 - Explicit translation status distinguishing the verified English source from
   32 `community_review_required` fallback drafts
@@ -276,6 +277,33 @@ is present on `origin/main`.
 - CI-enforced relative-link, documentation-set, legal-file, dependency-license,
   distribution-claim, localization, source, test, and analysis verification
 
+## Phase 12 completed source
+
+- Idempotent completed-match recording across games, moves, and local history,
+  with result/mode/color/difficulty filters and immutable review reconstruction
+- Complete derived statistics for results, difficulty, side, length, moves,
+  captures, hints, challenges, rewards, puzzles, and current/best play streaks
+- Confirmed statistics reset boundary that preserves match history and one-time
+  achievement unlock timestamps
+- Fifteen deterministic achievements spanning first actions, wins, checkmate,
+  castling, promotion, puzzles, challenges, no-hint play, game counts, and local/
+  friend completion
+- History, statistics, and achievements UI with local privacy disclosure,
+  filtering, empty states, review routing, locale-aware dates, progress, and
+  reset confirmation
+- Real SQLite repository tests, presentation tests, and an Android emulator
+  integration smoke flow
+- Deterministic CycloneDX 1.5 source SBOM covering locked Flutter/Dart and Node
+  dependency graphs
+- Machine-readable 20-gate release status plus accessibility, security,
+  performance, Android build, reproducibility, provenance, signing, store,
+  rollback, incident, limitation, and release-note documentation
+- Android build fixes for debug cleartext override, cross-drive Kotlin caches,
+  and Kotlin's reserved `in` package segment
+- Successful debug APK build with size/checksum evidence while release signing,
+  store mutation, physical-device approval, translations, and legal sign-off
+  remain external
+
 ## Toolchain evidence
 
 ```text
@@ -288,13 +316,11 @@ Android SDK 36.1.0
 ```
 
 `flutter doctor -v` passed Flutter, Windows, Chrome, Visual Studio, connected
-devices, and network resources. It reported:
+devices, and network resources. It reported missing Android command-line tools
+for interactive SDK/license management, but Gradle successfully installed the
+accepted NDK `28.2.13676358` and Android Platform 35 required by the build.
 
-- Android SDK command-line tools missing;
-- Android license status unknown;
-- Flutter and Dart temporary SDK paths not added permanently to `PATH`.
-
-## Commands executed through Phase 11
+## Commands executed through Phase 12
 
 ```text
 flutter --version
@@ -302,26 +328,31 @@ flutter doctor -v
 flutter pub get
 flutter gen-l10n
 dart run tool/generate_locale_fallbacks.dart --check
+dart run tool/generate_source_sbom.dart --check
 dart run tool/verify_localizations.dart
 dart run tool/verify_legal.dart
 dart run tool/verify_documentation.dart
-dart format lib test tool
-flutter analyze --no-pub
-flutter test --no-pub
+dart run tool/verify_release_readiness.dart
+dart format lib test integration_test tool
+dart analyze lib test integration_test tool
+flutter test --coverage --no-pub
+flutter test --no-pub -d emulator-5554 integration_test/app_smoke_test.dart
+flutter build apk --debug --no-pub
 dart run tool/chess_domain_verifier/bin/verify.dart
 dart run tool/verify_engine_manifest.dart
 dart run tool/verify_puzzles.dart
 cd server
-npm install
+npm ci --offline
 npm run check
 npm test
-npm audit --omit=dev
 ```
 
 ## Verification results
 
 ```text
-158 Flutter tests passed.
+161 Flutter unit/widget tests passed.
+1 Android API 36.1 integration test passed.
+Coverage baseline: 8,204 / 43,250 lines (18.97%).
 7 Node relay tests passed.
 Flutter analysis: No issues found.
 TypeScript type check passed.
@@ -401,7 +432,7 @@ Executed coverage through Phase 11 includes:
 - deterministic friend reconnect signaling under full parallel test load.
 - exact 33-language catalog ordering, native/English/alias search, base/resource
   identifiers, runtime script tags, system resolution, and English fallback;
-- 33 ARB resources with 864 non-empty messages each, exact key/metadata/
+- 33 ARB resources with 931 non-empty messages each, exact key/metadata/
   placeholder parity, and accurate translation-review status;
 - number/date/duration non-empty formatting across every locale, balanced-ICU
   pseudo-localization, native-script rendering, and expanded-text resilience;
@@ -412,6 +443,12 @@ Executed coverage through Phase 11 includes:
   npm lockfile license-expression, and Stockfish non-bundling verification;
 - substantive Markdown-set and relative-link validation across repository,
   documentation, relay, and GitHub community files.
+- match-history idempotency, mode/result/side/difficulty filters, review
+  restoration, complete statistics, reset isolation, and first-unlock timestamps;
+- history/statistics/achievement tabs, localized dates, privacy text, empty
+  states, filtering, progress, and reset confirmation;
+- source-SBOM determinism, release-gate schema/status consistency, Android APK
+  build, and API 36.1 emulator application smoke flow.
 
 Phase 2 perft remains:
 
@@ -427,7 +464,8 @@ Phase 2 perft remains:
 - Localization generation: passed; English Dart output generated.
 - Dart formatting: passed.
 - Flutter static analysis: passed with zero issues.
-- Flutter unit/widget tests: 158 passed.
+- Flutter unit/widget tests: 161 passed.
+- Android integration tests: 1 passed on an API 36.1 emulator.
 - TypeScript type checking: passed.
 - Node relay tests: 7 passed.
 - npm production dependency audit: last passed with 0 vulnerabilities at the
@@ -439,10 +477,9 @@ Phase 2 perft remains:
 - Legal/source verifier: passed.
 - Documentation and relative-link verifier: passed.
 - Android resource compilation/linking: previously passed against API 36.
-- Android debug APK: attempted. Flutter generated the Gradle 9.1 wrapper and
-  selected Android Studio JDK 21. Gradle accepted the NDK license, then the
-  automatic NDK `28.2.13676358` install stalled with a zero-byte archive; no APK
-  was produced.
+- Android debug APK: passed after Gradle installed NDK `28.2.13676358` and
+  Android Platform 35 and repository manifest/Kotlin issues were corrected.
+  Final artifact size and SHA-256 are recorded in the release status.
 - Release app bundle: not run; signing is intentionally not configured.
 
 ## Known limitations
@@ -451,14 +488,14 @@ Phase 2 perft remains:
   native binary is bundled. Computer play uses the built-in local search.
 - The 32 non-English packs remain English fallback drafts until qualified
   community translators and independent native-speaker reviewers approve them.
-- Android command-line tools and a complete NDK installation are required
-  before repeating the debug APK build.
-- Device accessibility, performance profiling, Android artifact inspection,
-  signing, store review, and final release authorization remain Phase 12 or
-  external human/distributor gates.
+- Physical-device accessibility and release-mode performance profiling remain
+  external even though the debug APK and emulator smoke flow pass.
+- Release artifact inspection/signing, store review, native translation review,
+  and final legal authorization remain external human/distributor gates.
 
-## Exact next file
+## Exact next action
 
 ```text
-docs/release/release_checklist.md
+docs/release/release_status.json — attach external approvals without changing
+an unexecuted gate to passed
 ```

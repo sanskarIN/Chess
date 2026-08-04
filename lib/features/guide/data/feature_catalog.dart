@@ -32,23 +32,23 @@ abstract final class FeatureCatalog {
     ),
     FeatureCatalogItem(
       id: FeatureCatalogId.settings,
-      availability: FeatureAvailability.planned,
+      availability: FeatureAvailability.available,
     ),
     FeatureCatalogItem(
       id: FeatureCatalogId.localization,
-      availability: FeatureAvailability.planned,
+      availability: FeatureAvailability.available,
     ),
     FeatureCatalogItem(
       id: FeatureCatalogId.audio,
-      availability: FeatureAvailability.planned,
+      availability: FeatureAvailability.available,
     ),
     FeatureCatalogItem(
       id: FeatureCatalogId.history,
-      availability: FeatureAvailability.planned,
+      availability: FeatureAvailability.available,
     ),
     FeatureCatalogItem(
       id: FeatureCatalogId.data,
-      availability: FeatureAvailability.planned,
+      availability: FeatureAvailability.available,
     ),
     FeatureCatalogItem(
       id: FeatureCatalogId.premium,

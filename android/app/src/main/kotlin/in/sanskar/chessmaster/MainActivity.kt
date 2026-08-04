@@ -1,4 +1,4 @@
-package in.sanskar.chessmaster
+package `in`.sanskar.chessmaster
 
 import android.content.Intent
 import android.os.Build
