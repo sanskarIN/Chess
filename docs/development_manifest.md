@@ -29,9 +29,10 @@ Phase 1 was committed and pushed before Phase 2 as requested.
 | Phase 9 settings and developer options | `b3390cf016a7c5bd736af5a480a616de383df4ca` | Published on `origin/main` |
 | Phase 10 localization | `721d3817dcc75ee7f966226deb0d33d59680d27c` | Published on `origin/main` |
 | Phase 11 legal and documentation | `a4b231ed4121c6d469d8e1026f6d38511a91e850` | Published on `origin/main` |
+| Phase 12 QA and release preparation | `c7a1b29954ada41cd5037332b2cb34db976553cb` | Published on `origin/main` |
 
 The target repository was empty before Phase 1, so `main` was initialized
-directly without overwriting history. Every completed boundary through Phase 11
+directly without overwriting history. Every completed boundary through Phase 12
 is present on `origin/main`.
 
 ## Phase 1 completed source
