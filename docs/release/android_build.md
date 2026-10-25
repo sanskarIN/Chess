@@ -42,5 +42,7 @@ This debug APK is not approved for public distribution. A distributor must
 build an owner-signed release AAB from an approved clean commit, inspect the
 merged manifest, permissions, ABIs, native libraries, notices, resources,
 application/version identity, and certificate, and then record source-to-build
-provenance. No release signing key or configuration is present in this source
-tree.
+provenance. No release signing key or credentials are present in this source
+tree. The Gradle configuration accepts protected owner-supplied values and
+rejects release packaging without them; see
+[signing and provenance](signing_and_provenance.md).
