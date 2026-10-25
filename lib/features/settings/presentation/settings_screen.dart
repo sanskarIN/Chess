@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/app_config.dart';
 import '../../../app/app_router.dart';
 import '../../../app/app_version.dart';
+import '../../../app/project_links.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../l10n/supported_locales.dart';
@@ -898,7 +899,7 @@ final class _AboutSection extends ConsumerWidget {
         ),
         ListTile(
           title: Text(s.releaseChannel),
-          subtitle: Text(s.developmentChannel),
+          subtitle: Text(s.stableSourceChannel),
         ),
         if (controller.settings.developerOptionsEnabled)
           ListTile(
@@ -924,9 +925,9 @@ final class _AboutSection extends ConsumerWidget {
         ListTile(title: Text(s.creator), subtitle: const Text('Sanskar')),
         ListTile(
           title: Text(s.repository),
-          subtitle: const Text('https://www.github.com/sanskarIN/Chess'),
+          subtitle: const Text(ProjectLinks.repository),
           onTap: () => const SafeLinkService().openOrCopy(
-            Uri.parse('https://www.github.com/sanskarIN/Chess'),
+            Uri.parse(ProjectLinks.repository),
           ),
         ),
         ListTile(
@@ -963,7 +964,7 @@ final class _AboutSection extends ConsumerWidget {
           onTap: () => _showAboutDialog(
             context,
             s.changelog,
-            s.phaseTwelveChangelog(AppVersion.display),
+            s.stableSourceChangelog(AppVersion.display),
           ),
         ),
         ListTile(
@@ -976,9 +977,9 @@ final class _AboutSection extends ConsumerWidget {
         ),
         ListTile(
           title: Text(s.supportDetails),
-          subtitle: const Text('supportramsandesh@gmail.com'),
+          subtitle: const Text(ProjectLinks.website),
           onTap: () => const SafeLinkService().openOrCopy(
-            Uri.parse('mailto:supportramsandesh@gmail.com'),
+            Uri.parse(ProjectLinks.website),
           ),
         ),
       ],
@@ -1011,37 +1012,26 @@ final class _FollowSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations s = AppLocalizations.of(context);
-    const Map<String, String> links = <String, String>{
-      'GitHub': 'https://www.github.com/sanskarIN',
-      'YouTube': 'https://youtube.com/@Sanskar-in',
-      'LinkedIn': 'https://www.linkedin.com/in/sanskarin',
-      'X': 'https://www.x.com/Sanskar_in',
-      'Repository': 'https://www.github.com/sanskarIN/Chess',
-      'Support': 'mailto:supportramsandesh@gmail.com',
-      'Development': 'mailto:sanskarin@outlook.in',
-    };
     return _Section(
       title: s.followCreator,
       icon: Icons.link,
-      children: links.entries
-          .map((entry) {
-            return ListTile(
-              title: Text(entry.key),
-              subtitle: Text(entry.value),
-              trailing: const Icon(Icons.open_in_new),
-              onTap: () async {
-                final bool opened = await const SafeLinkService().openOrCopy(
-                  Uri.parse(entry.value),
-                );
-                if (!opened && context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(s.linkCopiedFallback)));
-                }
-              },
+      children: <Widget>[
+        ListTile(
+          title: Text(s.creatorWebsite),
+          subtitle: const Text(ProjectLinks.website),
+          trailing: const Icon(Icons.open_in_new),
+          onTap: () async {
+            final bool opened = await const SafeLinkService().openOrCopy(
+              Uri.parse(ProjectLinks.website),
             );
-          })
-          .toList(growable: false),
+            if (!opened && context.mounted) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(s.linkCopiedFallback)));
+            }
+          },
+        ),
+      ],
     );
   }
 }

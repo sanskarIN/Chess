@@ -19,7 +19,7 @@ identified and are not implied by source completion.
 | Tutorials, practice, puzzles, saves, import, and review | Tested | Passed | Legal replay, reward-once, persistence, validation, and widget coverage |
 | History, statistics, and fifteen achievements | Tested | Passed | Real SQLite idempotency/filter/reset/unlock tests and complete widget flow |
 | Settings, Developer Options, and local data management | Tested | Passed | Typed persistence, guarded tools, 17-table export/import/reset, and widget tests |
-| Exactly 33 locale options | Tested | Passed | 931-message key/metadata/placeholder parity, RTL, formatting, fonts, and widget tests |
+| Exactly 33 locale options | Tested | Passed | 934-message key/metadata/placeholder parity, RTL, formatting, fonts, and widget tests |
 | Complete legal/open-source documentation | Tested | Passed | GPL/source verifier, 18 policy/notice files, 100 Dart licenses, 26 npm licenses, and link verifier |
 | Source SBOM and release-control package | Tested | Passed | Deterministic CycloneDX 1.5 SBOM and machine-readable 20-gate verifier |
 | Android debug build | Implemented | Passed | Flutter 3.44.7 debug APK built after NDK/manifest/Kotlin corrections |

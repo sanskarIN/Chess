@@ -1,6 +1,7 @@
 # Authors and contributors
 
 - Sanskar — creator and initial maintainer
+- Creator website: <https://sanskarin.github.io>
 - Chess-Master contributors — see the repository’s git history
 
 Contribution authorship is recorded by commits. Third-party authors and

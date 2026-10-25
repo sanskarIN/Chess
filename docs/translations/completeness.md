@@ -1,11 +1,11 @@
 # Localization completeness
 
-Updated for Phase 12 against the 931-message English source.
+Updated for the stable source release against the 934-message English source.
 
 | State | Locale count | Key completeness | Native-speaker review |
 |---|---:|---:|---:|
-| English source verified | 1 | 931 / 931 | Source reviewed |
-| Complete English fallback draft | 32 | 931 / 931 each | Required |
+| English source verified | 1 | 934 / 934 | Source reviewed |
+| Complete English fallback draft | 32 | 934 / 934 each | Required |
 | Missing or empty resources | 0 | 0 | Not applicable |
 
 Every resource has exact English key and metadata parity, no empty message

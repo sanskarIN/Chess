@@ -3,9 +3,8 @@
 Before asking for help, read README.md, docs/index.md, the in-app guide, and
 docs/upcoming/feature_status.md.
 
-- Usage, setup, and non-sensitive bug questions:
-  `supportramsandesh@gmail.com`
-- Development and contribution questions: `sanskarin@outlook.in`
+- Usage, setup, development, and contribution questions: use the contact
+  options on [Sanskar's website](https://sanskarin.github.io).
 - Vulnerabilities: follow SECURITY.md; do not disclose publicly first
 - Feature ideas: use the feature-request issue form and
   `docs/users_suggest/README.md`
@@ -16,4 +15,4 @@ tokens, room reconnect sessions, personal player names, private games, or
 unreviewed database exports.
 
 There is no guaranteed response time, service-level agreement, live relay, or
-production binary support at this pre-release stage.
+production binary support for this source-only release.

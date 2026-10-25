@@ -10,7 +10,7 @@ void main() {
       expect(config.creatorWatermark, 'Made by the Sanskar');
       expect(
         config.repositoryUrl,
-        Uri.parse('https://www.github.com/sanskarIN/Chess'),
+        Uri.parse('https://github.com/sanskarIN/Chess'),
       );
     });
 

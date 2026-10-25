@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'project_links.dart';
+
 final Provider<AppConfig> appConfigProvider = Provider<AppConfig>(
   (Ref ref) => AppConfig.fromEnvironment(),
 );
@@ -22,7 +24,7 @@ final class AppConfig {
         defaultValue: 'Chess-Master',
       ),
       creatorWatermark: 'Made by the Sanskar',
-      repositoryUrl: Uri.parse('https://www.github.com/sanskarIN/Chess'),
+      repositoryUrl: Uri.parse(ProjectLinks.repository),
       environment: const String.fromEnvironment(
         'CHESS_MASTER_ENVIRONMENT',
         defaultValue: 'development',

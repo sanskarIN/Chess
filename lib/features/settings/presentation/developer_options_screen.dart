@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/app_router.dart';
 import '../../../app/app_version.dart';
+import '../../../app/project_links.dart';
 import '../../../core/database/database_schema.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../l10n/app_localizations.dart';
@@ -451,10 +452,10 @@ final class DeveloperOptionsScreen extends ConsumerWidget {
             children: <Widget>[
               ListTile(title: Text(s.fullyOpenSourceStatement)),
               ListTile(
-                title: Text('https://www.github.com/sanskarIN/Chess'),
+                title: const Text(ProjectLinks.repository),
                 subtitle: const Text('GPL-3.0-or-later'),
                 onTap: () => const SafeLinkService().openOrCopy(
-                  Uri.parse('https://www.github.com/sanskarIN/Chess'),
+                  Uri.parse(ProjectLinks.repository),
                 ),
               ),
               ListTile(
@@ -988,7 +989,7 @@ final class DeveloperOptionsScreen extends ConsumerWidget {
 
   Future<bool> _openRepositoryPath(String path) {
     return const SafeLinkService().openOrCopy(
-      Uri.parse('https://www.github.com/sanskarIN/Chess/$path'),
+      Uri.parse('${ProjectLinks.repository}/$path'),
     );
   }
 

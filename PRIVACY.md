@@ -65,4 +65,4 @@ Security reports should follow SECURITY.md. Material privacy changes must update
 this file, the in-app summary, Android data-safety declarations, and release
 notes before distribution.
 
-Questions: supportramsandesh@gmail.com
+Questions: use the contact options on [Sanskar's website](https://sanskarin.github.io).

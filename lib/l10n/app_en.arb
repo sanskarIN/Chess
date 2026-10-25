@@ -864,6 +864,14 @@
   "privacyDataSettings": "Privacy and data",
   "aboutSettings": "About",
   "followCreator": "Follow Sanskar or Creator",
+  "creatorWebsite": "Creator website",
+  "stableSourceChannel": "Stable source release; Android distribution pending",
+  "stableSourceChangelog": "{version}: first stable source release, creator website, protected Android signing configuration, and explicit source-only release checks. Signed Android downloads and device qualification are not included.",
+  "@stableSourceChangelog": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
   "theme": "Theme",
   "themeSystem": "System theme",
   "themeLight": "Light theme",

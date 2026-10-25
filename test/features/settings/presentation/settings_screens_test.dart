@@ -12,6 +12,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('creator section exposes the website without social links', (
+    WidgetTester tester,
+  ) async {
+    final _MemorySettingsRepository repository = _MemorySettingsRepository(
+      AppSettings.defaults(),
+    );
+    await tester.pumpWidget(_testApp(const SettingsScreen(), repository));
+    await tester.pumpAndSettle();
+    final Finder section = find.text('Follow Sanskar or Creator');
+    await tester.scrollUntilVisible(
+      section,
+      260,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(section);
+    await tester.pumpAndSettle();
+    expect(find.text('Creator website'), findsOneWidget);
+    expect(find.text('https://sanskarin.github.io'), findsOneWidget);
+    for (final String removed in <String>[
+      'YouTube',
+      'LinkedIn',
+      'GitHub',
+      'X',
+      'Development',
+      'supportramsandesh@gmail.com',
+    ]) {
+      expect(find.text(removed), findsNothing);
+    }
+  });
+
   testWidgets('settings exposes every required group and persists toggles', (
     WidgetTester tester,
   ) async {
