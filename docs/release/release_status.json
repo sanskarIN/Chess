@@ -11,6 +11,12 @@
     "androidBinariesIncluded": false,
     "notesPath": "docs/release/v1.0.0.md"
   },
+  "qualificationBaseline": {
+    "version": "0.12.0+12",
+    "commit": "e9029d8f85823d71d16cd262d876b05e7d0b5762",
+    "recordedOn": "2026-08-04",
+    "scope": "Gate entries retain the historical Phase 12 qualification evidence unless explicitly updated. Exact stable-tag verification results are the GitHub Actions runs for the tagged commit; the release notes link those runs. The historical debug APK is not a 1.0.0 release artifact."
+  },
   "gates": [
     {
       "id": "formatting",
@@ -63,7 +69,7 @@
       "id": "localization",
       "status": "passed",
       "evidence": [
-        "33 locales with 931 non-empty messages each and exact key/metadata parity",
+        "Stable source: 33 locales with 934 non-empty messages each and exact key/metadata parity",
         "32 fallback ARBs and translation status metadata are deterministic",
         "3 RTL locales verified"
       ]
@@ -126,6 +132,7 @@
     {
       "id": "android_debug_build",
       "status": "passed",
+      "evidenceVersion": "0.12.0+12",
       "artifact": "build/app/outputs/flutter-apk/app-debug.apk",
       "artifactRetainedInRepository": false,
       "bytes": 183465799,

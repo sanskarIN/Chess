@@ -39,5 +39,10 @@ does not override those gates or claim a verified multilingual Android binary.
 source SBOM, version, and gate record agree. It validates evidence integrity; it
 does not convert external approvals or blocked commands into passes.
 
+The status file preserves the historical Phase 12 qualification baseline rather
+than presenting an old debug APK as a new release artifact. For exact stable-tag
+test and build results, use the tagged commit's GitHub Actions runs linked in
+the published GitHub release notes.
+
 Release signing material must remain developer-owned and outside the
 repository.
