@@ -20,7 +20,7 @@ jobs:
           channel: stable
           flutter-version: 3.44.7
           cache: true
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
       - run: flutter gen-l10n
       - run: dart run tool/generate_locale_fallbacks.dart --check
       - run: dart run tool/generate_source_sbom.dart --check
@@ -48,7 +48,7 @@ jobs:
           channel: stable
           flutter-version: 3.44.7
           cache: true
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
       - run: flutter gen-l10n
       - uses: reactivecircus/android-emulator-runner@v2
         with:

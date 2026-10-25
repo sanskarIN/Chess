@@ -1,7 +1,24 @@
 # Changelog
 
-All notable project changes are documented here. The project is pre-release;
-versions follow the completed implementation phase.
+All notable project changes are documented here. Versions from 1.0.0 use
+semantic versioning for source releases. Earlier versions tracked completed
+implementation phases. A stable source tag does not certify Android binaries
+or imply Play Store approval.
+
+## 1.0.0 — 2026-10-25
+
+- First stable, source-only GitHub release covering all twelve implementation
+  phases, with complete source archives and the source dependency SBOM.
+- Consolidated creator and support destinations at <https://sanskarin.github.io>;
+  removed the old social and promotional contact links while preserving source,
+  security, license, and dependency references.
+- Added canonical project-link constants and regression tests for the website
+  and creator section.
+- Added protected environment/local-property Android release signing inputs
+  and fail-closed release packaging; no keys or passwords are distributed.
+- Added validated source-release scope, version/tag checks, release notes, and
+  policy tests. Owner-signed Android distribution and device/native-translation
+  reviews remain separately recorded external gates.
 
 ## 0.12.0 — 2026-08-04
 

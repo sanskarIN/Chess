@@ -3,6 +3,10 @@
 All 12 planned source phases are complete. There is no next implementation
 phase or placeholder source file.
 
+The first stable source release is `v1.0.0`, documented in
+[release notes](../release/v1.0.0.md). Source publication does not include a
+signed Android binary or complete the external reviews below.
+
 The next release work is external qualification against the current candidate:
 
 1. run TalkBack, largest-text, display-size, theme, RTL, lifecycle, and input

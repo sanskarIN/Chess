@@ -2,17 +2,25 @@
 
 ## Project identity
 
-- Version: `0.12.0+12`
+- Version: `1.0.0+13` (stable source-only release `v1.0.0`)
 - Completed phase: 12 — QA and release preparation
 - Next phase: none — all planned source phases are complete
-- Updated: 2026-08-04
+- Updated: 2026-10-25
 - Default name: Chess-Master
 - Watermark: Made by the Sanskar
 - Repository: <https://github.com/sanskarIN/Chess>
+- Website and public contact: <https://sanskarin.github.io>
 - Active branch: `main`
 - Commit identity: `Sanskar <sanskarin@outlook.in>`
 
 ## Published boundaries
+
+The first stable source release is `v1.0.0`; see
+[release notes](release/v1.0.0.md). It does not include an Android binary or
+change the external approval status. The records below retain the original
+phase verification evidence, including the 931-message Phase 12 baseline.
+The stable source now contains 934 messages per locale and additional branding
+and release-policy regression tests.
 
 Phase 1 was committed and pushed before Phase 2 as requested.
 

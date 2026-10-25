@@ -1,7 +1,9 @@
 # Release checklist
 
 This checklist applies to each candidate commit. A checked source gate does not
-authorize public distribution when an external or blocked gate remains.
+authorize Android binary distribution when an external or blocked gate remains.
+The `v1.0.0` source-only GitHub release publishes source archives, not APK/AAB
+downloads. Its scope is validated separately from the open distribution gates.
 
 ## Source and dependency integrity
 

@@ -1,8 +1,16 @@
 {
   "schemaVersion": 1,
-  "releaseVersion": "0.12.0+12",
-  "recordedOn": "2026-08-04",
+  "releaseVersion": "1.0.0+13",
+  "recordedOn": "2026-10-25",
   "readyForDistribution": false,
+  "sourceRelease": {
+    "tag": "v1.0.0",
+    "channel": "stable",
+    "scope": "source-only",
+    "website": "https://sanskarin.github.io",
+    "androidBinariesIncluded": false,
+    "notesPath": "docs/release/v1.0.0.md"
+  },
   "gates": [
     {
       "id": "formatting",

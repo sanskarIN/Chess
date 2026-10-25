@@ -1,9 +1,15 @@
 # Release documentation
 
-Version `0.12.0+12` completes source-level QA and release preparation. The
-repository is not represented as publicly distributable: the current release
-status remains false until physical-device reviews, native translation review,
-signing, store submission, and human legal authorization are complete.
+Version `1.0.0+13` is the first stable **source-only** GitHub release, tagged
+`v1.0.0`. It packages the implementation completed in all twelve source phases,
+the source dependency SBOM, documentation, and build/test instructions.
+Read the [1.0.0 release notes](v1.0.0.md) for features and limitations.
+
+Source publication is separate from Android application distribution. No
+APK/AAB or signing secret is attached. `readyForDistribution` remains false
+until physical-device reviews, native translation review, signing, store
+submission, and human legal authorization are complete. A stable source tag
+does not override those gates or claim a verified multilingual Android binary.
 
 ## Release control
 

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
+import 'source_release_policy.dart';
+
 const List<String> _requiredDocuments = <String>[
   'docs/release/README.md',
   'docs/release/release_checklist.md',
@@ -100,6 +102,22 @@ void _verifyReleaseStatus(String expectedVersion, List<String> failures) {
     failures.add(
       'Release status version does not match pubspec: '
       '${status['releaseVersion']} != $expectedVersion.',
+    );
+  }
+  failures.addAll(
+    validateSourceRelease(status['sourceRelease'], expectedVersion),
+  );
+  final String notesPath =
+      'docs/release/v${expectedVersion.split('+').first}.md';
+  final File notes = File(notesPath);
+  if (!notes.existsSync() || notes.readAsStringSync().trim().length < 200) {
+    failures.add('Source release notes are missing or empty: $notesPath.');
+  }
+  final String links = File('lib/app/project_links.dart').readAsStringSync();
+  if (!links.contains("website = 'https://sanskarin.github.io'") ||
+      !links.contains("repository = 'https://github.com/sanskarIN/Chess'")) {
+    failures.add(
+      'Canonical project links disagree with source release policy.',
     );
   }
   final Object? rawGates = status['gates'];

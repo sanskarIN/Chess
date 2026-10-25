@@ -1,10 +1,14 @@
 # Chess-Master
 
-Chess-Master is an in-progress, privacy-respecting, offline-first Android chess
-game built with Flutter. The project is intended to become a complete
-open-source game with standards-compliant chess rules, local and optional
-self-hosted friend play, computer opponents, training, daily challenges, and
-accessible multilingual interfaces.
+Chess-Master is a privacy-respecting, offline-first Android chess game built
+with Flutter. Its first stable source release, `v1.0.0`, includes complete
+chess rules, local and optional self-hosted friend play, computer opponents,
+training, daily challenges, and accessible multilingual interfaces.
+
+[Download the source release](https://github.com/sanskarIN/Chess/releases/tag/v1.0.0)
+or visit [Sanskar's website](https://sanskarin.github.io).
+This is a source-only release: no signed Android APK/AAB is included. See the
+[release notes and limitations](docs/release/v1.0.0.md) before building.
 
 **Open-source chess game**
 
@@ -99,7 +103,7 @@ accessible multilingual interfaces.
   confirmation, and privacy-safe reward-ledger export.
 - Searchable native/English language selector with system-language reset,
   immediate persisted switching, standard identifiers, documented format
-  fallbacks, script-aware runtime tags, and 931-message parity across 33 ARBs.
+  fallbacks, script-aware runtime tags, and 934-message parity across 33 ARBs.
 - RTL navigation for Kashmiri, Sindhi, and Urdu while chess coordinates and
   notation retain their logical order; TalkBack labels, expanded-text tests,
   pseudo-localization, font fallbacks, and community review status are included.
@@ -210,13 +214,11 @@ Flutter title when preparing a renamed distribution.
 
 ## Repository and creator
 
-- Repository: <https://www.github.com/sanskarIN/Chess>
-- Creator: <https://www.github.com/sanskarIN>
-- YouTube: <https://youtube.com/@Sanskar-in>
-- LinkedIn: <https://www.linkedin.com/in/sanskarin>
-- X: <https://www.x.com/Sanskar_in>
-- Support: <mailto:supportramsandesh@gmail.com>
-- Development contact: <mailto:sanskarin@outlook.in>
+- Website and contact: <https://sanskarin.github.io>
+- Source repository: <https://github.com/sanskarIN/Chess>
+
+The website is the single creator/contact destination. Source, security,
+documentation, and legally required third-party references are retained.
 
 ## License status
 

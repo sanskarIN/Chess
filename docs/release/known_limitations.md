@@ -1,5 +1,8 @@
 # Known limitations
 
+- `v1.0.0` is a stable source-only GitHub release. No signed Android APK/AAB is
+  published, and no Play Store approval or physical-device certification is
+  claimed.
 - No distribution-verified Stockfish Android executable is bundled. Computer
   play uses the bounded built-in Dart search; the UCI Stockfish adapter is
   implemented and fake-process tested.
